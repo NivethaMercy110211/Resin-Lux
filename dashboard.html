@@ -1,0 +1,656 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Dashboard | ResinLux Studio — Commission Tracking Portal</title>
+  <meta name="description" content="Track your ResinLux Studio commission — approve design mockups, monitor curing progress, select pigments and schedule studio pickup from your personal dashboard.">
+  <link rel="icon" type="image/png" href="assets/images/resin_logo_icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/resin-theme.css">
+  <style>
+    /* Dashboard page — no site navbar, full portal layout */
+    body { background: var(--rl-bg); overflow-x: hidden; }
+
+    /* Welcome strip */
+    .dash-welcome {
+      background: linear-gradient(135deg, rgba(226,179,84,0.08), rgba(0,229,255,0.04));
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .dash-welcome h2 {
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--rl-gold), var(--rl-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+    .dash-welcome p { color: var(--rl-muted); margin: 4px 0 0; font-size: 13.5px; }
+
+    /* Commission card */
+    .dash-commission-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .dash-commission-card:hover {
+      border-color: rgba(226,179,84,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    .dash-comm-img {
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .dash-comm-img img { width: 100%; height: 100%; border: 0; border-radius: 0; }
+    .dash-comm-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,17,29,0.85) 0%, transparent 60%);
+    }
+    .dash-comm-body { padding: 18px 20px; }
+    .dash-comm-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .dash-comm-header h4 { font-size: 16px; margin: 0; }
+    .dash-comm-meta { color: var(--rl-muted); font-size: 12.5px; margin: 4px 0 12px; }
+    .dash-comm-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+    /* Mockup review */
+    .dash-mockup-card {
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .dash-mockup-card:hover { border-color: var(--rl-cyan); transform: translateY(-3px); }
+    .dash-mockup-img {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+    .dash-mockup-img img { width: 100%; height: 100%; border: 0; border-radius: 0; }
+    .dash-mockup-body { padding: 14px 16px; }
+    .dash-mockup-body h5 { font-size: 14px; margin-bottom: 6px; }
+    .dash-mockup-body p  { color: var(--rl-muted); font-size: 12.5px; margin-bottom: 10px; }
+    .dash-mockup-btns { display: flex; gap: 8px; }
+
+    /* Curing telemetry */
+    .dash-cure-card {
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      padding: 18px 20px;
+    }
+    .dash-cure-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .dash-cure-header h5 { font-size: 14.5px; margin: 0; }
+    .dash-cure-day {
+      font-size: 11px;
+      color: var(--rl-muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--rl-border);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .dash-cure-stages {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .dash-cure-stage {
+      flex: 1;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+    }
+    .dash-cure-stage.done { background: var(--rl-gold); }
+    .dash-cure-stage.active { background: linear-gradient(90deg, var(--rl-gold), var(--rl-cyan)); animation: cure-pulse 2s infinite; }
+    @keyframes cure-pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+    /* Pigment selector */
+    .dash-pigment-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .dash-pigment-swatch {
+      height: 52px;
+      border-radius: var(--rl-radius-sm);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .dash-pigment-swatch:hover { border-color: white; transform: scale(1.05); }
+    .dash-pigment-swatch.selected { border-color: var(--rl-gold); }
+    .dash-pigment-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.9);
+      padding: 3px 6px;
+      background: rgba(0,0,0,0.45);
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Pickup calendar */
+    .dash-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7,1fr);
+      gap: 4px;
+      margin-top: 12px;
+    }
+    .dash-cal-day {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      background: var(--rl-soft);
+      color: var(--rl-muted);
+    }
+    .dash-cal-day:hover { border-color: var(--rl-cyan); color: var(--rl-cyan); }
+    .dash-cal-day.active { background: var(--rl-gold); color: #211400; font-weight: 800; border-color: var(--rl-gold); }
+    .dash-cal-day.disabled { opacity: 0.25; cursor: not-allowed; }
+    .dash-cal-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--rl-muted); text-align: center; padding: 4px 0; }
+
+    /* Section title within dashboard */
+    .dash-section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--rl-gold);
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dash-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--rl-border), transparent);
+    }
+
+    /* Delivered gallery */
+    .dash-delivered-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+    }
+    .dash-delivered-item {
+      border-radius: var(--rl-radius-sm);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .dash-delivered-item img {
+      width: 100%; height: 120px;
+      border: 0; border-radius: 0;
+      transition: transform 0.4s ease;
+    }
+    .dash-delivered-item:hover img { transform: scale(1.06); }
+
+    @media (max-width: 768px) {
+      .dash-pigment-grid { grid-template-columns: repeat(3,1fr); }
+      .dash-delivered-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 576px) {
+      .dash-pigment-grid { grid-template-columns: repeat(2,1fr); }
+      .dash-delivered-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="rl-portal">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="rl-sidebar">
+    <div class="rl-sidebar-brand">
+      <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90">
+    </div>
+
+    <div class="rl-profile-card">
+      <div class="rl-avatar">NR</div>
+      <div class="rl-profile-info">
+        <h5>Nivetha R.</h5>
+        <span>Commission Client</span>
+      </div>
+    </div>
+
+    <nav class="rl-sidebar-nav">
+      <button class="rl-sidebar-link active" data-tab="dash-commissions">
+        <i class="bi bi-clipboard-check"></i> My Commissions
+      </button>
+      <button class="rl-sidebar-link" data-tab="dash-mockups">
+        <i class="bi bi-image"></i> Mockup Review
+      </button>
+      <button class="rl-sidebar-link" data-tab="dash-curing">
+        <i class="bi bi-hourglass-split"></i> Curing Chamber
+      </button>
+      <button class="rl-sidebar-link" data-tab="dash-pigments">
+        <i class="bi bi-palette"></i> Pigment Studio
+      </button>
+      <button class="rl-sidebar-link" data-tab="dash-pickup">
+        <i class="bi bi-calendar-check"></i> Pickup Schedule
+      </button>
+      <button class="rl-sidebar-link" data-tab="dash-delivered">
+        <i class="bi bi-award"></i> Delivered Pieces
+      </button>
+    </nav>
+
+    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--rl-border);">
+      <a href="index.html" class="rl-sidebar-link" style="text-decoration:none;display:flex;gap:12px;align-items:center;">
+        <i class="bi bi-arrow-left-circle"></i> Back to Studio
+      </a>
+      <button id="themeToggle" class="rl-sidebar-link" style="margin-top:4px;">
+        <i class="bi bi-moon-stars"></i> Toggle Theme
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="rl-portal-main">
+
+    <!-- Welcome Strip -->
+    <div class="dash-welcome">
+      <div>
+        <h2>Welcome back, Nivetha 👋</h2>
+        <p>You have <strong style="color:var(--rl-cyan);">2 active commissions</strong> and <strong style="color:var(--rl-gold);">1 mockup awaiting approval</strong></p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm">
+          <i class="bi bi-plus-circle"></i> New Commission
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== PANEL: My Commissions ===== -->
+    <div class="rl-dash-panel" id="dash-commissions">
+      <div class="dash-section-title"><i class="bi bi-clipboard-check"></i> Active Commissions</div>
+      <div class="row g-3 mb-4">
+        <!-- Commission 1 -->
+        <div class="col-12 col-md-6">
+          <div class="dash-commission-card">
+            <div class="dash-comm-img">
+              <img src="assets/images/gallery-ocean.jpg" alt="River table commission" loading="lazy">
+              <div class="dash-comm-img-overlay"></div>
+            </div>
+            <div class="dash-comm-body">
+              <div class="dash-comm-header">
+                <div>
+                  <h4>Walnut River Dining Table</h4>
+                  <p class="dash-comm-meta">200×90×75cm — Oceanic Teal — Walnut Slab</p>
+                </div>
+                <span class="rl-status rl-status-curing">Curing</span>
+              </div>
+              <div class="dash-section-title" style="font-size:10px;margin-bottom:8px;">Curing Progress — Day 4 of 7</div>
+              <div class="rl-progress-track">
+                <div class="rl-progress-fill" style="width:57%;"></div>
+              </div>
+              <p style="color:var(--rl-muted);font-size:12px;margin-top:6px;">Commission Code: <code style="color:var(--rl-cyan);">RLX-WN-9804</code></p>
+              <div class="dash-comm-actions">
+                <button class="rl-btn rl-btn-outline-cyan rl-btn-sm" onclick="document.querySelectorAll('.rl-sidebar-link').forEach(b=>b.classList.remove('active'));document.querySelector('[data-tab=dash-curing]').classList.add('active');document.querySelectorAll('.rl-dash-panel').forEach(p=>p.style.display='none');document.getElementById('dash-curing').style.display='block';">
+                  <i class="bi bi-speedometer2"></i> Track Curing
+                </button>
+                <button class="rl-btn rl-btn-ghost rl-btn-sm">
+                  <i class="bi bi-chat-dots"></i> Message Studio
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commission 2 -->
+        <div class="col-12 col-md-6">
+          <div class="dash-commission-card">
+            <div class="dash-comm-img">
+              <img src="assets/images/gallery-marble.jpg" alt="Coaster commission" loading="lazy">
+              <div class="dash-comm-img-overlay"></div>
+            </div>
+            <div class="dash-comm-body">
+              <div class="dash-comm-header">
+                <div>
+                  <h4>Geode Rose Quartz Coasters</h4>
+                  <p class="dash-comm-meta">Set of 6 — Rose Quartz — Hard Maple</p>
+                </div>
+                <span class="rl-status rl-status-review">Mockup Review</span>
+              </div>
+              <div class="dash-section-title" style="font-size:10px;margin-bottom:8px;">Awaiting Your Mockup Approval</div>
+              <div class="rl-progress-track">
+                <div class="rl-progress-fill" style="width:25%;"></div>
+              </div>
+              <p style="color:var(--rl-muted);font-size:12px;margin-top:6px;">Commission Code: <code style="color:var(--rl-cyan);">RLX-MP-5120</code></p>
+              <div class="dash-comm-actions">
+                <button class="rl-btn rl-btn-primary rl-btn-sm" onclick="document.querySelectorAll('.rl-sidebar-link').forEach(b=>b.classList.remove('active'));document.querySelector('[data-tab=dash-mockups]').classList.add('active');document.querySelectorAll('.rl-dash-panel').forEach(p=>p.style.display='none');document.getElementById('dash-mockups').style.display='block';">
+                  <i class="bi bi-eye"></i> Review Mockup
+                </button>
+                <button class="rl-btn rl-btn-ghost rl-btn-sm">
+                  <i class="bi bi-chat-dots"></i> Message Studio
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PANEL: Mockup Review ===== -->
+    <div class="rl-dash-panel" id="dash-mockups">
+      <div class="dash-section-title"><i class="bi bi-image"></i> Mockup Review Panel</div>
+      <div class="row g-3">
+        <div class="col-12">
+          <div style="background:rgba(226,179,84,0.06);border:1px solid rgba(226,179,84,0.2);border-radius:var(--rl-radius-sm);padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+            <i class="bi bi-bell-fill" style="color:var(--rl-gold);font-size:18px;flex-shrink:0;"></i>
+            <p style="margin:0;font-size:14px;color:var(--rl-text);">1 mockup awaiting your approval for <strong>Geode Rose Quartz Coasters</strong>. Please review and respond within 48 hours to keep your production slot.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="dash-mockup-card">
+            <div class="dash-mockup-img">
+              <img src="assets/images/gallery-marble.jpg" alt="Coaster mockup" loading="lazy">
+            </div>
+            <div class="dash-mockup-body">
+              <span class="rl-status rl-status-review" style="margin-bottom:8px;display:inline-block;">Needs Approval</span>
+              <h5>Coaster Set — Mockup v1</h5>
+              <p>Rose quartz marble swirl with pearl shimmer. 6 × 10cm round. Velvet backing.</p>
+              <div class="dash-mockup-btns">
+                <button class="rl-btn rl-btn-primary rl-btn-sm" onclick="this.textContent='✓ Approved';this.disabled=true;this.closest('.dash-mockup-body').querySelector('.rl-status').textContent='Approved';this.closest('.dash-mockup-body').querySelector('.rl-status').className='rl-status rl-status-done';">
+                  <i class="bi bi-check-lg"></i> Approve
+                </button>
+                <button class="rl-btn rl-btn-ghost rl-btn-sm"><i class="bi bi-pencil"></i> Request Change</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="dash-mockup-card">
+            <div class="dash-mockup-img">
+              <img src="assets/images/gallery-ocean.jpg" alt="River table mockup" loading="lazy">
+            </div>
+            <div class="dash-mockup-body">
+              <span class="rl-status rl-status-done" style="margin-bottom:8px;display:inline-block;">Approved</span>
+              <h5>River Table — Mockup v2</h5>
+              <p>Walnut slab, oceanic teal river, 200×90cm. Crystal shimmer add-on confirmed.</p>
+              <div class="dash-mockup-btns">
+                <button class="rl-btn rl-btn-ghost rl-btn-sm" disabled><i class="bi bi-check-circle-fill"></i> Already Approved</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PANEL: Curing Chamber ===== -->
+    <div class="rl-dash-panel" id="dash-curing">
+      <div class="dash-section-title"><i class="bi bi-hourglass-split"></i> Curing Chamber Telemetry</div>
+      <div class="row g-3">
+
+        <div class="col-12">
+          <div class="dash-cure-card">
+            <div class="dash-cure-header">
+              <h5>Walnut River Dining Table — RLX-WN-9804</h5>
+              <span class="dash-cure-day">Day 4 / 7</span>
+            </div>
+            <div class="rl-progress-track">
+              <div class="rl-progress-fill" style="width:57%;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--rl-muted);">
+              <span>57% cured</span>
+              <span>Est. completion: 3 days</span>
+            </div>
+            <div class="dash-cure-stages">
+              <div class="dash-cure-stage done" title="Day 1 — Timber sealing"></div>
+              <div class="dash-cure-stage done" title="Day 2 — Base layer pour"></div>
+              <div class="dash-cure-stage done" title="Day 3 — Mid layer cure"></div>
+              <div class="dash-cure-stage active" title="Day 4 — Top layer pour"></div>
+              <div class="dash-cure-stage" title="Day 5 — Surface cure"></div>
+              <div class="dash-cure-stage" title="Day 6 — Final check"></div>
+              <div class="dash-cure-stage" title="Day 7 — Polish ready"></div>
+            </div>
+            <div style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <div style="background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.1);border-radius:var(--rl-radius-sm);padding:10px;text-align:center;">
+                <span style="font-size:9px;color:var(--rl-cyan);text-transform:uppercase;letter-spacing:0.8px;font-weight:800;display:block;margin-bottom:4px;">Temperature</span>
+                <span style="font-size:16px;font-weight:700;">26.2°C</span>
+              </div>
+              <div style="background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.1);border-radius:var(--rl-radius-sm);padding:10px;text-align:center;">
+                <span style="font-size:9px;color:var(--rl-cyan);text-transform:uppercase;letter-spacing:0.8px;font-weight:800;display:block;margin-bottom:4px;">Humidity</span>
+                <span style="font-size:16px;font-weight:700;">48%</span>
+              </div>
+              <div style="background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.1);border-radius:var(--rl-radius-sm);padding:10px;text-align:center;">
+                <span style="font-size:9px;color:var(--rl-cyan);text-transform:uppercase;letter-spacing:0.8px;font-weight:800;display:block;margin-bottom:4px;">Layer</span>
+                <span style="font-size:16px;font-weight:700;">3 / 4</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;background:rgba(25,195,125,0.05);border:1px solid rgba(25,195,125,0.15);border-radius:var(--rl-radius-sm);padding:10px 14px;">
+              <div class="rl-pulse"><span class="rl-pulse-dot" style="background:#19c37d;box-shadow:0 0 0 0 rgba(25,195,125,0.7);"></span> Latest Stage Update — 06:00 AM Today</div>
+              <p style="margin:4px 0 0;font-size:13px;color:var(--rl-muted);">Top layer poured smoothly. Oceanic teal flowing well through river channel. Crystal shimmer settling evenly.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="dash-cure-card">
+            <div class="dash-cure-header">
+              <h5>Geode Rose Quartz Coasters — RLX-MP-5120</h5>
+              <span class="dash-cure-day">Awaiting Approval</span>
+            </div>
+            <div class="rl-progress-track">
+              <div class="rl-progress-fill" style="width:15%;"></div>
+            </div>
+            <p style="color:var(--rl-muted);font-size:13px;margin-top:8px;margin-bottom:0;">Production paused pending your mockup approval. Once approved, curing begins within 24 hours.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== PANEL: Pigment Studio ===== -->
+    <div class="rl-dash-panel" id="dash-pigments">
+      <div class="dash-section-title"><i class="bi bi-palette"></i> Pigment Selection Tool</div>
+      <div class="rl-form-card">
+        <p style="color:var(--rl-muted);margin-bottom:18px;font-size:14px;">You can modify pigment choices for commissions that haven't started curing yet. Changes are reflected in your next mockup revision.</p>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label style="color:var(--rl-cyan);font-size:11px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;display:block;margin-bottom:8px;">Commission</label>
+            <select class="rl-input">
+              <option>Geode Rose Quartz Coasters — RLX-MP-5120</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label style="color:var(--rl-cyan);font-size:11px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;display:block;margin-bottom:8px;">Select Primary Pigment Colour</label>
+            <div class="dash-pigment-grid" id="pigmentGrid">
+              <div class="dash-pigment-swatch selected" title="Oceanic Teal" style="background:linear-gradient(135deg,#00838f,#00e5ff);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Oceanic Teal</span></div>
+              <div class="dash-pigment-swatch" title="Deep Emerald" style="background:linear-gradient(135deg,#004d40,#00bfa5);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Deep Emerald</span></div>
+              <div class="dash-pigment-swatch" title="Liquid Gold" style="background:linear-gradient(135deg,#ad7d15,#e2b354);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Liquid Gold</span></div>
+              <div class="dash-pigment-swatch" title="Rose Quartz" style="background:linear-gradient(135deg,#e91e63,#f8bbd9);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Rose Quartz</span></div>
+              <div class="dash-pigment-swatch" title="Midnight Galaxy" style="background:linear-gradient(135deg,#0b1236,#311b92);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Midnight Galaxy</span></div>
+              <div class="dash-pigment-swatch" title="Arctic Pearl" style="background:linear-gradient(135deg,#e0f7fa,#fff);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Arctic Pearl</span></div>
+              <div class="dash-pigment-swatch" title="Cobalt Blue" style="background:linear-gradient(135deg,#1565c0,#42a5f5);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Cobalt Blue</span></div>
+              <div class="dash-pigment-swatch" title="Smoke Glass" style="background:linear-gradient(135deg,#37474f,#90a4ae);" onclick="document.querySelectorAll('.dash-pigment-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected');"><span class="dash-pigment-label">Smoke Glass</span></div>
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="rl-btn rl-btn-primary" onclick="this.innerHTML='<i class=\'bi bi-check-circle\'></i> Pigment Change Submitted';this.disabled=true;">
+              <i class="bi bi-send"></i> Submit Pigment Change
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PANEL: Pickup Schedule ===== -->
+    <div class="rl-dash-panel" id="dash-pickup">
+      <div class="dash-section-title"><i class="bi bi-calendar-check"></i> Pickup Schedule</div>
+      <div class="row g-4 align-items-start">
+        <div class="col-12 col-md-7">
+          <div class="rl-form-card">
+            <h4 style="font-size:17px;margin-bottom:4px;">Schedule Your Studio Pickup</h4>
+            <p style="color:var(--rl-muted);font-size:13.5px;margin-bottom:18px;">Select an available date for pickup. Dates highlighted are open slots — greyed out slots are fully booked or unavailable.</p>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <span style="font-size:12px;color:var(--rl-muted);">June 2025</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;">
+              <span class="dash-cal-label">Sun</span>
+              <span class="dash-cal-label">Mon</span>
+              <span class="dash-cal-label">Tue</span>
+              <span class="dash-cal-label">Wed</span>
+              <span class="dash-cal-label">Thu</span>
+              <span class="dash-cal-label">Fri</span>
+              <span class="dash-cal-label">Sat</span>
+            </div>
+            <div class="dash-cal-grid" id="pickupCal">
+              <div class="dash-cal-day disabled">1</div>
+              <div class="dash-cal-day disabled">2</div>
+              <div class="dash-cal-day disabled">3</div>
+              <div class="dash-cal-day disabled">4</div>
+              <div class="dash-cal-day disabled">5</div>
+              <div class="dash-cal-day disabled">6</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Sat Jun 7')">7</div>
+              <div class="dash-cal-day disabled">8</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Mon Jun 9')">9</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Tue Jun 10')">10</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Wed Jun 11')">11</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Thu Jun 12')">12</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Fri Jun 13')">13</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Sat Jun 14')">14</div>
+              <div class="dash-cal-day disabled">15</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Mon Jun 16')">16</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Tue Jun 17')">17</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Wed Jun 18')">18</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Thu Jun 19')">19</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Fri Jun 20')">20</div>
+              <div class="dash-cal-day" onclick="selectDate(this,'Sat Jun 21')">21</div>
+            </div>
+            <div style="margin-top:16px;background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.1);border-radius:var(--rl-radius-sm);padding:12px 14px;">
+              <span style="font-size:11px;color:var(--rl-cyan);font-weight:800;text-transform:uppercase;letter-spacing:0.8px;">Selected Date</span>
+              <p id="selectedDate" style="margin:4px 0 0;font-size:15px;font-weight:700;">No date selected yet</p>
+            </div>
+            <button class="rl-btn rl-btn-primary mt-3 w-100" id="confirmPickup" disabled onclick="this.innerHTML='<i class=\'bi bi-check-circle\'></i> Pickup Confirmed!';this.disabled=true;this.className='rl-btn rl-btn-ghost w-100';">
+              <i class="bi bi-calendar-check"></i> Confirm Pickup Slot
+            </button>
+          </div>
+        </div>
+        <div class="col-12 col-md-5">
+          <div class="rl-form-card">
+            <h4 style="font-size:16px;margin-bottom:12px;">Studio Location &amp; Hours</h4>
+            <div style="font-size:14px;color:var(--rl-muted);line-height:1.9;">
+              <p style="margin:0;"><i class="bi bi-geo-alt-fill" style="color:var(--rl-gold);margin-right:6px;"></i>42 Artisan Lane, T. Nagar, Chennai — 600017</p>
+              <p style="margin:0;"><i class="bi bi-clock-fill" style="color:var(--rl-gold);margin-right:6px;"></i>Mon–Sat: 10:00 AM – 7:00 PM</p>
+              <p style="margin:0;"><i class="bi bi-calendar-x" style="color:var(--rl-gold);margin-right:6px;"></i>Sunday: By Appointment Only</p>
+              <p style="margin:0;"><i class="bi bi-phone-fill" style="color:var(--rl-gold);margin-right:6px;"></i>+91 98765 43210</p>
+            </div>
+            <hr style="border-color:var(--rl-border);margin:14px 0;">
+            <p style="font-size:13px;color:var(--rl-muted);">Please bring your commission confirmation code and a valid ID for pickup. Allow 30 minutes for inspection and documentation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PANEL: Delivered Pieces ===== -->
+    <div class="rl-dash-panel" id="dash-delivered">
+      <div class="dash-section-title"><i class="bi bi-award"></i> Delivered Pieces Gallery</div>
+      <div class="row g-3">
+        <div class="col-12">
+          <p style="color:var(--rl-muted);font-size:14px;margin-bottom:18px;">These are your past completed commissions from ResinLux Studio — delivered and certified.</p>
+        </div>
+        <div class="col-12 col-md-4">
+          <div style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius);overflow:hidden;">
+            <div class="dash-delivered-grid">
+              <div class="dash-delivered-item"><img src="assets/images/gallery-ocean.jpg" alt="Delivered piece" loading="lazy"></div>
+              <div class="dash-delivered-item"><img src="assets/images/gallery-marble.jpg" alt="Delivered piece" loading="lazy"></div>
+              <div class="dash-delivered-item"><img src="assets/images/gallery-galaxy.jpg" alt="Delivered piece" loading="lazy"></div>
+            </div>
+            <div style="padding:14px 16px;">
+              <span class="rl-status rl-status-done">Delivered</span>
+              <h5 style="font-size:14px;margin:8px 0 4px;">Ocean River Coffee Table</h5>
+              <p style="color:var(--rl-muted);font-size:12px;margin:0;">Delivered: March 2025 · Code: RLX-WN-8821</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius);overflow:hidden;">
+            <div style="height:120px;overflow:hidden;"><img src="assets/images/home-coasters_dash.jpg" alt="Coasters" style="width:100%;height:100%;object-fit:cover;border:0;" loading="lazy"></div>
+            <div style="padding:14px 16px;">
+              <span class="rl-status rl-status-done">Delivered</span>
+              <h5 style="font-size:14px;margin:8px 0 4px;">Marble Swirl Coasters × 6</h5>
+              <p style="color:var(--rl-muted);font-size:12px;margin:0;">Delivered: January 2025 · Code: RLX-CT-7740</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius);overflow:hidden;">
+            <div style="height:120px;overflow:hidden;"><img src="assets/images/home-jewelry_dash.jpg" alt="Jewelry" style="width:100%;height:100%;object-fit:cover;border:0;" loading="lazy"></div>
+            <div style="padding:14px 16px;">
+              <span class="rl-status rl-status-done">Delivered</span>
+              <h5 style="font-size:14px;margin:8px 0 4px;">Botanical Pendant Set × 3</h5>
+              <p style="color:var(--rl-muted);font-size:12px;margin:0;">Delivered: November 2024 · Code: RLX-PD-6602</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // Pickup date selector
+  function selectDate(el, label) {
+    document.querySelectorAll('.dash-cal-day:not(.disabled)').forEach(d => d.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('selectedDate').textContent = label + ', 2025 — 10:00 AM – 7:00 PM';
+    document.getElementById('confirmPickup').disabled = false;
+  }
+
+  // Dashboard sidebar tab switching (supplements main.js)
+  document.querySelectorAll('.rl-sidebar-link[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.rl-sidebar-link[data-tab]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.rl-dash-panel').forEach(p => p.style.display = 'none');
+      const target = document.getElementById(btn.dataset.tab);
+      if (target) target.style.display = 'block';
+    });
+  });
+
+  // Show first panel by default
+  document.querySelectorAll('.rl-dash-panel').forEach((p, i) => {
+    p.style.display = i === 0 ? 'block' : 'none';
+  });
+</script>
+</body>
+</html>
+
+

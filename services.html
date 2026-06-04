@@ -1,0 +1,571 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | ResinLux Studio — River Tables, Coasters, Jewelry & Wall Art</title>
+  <meta name="description" content="Explore bespoke resin services at ResinLux Studio — river dining tables, ocean coasters, epoxy jewelry, wall art, corporate gifting and custom pigment commissions.">
+  <link rel="icon" type="image/png" href="assets/images/resin_logo_icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/resin-theme.css">
+  <style>
+    /* Services-specific: staggered card with side image */
+    .srv-stagger { display: flex; flex-direction: column; gap: 40px; }
+    .srv-stagger-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      padding: 0;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .srv-stagger-item:hover {
+      border-color: rgba(226,179,84,0.3);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.2);
+      transform: translateY(-4px);
+    }
+    .srv-stagger-item.reverse { grid-template-columns: 1fr 1fr; }
+    .srv-stagger-item.reverse .srv-item-img { order: 2; }
+    .srv-stagger-item.reverse .srv-item-text { order: 1; }
+    .srv-item-img {
+      height: 300px;
+      overflow: hidden;
+    }
+    .srv-item-img img {
+      width: 100%; height: 100%;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+      border: 0;
+      border-radius: 0;
+    }
+    .srv-stagger-item:hover .srv-item-img img { transform: scale(1.05); }
+    .srv-item-text { padding: 36px 36px 36px 28px; }
+    .srv-item-num {
+      font-size: 52px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--rl-gold), var(--rl-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .srv-item-text h2 { font-size: 26px; margin-bottom: 10px; }
+    .srv-item-text p  { color: var(--rl-muted); font-size: 14.5px; line-height: 1.75; margin-bottom: 18px; }
+
+    /* Specialty services cards */
+    .srv-specialty-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .srv-specialty-card {
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .srv-specialty-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--rl-cyan);
+      box-shadow: 0 24px 50px rgba(0, 229, 255, 0.12);
+    }
+    .srv-specialty-img {
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+    }
+    .srv-specialty-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .srv-specialty-card:hover .srv-specialty-img img {
+      transform: scale(1.08);
+    }
+    .srv-specialty-body {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .srv-specialty-body h4 {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--rl-cyan);
+      transition: color 0.3s ease;
+    }
+    .srv-specialty-card:hover .srv-specialty-body h4 {
+      color: #ffffff;
+    }
+    .srv-specialty-body p {
+      color: var(--rl-muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Guarantee strip */
+    .srv-guarantee {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+    }
+    .srv-guarantee-item {
+      padding: 28px 20px;
+      text-align: center;
+      border-right: 1px solid var(--rl-border);
+    }
+    .srv-guarantee-item:last-child { border-right: none; }
+    .srv-guarantee-item .bi { font-size: 28px; color: var(--rl-gold); display: block; margin-bottom: 10px; }
+    .srv-guarantee-item h5 { font-size: 15px; margin-bottom: 6px; }
+    .srv-guarantee-item p  { color: var(--rl-muted); font-size: 12.5px; margin: 0; }
+
+    /* Pricing hint cards */
+    .srv-hint-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06),rgba(255,255,255,0.02));
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      padding: 28px 24px;
+      text-align: center;
+      height: 100%;
+    }
+    .srv-hint-tier { font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--rl-gold);font-weight:800;margin-bottom:8px; }
+    .srv-hint-range { font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--rl-gold),var(--rl-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:8px; }
+    .srv-hint-card p { color:var(--rl-muted);font-size:13px; }
+
+    @media (max-width: 992px) {
+      .srv-stagger-item { grid-template-columns: 1fr; }
+      .srv-stagger-item.reverse { grid-template-columns: 1fr; }
+      .srv-stagger-item .srv-item-img, .srv-stagger-item.reverse .srv-item-img { order: 0; }
+      .srv-stagger-item .srv-item-text, .srv-stagger-item.reverse .srv-item-text { order: 0; padding: 24px; }
+      .srv-item-img { height: 260px; }
+      .srv-specialty-grid { grid-template-columns: repeat(2, 1fr); }
+      .srv-guarantee { grid-template-columns: repeat(2, 1fr); }
+      .srv-guarantee-item:nth-child(2) { border-right: none; }
+      .srv-guarantee-item:nth-child(1),
+      .srv-guarantee-item:nth-child(2) { border-bottom: 1px solid var(--rl-border); }
+    }
+    @media (max-width: 576px) {
+      .srv-specialty-grid { grid-template-columns: 1fr; }
+      .srv-guarantee { grid-template-columns: 1fr; }
+      .srv-guarantee-item { border-right: none; border-bottom: 1px solid var(--rl-border); }
+      .srv-guarantee-item:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="rl-navbar navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand rl-brand" href="index.html">
+      <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux logo" width="310" height="90">
+    </a>
+    <button class="navbar-toggler rl-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#rlNav" aria-controls="rlNav" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list" style="color:var(--rl-text);font-size:22px;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="rlNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown"><a class="nav-link rl-nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Home</a><ul class="dropdown-menu rl-dropdown-menu"><li><a class="dropdown-item rl-dropdown-item" href="index.html">Home 1</a></li><li><a class="dropdown-item rl-dropdown-item" href="home-2.html">Home 2</a></li></ul></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link active" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="custom-orders.html">Custom Orders</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="pricing.html">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="rl-nav-actions">
+        <button class="rl-icon-btn" id="themeToggle" type="button">☀️</button>
+        <a href="login.html" class="rl-login-btn"><i class="bi bi-person-circle me-1"></i> Login</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="rl-hero" style="background-image: url('assets/images/services-hero.jpg');">
+  <div class="rl-hero-overlay"></div>
+  <div class="container rl-hero-inner text-center">
+    <span class="rl-eyebrow">Our Services</span>
+    <h1 class="rl-h1">Bespoke Epoxy Art<br>for Every Space</h1>
+    <p class="rl-hero-sub">River tables, coasters, jewelry, wall art, corporate gifts and more — every piece custom-crafted to your exact specifications.</p>
+    <div class="rl-hero-badges mb-4">
+      <span><i class="bi bi-table me-1"></i> River Tables</span>
+      <span><i class="bi bi-circle me-1"></i> Coasters</span>
+      <span><i class="bi bi-gem me-1"></i> Jewelry</span>
+      <span><i class="bi bi-palette me-1"></i> Wall Art</span>
+    </div>
+    <div class="rl-hero-actions">
+      <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Commission Now</a>
+      <a href="pricing.html" class="rl-btn rl-btn-ghost"><i class="bi bi-tag"></i> View Pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- STAGGERED SIGNATURE SERVICES -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Signature Offerings</span>
+      <h2>Craftsmanship at Every Scale</h2>
+      <p>From intimate coasters to statement dining tables — each piece is a collaborative masterwork.</p>
+    </div>
+    <div class="srv-stagger">
+
+      <!-- River Tables -->
+      <div class="srv-stagger-item">
+        <div class="srv-item-img">
+          <img src="assets/images/services-river-table.jpg" alt="River table" loading="lazy">
+        </div>
+        <div class="srv-item-text">
+          <span class="srv-item-num">01</span>
+          <h2>River Tables</h2>
+          <p>Live-edge dining and coffee tables with shimmering resin rivers. Each slab is kiln-dried, hand-planed, and paired with your chosen pigment combination for a truly one-of-a-kind centrepiece.</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="rl-tag">Dining Tables</span>
+            <span class="rl-tag">Coffee Tables</span>
+            <span class="rl-tag">Console Tables</span>
+          </div>
+          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-arrow-right"></i> Commission</a>
+        </div>
+      </div>
+
+      <!-- Coasters -->
+      <div class="srv-stagger-item reverse">
+        <div class="srv-item-img">
+          <img src="assets/images/services-coasters.jpg" alt="Coasters" loading="lazy">
+        </div>
+        <div class="srv-item-text">
+          <span class="srv-item-num">02</span>
+          <h2>Coasters &amp; Trays</h2>
+          <p>Ocean-wave, marble swirl and geode-pattern coaster sets in sets of 4 or 6. Serving trays available in oval, round and rectangular forms — all food-safe and UV-protected for lasting clarity.</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="rl-tag">Sets of 4 / 6</span>
+            <span class="rl-tag">Serving Trays</span>
+            <span class="rl-tag">Geode Patterns</span>
+          </div>
+          <a href="shop.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag"></i> Shop Now</a>
+        </div>
+      </div>
+
+      <!-- Jewelry -->
+      <div class="srv-stagger-item">
+        <div class="srv-item-img">
+          <img src="assets/images/services-jewelry.jpg" alt="Epoxy jewelry" loading="lazy">
+        </div>
+        <div class="srv-item-text">
+          <span class="srv-item-num">03</span>
+          <h2>Epoxy Jewelry</h2>
+          <p>Wearable art — floral pendants, statement earrings, bangles and keychains. Crafted with dried botanicals, gold foil and UV-safe crystalline resin. Perfect for gifting or bridal sets.</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="rl-tag">Pendants</span>
+            <span class="rl-tag">Earrings</span>
+            <span class="rl-tag">Bridal Sets</span>
+          </div>
+          <a href="shop.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag"></i> Shop Now</a>
+        </div>
+      </div>
+
+      <!-- Wall Art -->
+      <div class="srv-stagger-item reverse">
+        <div class="srv-item-img">
+          <img src="assets/images/services-wall-art.jpg" alt="Wall art" loading="lazy">
+        </div>
+        <div class="srv-item-text">
+          <span class="srv-item-num">04</span>
+          <h2>Wall Art Panels</h2>
+          <p>Large-format abstract epoxy panels for homes, offices and hospitality spaces. Sizes from 60×60cm to 120×180cm — with multi-panel triptych commissions available.</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="rl-tag">Abstract Panels</span>
+            <span class="rl-tag">Triptych Series</span>
+            <span class="rl-tag">Corporate Spaces</span>
+          </div>
+          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-pencil-square"></i> Commission</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS ACCORDION -->
+<section class="rl-section rl-section-alt">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Production Steps</span>
+      <h2>How Each Service Is Made</h2>
+    </div>
+    <div class="row g-4 align-items-start">
+      <div class="col-12 col-lg-6">
+        <div class="accordion" id="srvAccordion" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="accordion-item" style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius-sm) !important;overflow:hidden;">
+            <h2 class="accordion-header">
+              <button class="accordion-button" style="background:transparent;color:var(--rl-text);font-weight:700;font-size:15px;border:none;box-shadow:none;" type="button" data-bs-toggle="collapse" data-bs-target="#step1">
+                <i class="bi bi-1-circle-fill me-2" style="color:var(--rl-gold);"></i> Brief &amp; Design Consultation
+              </button>
+            </h2>
+            <div id="step1" class="accordion-collapse collapse show" data-bs-parent="#srvAccordion">
+              <div class="accordion-body" style="color:var(--rl-muted);font-size:14px;">You share dimensions, references and pigment preferences via our commission form. We follow up with a digital design mockup within 48 hours for your approval before any resin is poured.</div>
+            </div>
+          </div>
+          <div class="accordion-item" style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius-sm) !important;overflow:hidden;">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" style="background:transparent;color:var(--rl-text);font-weight:700;font-size:15px;border:none;box-shadow:none;" type="button" data-bs-toggle="collapse" data-bs-target="#step2">
+                <i class="bi bi-2-circle-fill me-2" style="color:var(--rl-gold);"></i> Material Preparation
+              </button>
+            </h2>
+            <div id="step2" class="accordion-collapse collapse" data-bs-parent="#srvAccordion">
+              <div class="accordion-body" style="color:var(--rl-muted);font-size:14px;">Timber slabs are planed, sanded and sealed. Epoxy is measured to gram precision, pigments are pre-mixed. Your workbench mold is prepared and levelled — accuracy is paramount before the first drop of resin.</div>
+            </div>
+          </div>
+          <div class="accordion-item" style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius-sm) !important;overflow:hidden;">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" style="background:transparent;color:var(--rl-text);font-weight:700;font-size:15px;border:none;box-shadow:none;" type="button" data-bs-toggle="collapse" data-bs-target="#step3">
+                <i class="bi bi-3-circle-fill me-2" style="color:var(--rl-gold);"></i> Pour, Cure &amp; Track
+              </button>
+            </h2>
+            <div id="step3" class="accordion-collapse collapse" data-bs-parent="#srvAccordion">
+              <div class="accordion-body" style="color:var(--rl-muted);font-size:14px;">Resin is poured in precision layers, allowing each layer to partially cure before the next. The full cure cycle runs 7 days — and every 12 hours, your dashboard updates with fresh stage photos and telemetry.</div>
+            </div>
+          </div>
+          <div class="accordion-item" style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius-sm) !important;overflow:hidden;">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" style="background:transparent;color:var(--rl-text);font-weight:700;font-size:15px;border:none;box-shadow:none;" type="button" data-bs-toggle="collapse" data-bs-target="#step4">
+                <i class="bi bi-4-circle-fill me-2" style="color:var(--rl-gold);"></i> Polish &amp; Final Inspection
+              </button>
+            </h2>
+            <div id="step4" class="accordion-collapse collapse" data-bs-parent="#srvAccordion">
+              <div class="accordion-body" style="color:var(--rl-muted);font-size:14px;">Post-cure, surfaces are wet-sanded from 320→10,000 grit for a mirror finish. Our lead artisan performs a full visual and structural inspection before marking the piece as delivery-ready.</div>
+            </div>
+          </div>
+          <div class="accordion-item" style="background:var(--rl-soft);border:1px solid var(--rl-border);border-radius:var(--rl-radius-sm) !important;overflow:hidden;">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" style="background:transparent;color:var(--rl-text);font-weight:700;font-size:15px;border:none;box-shadow:none;" type="button" data-bs-toggle="collapse" data-bs-target="#step5">
+                <i class="bi bi-5-circle-fill me-2" style="color:var(--rl-gold);"></i> Package &amp; Pickup / Delivery
+              </button>
+            </h2>
+            <div id="step5" class="accordion-collapse collapse" data-bs-parent="#srvAccordion">
+              <div class="accordion-body" style="color:var(--rl-muted);font-size:14px;">White-glove packaging with foam-inlay custom boxes. You'll receive a dashboard notification to schedule your studio pickup or confirm delivery logistics. Final photos are shared in your gallery on delivery.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <img src="assets/images/services-corporate.jpg" alt="Production process" style="width:100%;height:440px;border-radius:var(--rl-radius);margin-top:10px;" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALTY SERVICES GRID -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Specialty Services</span>
+      <h2>Beyond the Standard Commission</h2>
+      <p>From corporate gifting to conservation framing — our specialty services cover every creative need.</p>
+    </div>
+    <div class="srv-specialty-grid">
+      <!-- 1. Corporate Gifting -->
+      <div class="srv-specialty-card">
+        <div class="srv-specialty-img">
+          <img src="assets/images/srv-corporate-gifts.png" alt="Corporate Gifting" loading="lazy">
+        </div>
+        <div class="srv-specialty-body">
+          <h4>Corporate Gifting</h4>
+          <p>Branded coaster sets, personalized trays and executive desk pieces — perfect for client gifting at scale.</p>
+        </div>
+      </div>
+      
+      <!-- 2. Floral Preservation -->
+      <div class="srv-specialty-card">
+        <div class="srv-specialty-img">
+          <img src="assets/images/srv-floral-preserve.png" alt="Floral Preservation" loading="lazy">
+        </div>
+        <div class="srv-specialty-body">
+          <h4>Floral Preservation</h4>
+          <p>Preserve your wedding bouquet, dried botanicals or meaningful flowers in crystal-clear UV resin blocks.</p>
+        </div>
+      </div>
+
+      <!-- 3. Nameplate & Signage -->
+      <div class="srv-specialty-card">
+        <div class="srv-specialty-img">
+          <img src="assets/images/srv-nameplates.png" alt="Nameplate &amp; Signage" loading="lazy">
+        </div>
+        <div class="srv-specialty-body">
+          <h4>Nameplate &amp; Signage</h4>
+          <p>Custom resin nameplates and door signs with embedded logos, lettering and pigment fills.</p>
+        </div>
+      </div>
+
+      <!-- 4. Event Centrepieces -->
+      <div class="srv-specialty-card">
+        <div class="srv-specialty-img">
+          <img src="assets/images/srv-centrepieces.png" alt="Event Centrepieces" loading="lazy">
+        </div>
+        <div class="srv-specialty-body">
+          <h4>Event Centrepieces</h4>
+          <p>Wedding table centrepieces, event award trophies and ceremonial display pieces for special occasions.</p>
+        </div>
+      </div>
+
+      <!-- 5. Interior Design Panels -->
+      <div class="srv-specialty-card">
+        <div class="srv-specialty-img">
+          <img src="assets/images/srv-interior-panels.png" alt="Interior Design Panels" loading="lazy">
+        </div>
+        <div class="srv-specialty-body">
+          <h4>Interior Design Panels</h4>
+          <p>Bespoke large-format resin panels coordinated with interior designers and architects — by appointment.</p>
+        </div>
+      </div>
+
+      <!-- 6. Workshops -->
+      <div class="srv-specialty-card">
+        <div class="srv-specialty-img">
+          <img src="assets/images/srv-workshops.png" alt="Workshops" loading="lazy">
+        </div>
+        <div class="srv-specialty-body">
+          <h4>Workshops</h4>
+          <p>Learn the craft in our studio — beginner coaster-pour workshops every Saturday. Book 3 seats minimum.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE HINTS -->
+<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/home-coasters.jpg');">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Pricing Ranges</span>
+      <h2>Transparent from the Start</h2>
+      <p>All commissions are scoped individually — these ranges give you a clear starting estimate.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-12 col-md-4">
+        <div class="srv-hint-card">
+          <div class="srv-hint-tier">Starter</div>
+          <div class="srv-hint-range">₹499–₹4,999</div>
+          <p>Coasters, jewelry, keychains and small tray sets. Quick 3-day turnaround.</p>
+          <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3 d-block"><i class="bi bi-bag"></i> Shop Ready-Made</a>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="srv-hint-card" style="border-color:rgba(226,179,84,0.3);background:linear-gradient(180deg,rgba(226,179,84,0.07),rgba(255,255,255,0.02));">
+          <div class="srv-hint-tier">Standard</div>
+          <div class="srv-hint-range">₹4,999–₹24,999</div>
+          <p>Coffee tables, large wall panels, serving tray sets, corporate gift packages.</p>
+          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm mt-3 d-block"><i class="bi bi-pencil-square"></i> Commission</a>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="srv-hint-card">
+          <div class="srv-hint-tier">Premium</div>
+          <div class="srv-hint-range">₹24,999+</div>
+          <p>Dining river tables, triptych wall panels, interior design installations. Full white-glove service.</p>
+          <a href="contact.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3 d-block"><i class="bi bi-chat-dots"></i> Get a Quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE STRIP -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Our Promise</span>
+      <h2>Quality Guarantee</h2>
+    </div>
+    <div class="srv-guarantee">
+      <div class="srv-guarantee-item">
+        <i class="bi bi-shield-fill-check"></i>
+        <h5>5-Year UV Clarity</h5>
+        <p>No yellowing or hazing under normal indoor use — guaranteed in writing.</p>
+      </div>
+      <div class="srv-guarantee-item">
+        <i class="bi bi-arrow-counterclockwise"></i>
+        <h5>Mockup Revisions</h5>
+        <p>Up to 3 free design mockup revisions before any pour begins.</p>
+      </div>
+      <div class="srv-guarantee-item">
+        <i class="bi bi-camera-fill"></i>
+        <h5>Live Stage Updates</h5>
+        <p>Curing-stage photography shared every 12 hours via your dashboard.</p>
+      </div>
+      <div class="srv-guarantee-item">
+        <i class="bi bi-box-seam-fill"></i>
+        <h5>White-Glove Packaging</h5>
+        <p>Every piece is wrapped, foam-protected and inspected before handoff.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="rl-section rl-section-bg-process" style="background-image: url('assets/images/home-river-table.jpg');">
+  <div class="container">
+    <div class="rl-cta-panel">
+      <span class="rl-eyebrow">Start Today</span>
+      <h2>Commission Your Masterpiece</h2>
+      <p>Fill out a quick brief and receive your design mockup within 48 hours. No commitment until you approve.</p>
+      <div class="rl-hero-actions">
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Commission Now</a>
+        <a href="pricing.html" class="rl-btn rl-btn-ghost"><i class="bi bi-tag"></i> Full Pricing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rl-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-lg-4">
+        <div class="rl-footer-brand"><img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90"></div>
+        <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. River tables, jewelry, coasters and more.</p>
+        <div class="rl-social mt-3"><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a></div>
+      </div>
+      <div class="col-6 col-lg-2"><h5>Studio</h5><a href="about.html">About Us</a><a href="services.html">Services</a><a href="gallery.html">Gallery</a><a href="process.html">Our Process</a></div>
+      <div class="col-6 col-lg-2"><h5>Shop</h5><a href="shop.html">All Products</a><a href="custom-orders.html">Custom Orders</a><a href="pricing.html">Pricing</a><a href="pigment-studio.html">Pigment Studio</a></div>
+      <div class="col-6 col-lg-2"><h5>Account</h5><a href="dashboard.html">Dashboard</a><a href="login.html">Login</a><a href="signup.html">Sign Up</a><a href="contact.html">Contact</a></div>
+      <div class="col-6 col-lg-2">
+        <h5>Studio Hours</h5>
+        <p style="font-size:13px;line-height:2.0;margin:0;">
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-clock text-gold me-2"></i>Mon–Sat: 10am–7pm</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-calendar3 text-gold me-2"></i>Sunday: Appointment</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-box-seam text-gold me-2"></i>Pickup: 24h notice</span>
+          <span class="d-flex align-items-center"><i class="bi bi-chat-dots text-gold me-2"></i>Consultations</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
+
+
+

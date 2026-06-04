@@ -1,0 +1,1076 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pigment Studio | ResinLux Studio — Choose Your Colour</title>
+  <meta name="description" content="Explore the ResinLux Studio pigment library — 52+ shades including ocean blue, gold metallic, emerald green, rose quartz and galaxy black for your custom commission.">
+  <link rel="icon" type="image/png" href="assets/images/resin_logo_icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/resin-theme.css">
+  <style>
+    /* Swatches styling */
+    .pigment-swatch-full {
+      border-radius: var(--rl-radius);
+      height: 120px;
+      width: 100%;
+      cursor: pointer;
+      border: 2px solid var(--rl-border);
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .pigment-swatch-full:hover, .pigment-swatch-full.active {
+      transform: translateY(-5px);
+      border-color: var(--rl-gold);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.4), 0 0 15px rgba(226,179,84,0.3);
+    }
+    .pigment-swatch-full-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(4,17,29,0.85);
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 800;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Effects Card */
+    .pigment-pairing-section,
+    .pigment-effects-section {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 16% 12%, rgba(0,229,255,0.15), transparent 30%),
+        radial-gradient(circle at 88% 20%, rgba(226,179,84,0.13), transparent 32%),
+        linear-gradient(135deg, #03131f 0%, #082637 48%, #061721 100%);
+    }
+    .pigment-effects-section {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(226,179,84,0.13), transparent 28%),
+        radial-gradient(circle at 84% 70%, rgba(0,229,255,0.14), transparent 32%),
+        linear-gradient(135deg, #04111d 0%, #082331 52%, #03131f 100%);
+    }
+    .pigment-pairing-section::before,
+    .pigment-effects-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.05), transparent 34%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 28px);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .pigment-pairing-section .container,
+    .pigment-effects-section .container {
+      position: relative;
+      z-index: 1;
+    }
+    .pigment-pairing-section h2,
+    .pigment-effects-section h2 {
+      color: #dffbff;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+    }
+    .pigment-pairing-section p,
+    .pigment-effects-section .rl-section-title p {
+      color: #c5e6ef;
+    }
+    .pigment-rule-stack {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pigment-rule-card {
+      background: rgba(3, 19, 31, 0.72);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: var(--rl-radius-sm);
+      padding: 14px 16px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+    }
+    .pigment-rule-card strong {
+      color: #ffd56c;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pigment-rule-card:nth-child(2) strong {
+      color: #6ff2ff;
+    }
+    .pigment-rule-card:nth-child(3) strong {
+      color: #f4fbff;
+    }
+    .pigment-rule-card p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: #bddce7;
+    }
+    .pigment-pairing-visual {
+      border-radius: var(--rl-radius);
+      border: 1px solid rgba(0,229,255,0.2);
+      box-shadow: 0 24px 55px rgba(0,0,0,0.28);
+    }
+    .pigment-effect-card {
+      background: rgba(3, 19, 31, 0.78);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: var(--rl-radius);
+      padding: 32px 24px;
+      text-align: center;
+      height: 100%;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .pigment-effect-card:hover {
+      border-color: var(--rl-gold);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,229,255,0.14);
+    }
+    .pigment-effect-icon-wrapper {
+      width: 60px; height: 60px;
+      margin: 0 auto 16px;
+      border-radius: var(--rl-radius-sm);
+      background: rgba(0,229,255,0.06);
+      border: 1px solid rgba(0,229,255,0.15);
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      transition: all 0.3s ease;
+    }
+    .pigment-effect-card:hover .pigment-effect-icon-wrapper {
+      background: rgba(226,179,84,0.1);
+      border-color: rgba(226,179,84,0.3);
+      transform: scale(1.08) rotate(-3deg);
+    }
+    .pigment-effect-card h4  { color: #f5fdff; font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .pigment-effect-card p   { color: #bddce7; font-size: 13.5px; margin: 0; line-height: 1.7; }
+    body.light-mode .pigment-pairing-section,
+    body.light-mode .pigment-effects-section {
+      background:
+        radial-gradient(circle at 18% 14%, rgba(0,131,143,0.16), transparent 30%),
+        radial-gradient(circle at 86% 22%, rgba(226,179,84,0.17), transparent 32%),
+        linear-gradient(135deg, #eaf8fb 0%, #d9eef4 48%, #f7fbfc 100%);
+    }
+    body.light-mode .pigment-pairing-section h2,
+    body.light-mode .pigment-effects-section h2 {
+      color: #082331;
+      text-shadow: none;
+    }
+    body.light-mode .pigment-pairing-section p,
+    body.light-mode .pigment-effects-section .rl-section-title p {
+      color: #243746;
+    }
+    body.light-mode .pigment-rule-card,
+    body.light-mode .pigment-effect-card {
+      background: rgba(255,255,255,0.82);
+      border-color: rgba(0,131,143,0.22);
+      box-shadow: 0 16px 32px rgba(8,35,49,0.1);
+    }
+    body.light-mode .pigment-rule-card p,
+    body.light-mode .pigment-effect-card p {
+      color: #243746;
+    }
+    body.light-mode .pigment-rule-card strong {
+      color: #8b5e00;
+    }
+    body.light-mode .pigment-rule-card:nth-child(2) strong {
+      color: #006b78;
+    }
+    body.light-mode .pigment-rule-card:nth-child(3) strong,
+    body.light-mode .pigment-effect-card h4 {
+      color: #082331;
+    }
+
+    /* Interactive Mixer Previewer */
+    .formula-mixer-row {
+      align-items: stretch;
+    }
+    .formula-mixer-row > [class*="col-"] {
+      display: flex;
+    }
+    .formula-mixer-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .formula-control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .formula-summary {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius-sm);
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .mixer-preview-box {
+      width: 100%;
+      min-height: 290px;
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      border: 1px solid rgba(226,179,84,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.22), 0 10px 30px rgba(0,229,255,0.08);
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 34%),
+        #04111d;
+    }
+    .mixer-resin-pour {
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--mix-dominant, linear-gradient(135deg,#00838f,#00e5ff,#004d40));
+      box-shadow:
+        inset 0 0 45px rgba(0,0,0,0.32),
+        inset 0 20px 35px rgba(255,255,255,0.14);
+      transition: background 0.35s ease, transform 0.35s ease;
+    }
+    .mixer-resin-pour::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(ellipse at 30% 28%, rgba(255,255,255,0.35), transparent 20%),
+        radial-gradient(ellipse at 70% 62%, rgba(255,255,255,0.22), transparent 24%),
+        repeating-linear-gradient(145deg, rgba(255,255,255,0.13) 0 2px, transparent 3px 32px);
+      mix-blend-mode: screen;
+      opacity: 0.65;
+      animation: mixer-flow 9s ease-in-out infinite alternate;
+    }
+    .mixer-accent-ribbon {
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      background: var(--mix-accent, linear-gradient(135deg,#ad7d15,#e2b354,#5d4002));
+      clip-path: polygon(0 48%, 12% 38%, 26% 44%, 39% 32%, 52% 42%, 66% 34%, 80% 43%, 100% 34%, 100% 58%, 82% 68%, 67% 59%, 51% 72%, 36% 60%, 19% 70%, 0 60%);
+      filter: saturate(1.15);
+      opacity: 0.82;
+      mix-blend-mode: screen;
+      transition: background 0.35s ease, opacity 0.25s ease;
+    }
+    .mixer-clear-ribbon {
+      opacity: 0.32;
+      mix-blend-mode: soft-light;
+    }
+    .mixer-preview-shine {
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0.26), transparent 28%),
+        linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.18));
+      z-index: 4;
+    }
+    .mixer-chip-row {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 26px;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .mixer-chip {
+      min-height: 52px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.13);
+      background: rgba(4,17,29,0.62);
+      backdrop-filter: blur(10px);
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+    }
+    .mixer-chip span {
+      color: var(--rl-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .mixer-chip strong {
+      color: var(--rl-text);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+    @keyframes mixer-flow {
+      from { transform: translate(-8px, -5px) rotate(-1deg); }
+      to { transform: translate(9px, 6px) rotate(1deg); }
+    }
+    .mixer-effect-overlay {
+      position: absolute;
+      inset: 0;
+      mix-blend-mode: color-dodge;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .mixer-effect-overlay.glow {
+      background: radial-gradient(circle, rgba(0,229,255,0.22) 0%, transparent 75%);
+      box-shadow: inset 0 0 50px rgba(0,229,255,0.4);
+      opacity: 1;
+    }
+    @media (max-width: 1024px) {
+      .formula-mixer-row {
+        align-items: stretch;
+      }
+      .mixer-preview-box {
+        min-height: 320px;
+      }
+    }
+    @media (max-width: 768px) {
+      .formula-control-grid {
+        grid-template-columns: 1fr;
+      }
+      .mixer-preview-box {
+        min-height: 300px;
+      }
+    }
+    @media (max-width: 480px) {
+      .pigment-swatch-full {
+        height: 104px;
+      }
+      .formula-mixer-row {
+        margin-top: 28px !important;
+      }
+      .mixer-preview-box {
+        min-height: 330px;
+      }
+      .mixer-resin-pour,
+      .mixer-accent-ribbon,
+      .mixer-preview-shine {
+        inset: 12px;
+        border-radius: 18px;
+      }
+      .mixer-chip-row {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .mixer-chip {
+        min-height: 44px;
+      }
+    }
+    @media (max-width: 360px) {
+      .pigment-swatch-full {
+        height: 96px;
+        border-radius: 16px;
+      }
+      .pigment-swatch-full-label {
+        font-size: 10px;
+        padding: 7px 9px;
+      }
+      .mixer-preview-box {
+        min-height: 320px;
+      }
+      .mixer-chip strong {
+        font-size: 11.5px;
+      }
+    }
+    .mixer-effect-overlay.gold {
+      background: radial-gradient(circle, rgba(226,179,84,0.25) 0%, transparent 75%);
+      box-shadow: inset 0 0 50px rgba(226,179,84,0.4);
+      opacity: 1;
+    }
+
+    /* Colour mixture dish - overrides the earlier slab-style preview */
+    .mixer-preview-box {
+      min-height: 390px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 18px;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,255,255,0.14), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018)),
+        #04111d;
+    }
+    .mixer-mixture-stage {
+      position: relative;
+      min-height: 265px;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+    .mixer-dish-shadow {
+      position: absolute;
+      width: min(78%, 330px);
+      height: 52px;
+      bottom: 5px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.42);
+      filter: blur(18px);
+      z-index: -1;
+    }
+    .mixer-resin-pour {
+      position: relative;
+      inset: auto;
+      width: min(82%, 330px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--mix-dominant, linear-gradient(135deg,#00838f,#00e5ff,#004d40));
+      border: 12px solid rgba(255,255,255,0.1);
+      box-shadow:
+        0 24px 55px rgba(0,0,0,0.35),
+        inset 0 0 42px rgba(0,0,0,0.34),
+        inset 0 24px 42px rgba(255,255,255,0.18);
+      overflow: hidden;
+      z-index: 1;
+    }
+    .mixer-resin-pour::before {
+      inset: -18%;
+      background:
+        radial-gradient(ellipse at 26% 30%, rgba(255,255,255,0.38), transparent 18%),
+        radial-gradient(ellipse at 67% 62%, rgba(255,255,255,0.24), transparent 25%),
+        conic-gradient(from 38deg, transparent 0 12%, rgba(255,255,255,0.2) 13% 17%, transparent 18% 36%, rgba(0,0,0,0.2) 38% 42%, transparent 44% 100%);
+      opacity: 0.74;
+      animation: mixer-pool-spin 14s linear infinite;
+    }
+    .mixer-resin-pour::after {
+      content: "";
+      position: absolute;
+      inset: 10%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.38), transparent 9%),
+        radial-gradient(circle at 58% 72%, rgba(255,255,255,0.16), transparent 12%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .mixer-accent-ribbon {
+      position: absolute;
+      inset: auto;
+      width: min(62%, 250px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--mix-accent, linear-gradient(135deg,#ad7d15,#e2b354,#5d4002));
+      clip-path: none;
+      opacity: 0.72;
+      mix-blend-mode: screen;
+      filter: saturate(1.25) blur(0.2px);
+      transform: rotate(-18deg) scaleX(1.15);
+      z-index: 2;
+      mask-image: conic-gradient(from 40deg, transparent 0 8%, #000 11% 25%, transparent 30% 41%, #000 46% 64%, transparent 70% 100%);
+      -webkit-mask-image: conic-gradient(from 40deg, transparent 0 8%, #000 11% 25%, transparent 30% 41%, #000 46% 64%, transparent 70% 100%);
+      animation: mixer-accent-drift 11s ease-in-out infinite alternate;
+    }
+    .mixer-flow-line {
+      position: absolute;
+      width: min(70%, 282px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.16);
+      border-left-color: transparent;
+      border-bottom-color: transparent;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .mixer-flow-one { transform: rotate(18deg) scale(0.84); }
+    .mixer-flow-two { transform: rotate(142deg) scale(0.58); opacity: 0.75; }
+    .mixer-flow-three { transform: rotate(252deg) scale(0.42); opacity: 0.55; }
+    .mixer-preview-shine {
+      inset: auto;
+      width: min(82%, 330px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        linear-gradient(130deg, rgba(255,255,255,0.25), transparent 32%),
+        radial-gradient(circle at 46% 42%, transparent 42%, rgba(0,0,0,0.2) 74%);
+      z-index: 5;
+    }
+    .mixer-effect-overlay {
+      z-index: 4;
+      width: min(82%, 330px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      inset: auto;
+    }
+    .mixer-chip-row {
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      z-index: 6;
+    }
+    .mixer-preview-box .mixer-chip {
+      background: rgba(2, 12, 22, 0.82);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.24);
+    }
+    .mixer-preview-box .mixer-chip span {
+      color: #8feeff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+    }
+    .mixer-preview-box .mixer-chip strong {
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.55);
+    }
+    body.light-mode .mixer-preview-box .mixer-chip {
+      background: rgba(2, 12, 22, 0.88);
+      border-color: rgba(0, 229, 255, 0.24);
+    }
+    body.light-mode .mixer-preview-box .mixer-chip span {
+      color: #7eeaff;
+    }
+    body.light-mode .mixer-preview-box .mixer-chip strong {
+      color: #ffffff;
+    }
+    @keyframes mixer-pool-spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes mixer-accent-drift {
+      from { transform: rotate(-18deg) scaleX(1.15) translate(-4px, 5px); }
+      to { transform: rotate(12deg) scaleX(1.05) translate(6px, -4px); }
+    }
+    @media (max-width: 768px) {
+      .mixer-preview-box {
+        min-height: 380px;
+      }
+      .mixer-mixture-stage {
+        min-height: 250px;
+      }
+    }
+    @media (max-width: 480px) {
+      .mixer-preview-box {
+        min-height: 430px;
+        padding: 16px;
+      }
+      .mixer-mixture-stage {
+        min-height: 235px;
+      }
+      .mixer-chip-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 360px) {
+      .mixer-preview-box {
+        min-height: 410px;
+      }
+      .mixer-mixture-stage {
+        min-height: 215px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="rl-navbar navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand rl-brand" href="index.html">
+      <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux logo" width="310" height="90">
+    </a>
+    <button class="navbar-toggler rl-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#rlNav" aria-controls="rlNav" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list" style="color:var(--rl-text);font-size:22px;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="rlNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown">
+          <a class="nav-link rl-nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Home</a>
+          <ul class="dropdown-menu rl-dropdown-menu">
+            <li><a class="dropdown-item rl-dropdown-item" href="index.html">Home 1</a></li>
+            <li><a class="dropdown-item rl-dropdown-item" href="home-2.html">Home 2</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="custom-orders.html">Custom Orders</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="pricing.html">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="rl-nav-actions">
+        <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">&#9728;</button>
+        <a href="login.html" class="rl-login-btn"><i class="bi bi-person-circle me-1"></i> Login</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="rl-hero" style="background-image: url('assets/images/pigment-studio-hero.jpg');">
+  <div class="rl-hero-overlay"></div>
+  <div class="container rl-hero-inner text-center">
+    <span class="rl-eyebrow">Pigment Studio</span>
+    <h1 class="rl-h1">Select Colour, Shimmer<br>&amp; Finish Direction</h1>
+    <p class="rl-hero-sub">52+ artist-grade pigments — ocean blue, gold metallic, pearl white, emerald green, galaxy black and more. Every shade UV-stabilised for 5+ years.</p>
+    <div class="rl-hero-badges mb-4">
+      <span><i class="bi bi-palette me-1"></i> 52+ Pigments</span>
+      <span><i class="bi bi-shield-check me-1"></i> UV-Stabilised</span>
+      <span><i class="bi bi-star-fill me-1"></i> Artist-Grade</span>
+    </div>
+    <div class="rl-hero-actions">
+      <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Commission with This Pigment</a>
+      <a href="gallery.html" class="rl-btn rl-btn-ghost"><i class="bi bi-images"></i> See Results</a>
+    </div>
+  </div>
+</section>
+
+<!-- PIGMENT SWATCH LIBRARY -->
+<section class="rl-section rl-section-bg-process" style="background-image: url('assets/images/leaf_background.jpg');">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow" style="color:var(--rl-cyan);">Studio Formulations</span>
+      <h2>Bespoke Colour Pigments</h2>
+      <p>Each swatch represents a live production colour — click any swatch to view details and mix live.</p>
+    </div>
+
+    <!-- Swatches Grid -->
+    <div class="row g-3" id="swatchGrid">
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full active" data-name="Oceanic Teal" data-type="Dominant" data-desc="Deep sea teal with shimmering green tones, perfect for ocean rivers." data-bg="linear-gradient(135deg,#00838f,#00e5ff,#004d40)" style="background:linear-gradient(135deg,#00838f,#00e5ff,#004d40);">
+          <div class="pigment-swatch-full-label">Oceanic Teal</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Liquid Gold" data-type="Accent" data-desc="Shoreline metallic liquid gold, perfect for highlighting wooden slab boundaries." data-bg="linear-gradient(135deg,#ad7d15,#e2b354,#5d4002)" style="background:linear-gradient(135deg,#ad7d15,#e2b354,#5d4002);">
+          <div class="pigment-swatch-full-label">Liquid Gold</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Deep Emerald" data-type="Dominant" data-desc="Bioluminescent forest green, offering rich jungle and organic depth." data-bg="linear-gradient(135deg,#004d40,#00bfa5,#002420)" style="background:linear-gradient(135deg,#004d40,#00bfa5,#002420);">
+          <div class="pigment-swatch-full-label">Deep Emerald</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Arctic Pearl" data-type="Accent" data-desc="Iridescent pearl white with silver shimmer dust, casting soft dimensional highlights." data-bg="linear-gradient(135deg,#e0f7fa,#ffffff,#b2ebf2)" style="background:linear-gradient(135deg,#e0f7fa,#ffffff,#b2ebf2);">
+          <div class="pigment-swatch-full-label">Arctic Pearl</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Midnight Galaxy" data-type="Dominant" data-desc="Deep cosmic navy blue embedded with stardust shimmer flakes." data-bg="linear-gradient(135deg,#0b1236,#1a237e,#311b92)" style="background:linear-gradient(135deg,#0b1236,#1a237e,#311b92);">
+          <div class="pigment-swatch-full-label">Midnight Galaxy</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Rose Quartz" data-type="Dominant" data-desc="Warm gemstone pink, highly translucent and reflective under direct lighting." data-bg="linear-gradient(135deg,#e91e63,#f8bbd9,#880e4f)" style="background:linear-gradient(135deg,#e91e63,#f8bbd9,#880e4f);">
+          <div class="pigment-swatch-full-label">Rose Quartz</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Smoke Glass" data-type="Accent" data-desc="Charcoal grey translucent smoky finish, giving a sleek industrial aesthetic." data-bg="linear-gradient(135deg,#37474f,#90a4ae,#1c313a)" style="background:linear-gradient(135deg,#37474f,#90a4ae,#1c313a);">
+          <div class="pigment-swatch-full-label">Smoke Glass</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Cobalt Blue" data-type="Dominant" data-desc="Intense deep ocean cobalt, mimicking shoreline currents." data-bg="linear-gradient(135deg,#1565c0,#42a5f5,#0d47a1)" style="background:linear-gradient(135deg,#1565c0,#42a5f5,#0d47a1);">
+          <div class="pigment-swatch-full-label">Cobalt Blue</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Royal Amethyst" data-type="Dominant" data-desc="Lustrous dark purple mica, giving deep crystalline facets." data-bg="linear-gradient(135deg,#4a148c,#ab47bc,#1a0033)" style="background:linear-gradient(135deg,#4a148c,#ab47bc,#1a0033);">
+          <div class="pigment-swatch-full-label">Royal Amethyst</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Jade Green" data-type="Dominant" data-desc="Classic jade stone green, providing an elegant and high-gloss look." data-bg="linear-gradient(135deg,#1b5e20,#66bb6a,#0a3d14)" style="background:linear-gradient(135deg,#1b5e20,#66bb6a,#0a3d14);">
+          <div class="pigment-swatch-full-label">Jade Green</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Burnt Sienna" data-type="Accent" data-desc="Rich copper brown with metallic bronze sparkles, perfect for autumn tones." data-bg="linear-gradient(135deg,#bf360c,#ff7043,#7b1a00)" style="background:linear-gradient(135deg,#bf360c,#ff7043,#7b1a00);">
+          <div class="pigment-swatch-full-label">Burnt Sienna</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pigment-swatch-full" data-name="Crystal Clear" data-type="Accent" data-desc="Pure optical clarity resin with zero pigments, highlighting raw wood grains." data-bg="linear-gradient(135deg,#f5f5f5,#ffffff,#e8e8e8)" style="background:linear-gradient(135deg,#f5f5f5,#ffffff,#e8e8e8);">
+          <div class="pigment-swatch-full-label">Crystal Clear</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview Mixer -->
+    <div class="row mt-5 g-4 justify-content-center formula-mixer-row">
+      <!-- Left Side: Interactive Formulation Panel -->
+      <div class="col-12 col-lg-7">
+        <div class="rl-form-card formula-mixer-card">
+          <h3 style="font-size:18px;margin-bottom:16px;color:var(--rl-gold);"><i class="bi bi-sliders me-2"></i>Formula Mixer</h3>
+          <div class="formula-control-grid">
+            <div>
+              <label for="mixDominant">Dominant (60%)</label>
+              <select class="rl-input" id="mixDominant">
+                <option value="Oceanic Teal" selected>Oceanic Teal</option>
+                <option value="Deep Emerald">Deep Emerald</option>
+                <option value="Midnight Galaxy">Midnight Galaxy</option>
+                <option value="Rose Quartz">Rose Quartz</option>
+                <option value="Cobalt Blue">Cobalt Blue</option>
+                <option value="Royal Amethyst">Royal Amethyst</option>
+                <option value="Jade Green">Jade Green</option>
+              </select>
+            </div>
+            <div>
+              <label for="mixAccent">Accent (30%)</label>
+              <select class="rl-input" id="mixAccent">
+                <option value="Liquid Gold" selected>Liquid Gold</option>
+                <option value="Arctic Pearl">Arctic Pearl</option>
+                <option value="Smoke Glass">Smoke Glass</option>
+                <option value="Burnt Sienna">Burnt Sienna</option>
+                <option value="Crystal Clear">Crystal Clear</option>
+                <option value="None">None</option>
+              </select>
+            </div>
+            <div>
+              <label for="mixEffect">Special Effect (10%)</label>
+              <select class="rl-input" id="mixEffect">
+                <option value="None" selected>None</option>
+                <option value="Glow in the Dark">Glow in the Dark</option>
+                <option value="Transparent Tint">Transparent Tint</option>
+                <option value="Metallic Swirl">Metallic Swirl</option>
+                <option value="Wave Pour">Wave Pour</option>
+                <option value="Gold Leaf Flakes">Gold Leaf Flakes</option>
+                <option value="Botanical Embedding">Botanical Embedding</option>
+              </select>
+            </div>
+          </div>
+          <div class="formula-summary">
+            <h4 style="font-size:13px;font-weight:800;margin-bottom:4px;color:var(--rl-cyan);text-transform:uppercase;letter-spacing:1px;">Formula Breakdown</h4>
+            <p id="formulaText" style="font-size:14px;color:var(--rl-text);margin:0;">60% Oceanic Teal + 30% Liquid Gold</p>
+          </div>
+          <a href="custom-orders.html" id="mixSubmitBtn" class="rl-btn rl-btn-primary w-100 mt-4"><i class="bi bi-pencil-square"></i> Use This Formulation in Custom Order</a>
+        </div>
+      </div>
+
+      <!-- Right Side: Live Visualizer -->
+      <div class="col-12 col-lg-5">
+        <div class="rl-form-card d-flex flex-column h-100">
+          <h3 style="font-size:18px;margin-bottom:16px;color:var(--rl-gold);"><i class="bi bi-eye me-2"></i>Cured Resin Preview</h3>
+          <div class="mixer-preview-box" id="mixerPreviewBox">
+            <div class="mixer-mixture-stage">
+              <div class="mixer-dish-shadow"></div>
+              <div id="mixerResinPour" class="mixer-resin-pour"></div>
+              <div id="mixerAccentRibbon" class="mixer-accent-ribbon"></div>
+              <div class="mixer-flow-line mixer-flow-one"></div>
+              <div class="mixer-flow-line mixer-flow-two"></div>
+              <div class="mixer-flow-line mixer-flow-three"></div>
+              <div class="mixer-preview-shine"></div>
+              <div id="previewGlowOverlay" class="mixer-effect-overlay glow"></div>
+              <div id="previewGoldOverlay" class="mixer-effect-overlay gold"></div>
+            </div>
+            <div class="mixer-chip-row">
+              <div class="mixer-chip">
+                <span>Dominant</span>
+                <strong id="dominantChip">Oceanic Teal</strong>
+              </div>
+              <div class="mixer-chip">
+                <span>Accent</span>
+                <strong id="accentChip">Liquid Gold</strong>
+              </div>
+              <div class="mixer-chip">
+                <span>Effect</span>
+                <strong id="effectChip">None</strong>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <h4 id="previewName" style="font-size:17px;font-weight:800;margin:0 0 6px;color:var(--rl-text);">Oceanic Teal</h4>
+            <p id="previewDesc" style="font-size:13.5px;color:var(--rl-muted);margin:0;line-height:1.6;">Deep sea teal with shimmering green tones, perfect for ocean rivers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COLOUR PAIRING SPLIT -->
+<section class="rl-section rl-section-alt pigment-pairing-section">
+  <div class="container">
+    <div class="rl-split">
+      <div>
+        <span class="rl-eyebrow">Pairing Rules</span>
+        <h2>The Art of Colour Pairing</h2>
+        <p>For a high-end premium look, we recommend selecting one dominant shade, one accent colour, and one special effect. Too many competing colours can reduce the clarity and impact of the final piece.</p>
+        <div class="pigment-rule-stack">
+          <div class="pigment-rule-card">
+            <strong>Dominant - 60%</strong>
+            <p>The base colour that defines the overall mood. Oceanic Teal, Midnight Galaxy, Rose Quartz.</p>
+          </div>
+          <div class="pigment-rule-card">
+            <strong>Accent - 30%</strong>
+            <p>A complementary colour that adds depth. Liquid Gold pairs beautifully with Oceanic Teal.</p>
+          </div>
+          <div class="pigment-rule-card">
+            <strong>Effect - 10%</strong>
+            <p>Crystal shimmer, glow-in-dark or metallic flake - used sparingly for maximum impact.</p>
+          </div>
+        </div>
+      </div>
+      <img class="pigment-pairing-visual" src="assets/images/pigment-pairing.jpg" alt="Pigment pairing" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- EFFECTS GRID -->
+<section class="rl-section pigment-effects-section">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Special Effects</span>
+      <h2>Enhance Your Colour with Effects</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-12 col-md-4">
+        <div class="pigment-effect-card">
+          <div class="pigment-effect-icon-wrapper">
+            <i class="bi bi-moon-stars-fill" style="color:var(--rl-cyan);"></i>
+          </div>
+          <h4>Glow in the Dark</h4>
+          <p>Strontium aluminate pigment that glows for 8+ hours. Best for statement tables and feature walls.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="pigment-effect-card">
+          <div class="pigment-effect-icon-wrapper">
+            <i class="bi bi-droplet-half" style="color:var(--rl-cyan);"></i>
+          </div>
+          <h4>Transparent Tint</h4>
+          <p>Crystal-clear resin with a subtle hint of colour — best for jewelry, pendants and small accent pieces.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="pigment-effect-card">
+          <div class="pigment-effect-icon-wrapper">
+            <i class="bi bi-arrow-repeat" style="color:var(--rl-gold);"></i>
+          </div>
+          <h4>Metallic Swirl</h4>
+          <p>Gold or silver mica swirled through the pour — creates dimensional depth in tables and serving trays.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="pigment-effect-card">
+          <div class="pigment-effect-icon-wrapper">
+            <i class="bi bi-tsunami" style="color:var(--rl-cyan);"></i>
+          </div>
+          <h4>Wave Pour</h4>
+          <p>Dual-pigment wave technique where two shades intersect naturally — creates an organic ocean-wave effect.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="pigment-effect-card">
+          <div class="pigment-effect-icon-wrapper">
+            <i class="bi bi-stars" style="color:var(--rl-gold);"></i>
+          </div>
+          <h4>Gold Leaf Flakes</h4>
+          <p>Real 24k gold leaf suspended mid-pour for luxurious, irregular flakes of genuine gold in the resin layer.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="pigment-effect-card">
+          <div class="pigment-effect-icon-wrapper">
+            <i class="bi bi-flower1" style="color:var(--rl-gold);"></i>
+          </div>
+          <h4>Botanical Embedding</h4>
+          <p>Dried flowers, ferns or botanicals preserved permanently within UV crystal resin — each piece unique.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTISAN TIP -->
+<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/home-coasters.jpg');">
+  <div class="container">
+    <div class="rl-cta-panel">
+      <span class="rl-eyebrow">Artisan Tip</span>
+      <h2>Less is More — When It Counts</h2>
+      <p>For a high-end, gallery-quality look: one dominant pigment, one metallic accent, and no more than one special effect. This is the formula behind our most celebrated commissions.</p>
+      <div class="rl-hero-actions">
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Use This in Your Commission</a>
+        <a href="gallery.html" class="rl-btn rl-btn-ghost"><i class="bi bi-images"></i> See Examples</a>
+      </div>
+      <div class="rl-cta-badges mt-4">
+        <span><i class="bi bi-droplet me-1"></i> Liquid Pigments</span>
+        <span><i class="bi bi-stars me-1"></i> Powders &amp; Shimmers</span>
+        <span><i class="bi bi-gem me-1"></i> High-Clarity Pouring</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rl-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-lg-4">
+        <div class="rl-footer-brand">
+          <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90">
+        </div>
+        <p style="max-width:300px; margin-top: 10px;">Premium resin casting &amp; epoxy art studio.</p>
+        <div class="rl-social mt-3">
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2"><h5>Studio</h5><a href="about.html">About Us</a><a href="services.html">Services</a><a href="gallery.html">Gallery</a><a href="process.html">Our Process</a></div>
+      <div class="col-6 col-lg-2"><h5>Shop</h5><a href="shop.html">All Products</a><a href="custom-orders.html">Custom Orders</a><a href="pricing.html">Pricing</a><a href="pigment-studio.html">Pigment Studio</a></div>
+      <div class="col-6 col-lg-2"><h5>Account</h5><a href="dashboard.html">Dashboard</a><a href="login.html">Login</a><a href="signup.html">Sign Up</a><a href="contact.html">Contact</a></div>
+      <div class="col-6 col-lg-2">
+        <h5>Studio Hours</h5>
+        <p style="font-size:13px;line-height:2.0;margin:0;">
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-clock text-gold me-2"></i>Mon–Sat: 10am–7pm</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-calendar3 text-gold me-2"></i>Sunday: Appointment</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-box-seam text-gold me-2"></i>Pickup: 24h notice</span>
+          <span class="d-flex align-items-center"><i class="bi bi-chat-dots text-gold me-2"></i>Consultations</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const swatches = document.querySelectorAll('.pigment-swatch-full');
+    const mixerPreviewBox = document.getElementById('mixerPreviewBox');
+    const mixerResinPour = document.getElementById('mixerResinPour');
+    const mixerAccentRibbon = document.getElementById('mixerAccentRibbon');
+    const previewName = document.getElementById('previewName');
+    const previewDesc = document.getElementById('previewDesc');
+    const previewGlowOverlay = document.getElementById('previewGlowOverlay');
+    const previewGoldOverlay = document.getElementById('previewGoldOverlay');
+    const dominantChip = document.getElementById('dominantChip');
+    const accentChip = document.getElementById('accentChip');
+    const effectChip = document.getElementById('effectChip');
+
+    const mixDominant = document.getElementById('mixDominant');
+    const mixAccent = document.getElementById('mixAccent');
+    const mixEffect = document.getElementById('mixEffect');
+    const formulaText = document.getElementById('formulaText');
+    const mixSubmitBtn = document.getElementById('mixSubmitBtn');
+
+    // Database of swatches and color gradients
+    const swatchesDb = {
+      "Oceanic Teal": { gradient: "linear-gradient(135deg,#00838f,#00e5ff,#004d40)", desc: "Deep sea teal with shimmering green tones, perfect for ocean rivers." },
+      "Liquid Gold": { gradient: "linear-gradient(135deg,#ad7d15,#e2b354,#5d4002)", desc: "Shoreline metallic liquid gold, perfect for highlighting wooden slab boundaries." },
+      "Deep Emerald": { gradient: "linear-gradient(135deg,#004d40,#00bfa5,#002420)", desc: "Bioluminescent forest green, offering rich jungle and organic depth." },
+      "Arctic Pearl": { gradient: "linear-gradient(135deg,#e0f7fa,#ffffff,#b2ebf2)", desc: "Iridescent pearl white with silver shimmer dust, casting soft dimensional highlights." },
+      "Midnight Galaxy": { gradient: "linear-gradient(135deg,#0b1236,#1a237e,#311b92)", desc: "Deep cosmic navy blue embedded with stardust shimmer flakes." },
+      "Rose Quartz": { gradient: "linear-gradient(135deg,#e91e63,#f8bbd9,#880e4f)", desc: "Warm gemstone pink, highly translucent and reflective under direct lighting." },
+      "Smoke Glass": { gradient: "linear-gradient(135deg,#37474f,#90a4ae,#1c313a)", desc: "Charcoal grey translucent smoky finish, giving a sleek industrial aesthetic." },
+      "Cobalt Blue": { gradient: "linear-gradient(135deg,#1565c0,#42a5f5,#0d47a1)", desc: "Intense deep ocean cobalt, mimicking shoreline currents." },
+      "Royal Amethyst": { gradient: "linear-gradient(135deg,#4a148c,#ab47bc,#1a0033)", desc: "Lustrous dark purple mica, giving deep crystalline facets." },
+      "Jade Green": { gradient: "linear-gradient(135deg,#1b5e20,#66bb6a,#0a3d14)", desc: "Classic jade stone green, providing an elegant and high-gloss look." },
+      "Burnt Sienna": { gradient: "linear-gradient(135deg,#bf360c,#ff7043,#7b1a00)", desc: "Rich copper brown with metallic bronze sparkles, perfect for autumn tones." },
+      "Crystal Clear": { gradient: "linear-gradient(135deg,#f5f5f5,#ffffff,#e8e8e8)", desc: "Pure optical clarity resin with zero pigments, highlighting raw wood grains." }
+    };
+
+    // Update visualizer based on active swatch
+    function updateVisualizer(name) {
+      if (!swatchesDb[name]) return;
+
+      if (mixerPreviewBox) mixerPreviewBox.style.setProperty('--mix-dominant', swatchesDb[name].gradient);
+      if (mixerResinPour) {
+        mixerResinPour.style.transform = 'scale(1.015)';
+        window.setTimeout(() => { mixerResinPour.style.transform = ''; }, 180);
+      }
+      if (previewName) previewName.textContent = name;
+      if (previewDesc) previewDesc.textContent = swatchesDb[name].desc;
+    }
+
+    // Update formula breakdown and overlay based on dropdown selections
+    function updateFormula() {
+      const dom = mixDominant.value;
+      const acc = mixAccent.value;
+      const eff = mixEffect.value;
+
+      let text = `60% ${dom}`;
+      if (acc !== 'None') text += ` + 30% ${acc}`;
+      if (eff !== 'None') text += ` + 10% ${eff}`;
+      formulaText.textContent = text;
+      if (dominantChip) dominantChip.textContent = dom;
+      if (accentChip) accentChip.textContent = acc;
+      if (effectChip) effectChip.textContent = eff;
+      if (mixerPreviewBox && swatchesDb[dom]) mixerPreviewBox.style.setProperty('--mix-dominant', swatchesDb[dom].gradient);
+      if (mixerAccentRibbon) {
+        if (acc === 'None') {
+          mixerAccentRibbon.style.opacity = '0';
+        } else {
+          mixerAccentRibbon.style.opacity = swatchesDb[acc]?.gradient ? '' : '0.72';
+          mixerAccentRibbon.style.background = swatchesDb[acc]?.gradient || 'linear-gradient(135deg,rgba(255,255,255,0.35),rgba(255,255,255,0.08))';
+          mixerAccentRibbon.classList.toggle('mixer-clear-ribbon', acc === 'Crystal Clear');
+        }
+      }
+
+      // Update submit button URL with params
+      const params = new URLSearchParams({
+        dominant: dom,
+        accent: acc,
+        effect: eff
+      });
+      mixSubmitBtn.href = `custom-orders.html?${params.toString()}`;
+
+      // Manage special visualizer overlays based on selected effect
+      previewGlowOverlay.classList.toggle('glow', eff === 'Glow in the Dark');
+      previewGoldOverlay.classList.toggle('gold', eff === 'Gold Leaf Flakes' || acc === 'Liquid Gold');
+    }
+
+    // Swatch Click Event handler
+    swatches.forEach(sw => {
+      sw.addEventListener('click', () => {
+        swatches.forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+
+        const name = sw.getAttribute('data-name');
+        const type = sw.getAttribute('data-type');
+
+        // Update previewer details
+        updateVisualizer(name);
+
+        // Pre-fill mixer selections
+        if (type === 'Dominant') {
+          mixDominant.value = name;
+        } else if (type === 'Accent') {
+          mixAccent.value = name;
+        }
+        updateFormula();
+      });
+    });
+
+    // Dropdown change handlers
+    [mixDominant, mixAccent, mixEffect].forEach(select => {
+      select.addEventListener('change', () => {
+        // If mixer values change, highlight corresponding dominant swatch if active
+        const dom = mixDominant.value;
+        swatches.forEach(sw => {
+          if (sw.getAttribute('data-name') === dom) {
+            swatches.forEach(s => s.classList.remove('active'));
+            sw.classList.add('active');
+            updateVisualizer(dom);
+          }
+        });
+        updateFormula();
+      });
+    });
+
+    // Run initial formula parse
+    updateFormula();
+  });
+</script>
+</body>
+</html>
+
+
+
+

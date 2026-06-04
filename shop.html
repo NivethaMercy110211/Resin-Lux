@@ -1,0 +1,1768 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop | ResinLux Studio - Ready-Made Resin Products</title>
+  <meta name="description" content="Shop ready-made epoxy coasters, jewelry, trays and gift sets at ResinLux Studio. Premium handcrafted resin art shipped across India.">
+  <link rel="icon" type="image/png" href="assets/images/resin_logo_icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/resin-theme.css">
+  <style>
+    /* Shop-specific: product card with spec overlay */
+    .shop-product-card {
+      background: linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      height: 100%;
+      position: relative;
+    }
+    .shop-product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(226,179,84,0.3);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.25);
+    }
+    .shop-product-img {
+      position: relative;
+      overflow: hidden;
+      height: 240px;
+    }
+    .shop-product-img img {
+      width: 100%; height: 100%;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+      border: 0; border-radius: 0;
+    }
+    .shop-product-card:hover .shop-product-img img { transform: scale(1.05); }
+    .shop-spec-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,17,29,0.95) 0%, rgba(4,17,29,0.5) 60%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+    .shop-product-card:hover .shop-spec-overlay { opacity: 1; }
+    .shop-spec-list { list-style: none; padding: 0; margin: 0; }
+    .shop-spec-list li { font-size: 12px; color: rgba(255,255,255,0.85); padding: 2px 0; display: flex; align-items: center; gap: 6px; }
+    .shop-spec-list li::before { content:'\2713'; color:var(--rl-cyan); font-weight:800; }
+    .shop-product-body { padding: 20px; }
+    .shop-product-body h3 { font-size: 17px; margin-bottom: 4px; color: var(--rl-text); }
+    .shop-product-body p  { color: var(--rl-muted); font-size: 13px; margin-bottom: 10px; }
+    .shop-product-price { font-size: 24px; font-weight: 900; color: var(--rl-gold); display: block; margin-bottom: 12px; }
+    .shop-badge-new {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--rl-gold); color: #211400;
+      font-size: 10px; font-weight: 800; padding: 4px 10px;
+      border-radius: 999px; text-transform: uppercase;
+    }
+    .shop-badge-sale {
+      position: absolute; top: 12px; left: 12px;
+      background: #e53935; color: white;
+      font-size: 10px; font-weight: 800; padding: 4px 10px;
+      border-radius: 999px; text-transform: uppercase;
+    }
+
+    /* Diagonal gifting section */
+    .shop-gift-split {
+      background: linear-gradient(135deg, rgba(226,179,84,0.06), rgba(0,229,255,0.04));
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .shop-gift-img { height: 380px; }
+    .shop-gift-img img { width: 100%; height: 100%; border-radius: 0; border: 0; }
+    .shop-gift-text {
+      padding: 48px 44px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .shop-gift-text h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      background: linear-gradient(135deg, var(--rl-gold), var(--rl-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+    }
+    .shop-gift-text p { color: var(--rl-muted); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+
+    /* Care cards */
+    .shop-care-card {
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      padding: 28px 24px;
+      text-align: center;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+    .shop-care-card:hover { border-color: var(--rl-cyan); transform: translateY(-4px); }
+    .shop-care-card .bi { font-size: 30px; color: var(--rl-gold); display: block; margin-bottom: 12px; }
+    .shop-care-card h4 { font-size: 16px; margin-bottom: 8px; }
+    .shop-care-card p  { color: var(--rl-muted); font-size: 13.5px; margin: 0; }
+
+    @media (max-width: 768px) {
+      .shop-gift-split { grid-template-columns: 1fr; }
+      .shop-gift-img { height: 260px; }
+      .shop-gift-text { padding: 28px 24px; }
+    }
+
+    /* ============================================
+       INTERACTIVE BUNDLE BUILDER
+    ============================================ */
+    .bundle-section {
+      background:
+        radial-gradient(ellipse at 10% 40%, rgba(226,179,84,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 60%, rgba(0,229,255,0.06) 0%, transparent 55%);
+      position: relative;
+      overflow: hidden;
+    }
+    .bundle-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(0,229,255,0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .bundle-layout {
+      display: grid;
+      grid-template-columns: 1fr 370px;
+      gap: 28px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- Product tile grid --- */
+    .bundle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .bundle-tile {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1.5px solid var(--rl-border);
+      border-radius: var(--rl-radius-sm);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
+      user-select: none;
+    }
+    .bundle-tile:hover {
+      border-color: rgba(226,179,84,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+    }
+    .bundle-tile.selected {
+      border-color: var(--rl-gold);
+      box-shadow: 0 0 0 1px rgba(226,179,84,0.3), 0 16px 40px rgba(226,179,84,0.12);
+      transform: translateY(-4px);
+    }
+
+    .bundle-tile-img {
+      position: relative;
+      height: 130px;
+      overflow: hidden;
+    }
+    .bundle-tile-img img {
+      width: 100%; height: 100%;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      border: 0; border-radius: 0;
+    }
+    .bundle-tile:hover .bundle-tile-img img,
+    .bundle-tile.selected .bundle-tile-img img { transform: scale(1.07); }
+
+    /* Checkmark overlay */
+    .bundle-tile-check {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(226,179,84,0.12), rgba(4,17,29,0.3));
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(1px);
+    }
+    .bundle-tile.selected .bundle-tile-check { opacity: 1; }
+
+    .bundle-check-circle {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--rl-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #211400; font-weight: 900;
+      transform: scale(0.3) rotate(-30deg);
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 4px 20px rgba(226,179,84,0.5);
+    }
+    .bundle-tile.selected .bundle-check-circle {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .bundle-tile-body { padding: 11px 13px; }
+    .bundle-tile-name {
+      font-size: 12.5px; font-weight: 700;
+      margin: 0 0 4px; color: var(--rl-text); line-height: 1.3;
+    }
+    .bundle-tile-price {
+      font-size: 15px; font-weight: 900; color: var(--rl-gold);
+    }
+
+    /* --- Bundle Summary Panel --- */
+    .bundle-summary-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+      border: 1.5px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      padding: 24px 22px;
+      position: sticky;
+      top: 90px;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .bundle-summary-panel.has-items {
+      border-color: rgba(226,179,84,0.3);
+      box-shadow: 0 0 40px rgba(226,179,84,0.06);
+    }
+
+    .bundle-panel-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rl-border);
+      margin-bottom: 16px;
+    }
+    .bundle-panel-header h4 {
+      font-size: 16px; margin: 0;
+      background: linear-gradient(135deg, var(--rl-gold), var(--rl-cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .bundle-count-pill {
+      background: var(--rl-gold);
+      color: #211400;
+      font-size: 11px; font-weight: 800;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 26px; text-align: center;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      display: inline-block;
+    }
+    .bundle-count-pill.bump { transform: scale(1.45); }
+
+    .bundle-items-scroll {
+      min-height: 100px; max-height: 210px;
+      overflow-y: auto; margin-bottom: 16px;
+    }
+    .bundle-items-scroll::-webkit-scrollbar { width: 4px; }
+    .bundle-items-scroll::-webkit-scrollbar-track { background: transparent; }
+    .bundle-items-scroll::-webkit-scrollbar-thumb { background: var(--rl-border); border-radius: 4px; }
+
+    .bundle-empty {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 28px 0; color: var(--rl-muted);
+      gap: 8px; text-align: center;
+    }
+    .bundle-empty i { font-size: 28px; opacity: 0.35; }
+    .bundle-empty p { font-size: 12.5px; margin: 0; line-height: 1.55; }
+
+    .bundle-line {
+      display: flex; align-items: center;
+      gap: 9px; padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      animation: lineIn 0.38s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes lineIn {
+      from { opacity: 0; transform: translateX(-14px) scale(0.95); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes lineOut {
+      to { opacity: 0; transform: translateX(14px) scale(0.9); max-height: 0; padding: 0; }
+    }
+    .bundle-line-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--rl-gold); flex-shrink: 0;
+      box-shadow: 0 0 6px rgba(226,179,84,0.5);
+    }
+    .bundle-line-name {
+      flex: 1; font-size: 12.5px;
+      font-weight: 600; color: var(--rl-text);
+    }
+    .bundle-line-price {
+      font-size: 12.5px; font-weight: 700;
+      color: var(--rl-gold);
+    }
+    .bundle-line-del {
+      background: none; border: none;
+      color: var(--rl-muted); cursor: pointer;
+      font-size: 14px; padding: 2px 4px;
+      border-radius: 4px; line-height: 1;
+      transition: color 0.2s ease;
+    }
+    .bundle-line-del:hover { color: #ef5350; }
+
+    /* Discount bar */
+    .bundle-disc-track {
+      height: 4px; background: var(--rl-border);
+      border-radius: 999px; overflow: hidden;
+      margin-bottom: 7px;
+    }
+    .bundle-disc-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rl-gold), var(--rl-cyan));
+      border-radius: 999px; width: 0%;
+      transition: width 0.55s cubic-bezier(0.16,1,0.3,1);
+    }
+    .bundle-disc-label {
+      font-size: 11.5px; color: var(--rl-muted);
+      font-weight: 600; margin-bottom: 16px;
+      transition: color 0.3s ease;
+    }
+    .bundle-disc-label.earned { color: #4caf50; }
+
+    /* Total row */
+    .bundle-total-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius-sm);
+      padding: 14px 16px; margin-bottom: 16px;
+    }
+    .bundle-total-left { display: flex; flex-direction: column; gap: 2px; }
+    .bundle-total-lbl {
+      font-size: 10.5px; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--rl-muted);
+      font-weight: 700;
+    }
+    .bundle-savings-txt {
+      font-size: 11px; color: #4caf50;
+      font-weight: 700; min-height: 14px;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .bundle-savings-txt.visible { opacity: 1; }
+    .bundle-grand-total {
+      font-size: 26px; font-weight: 900;
+      color: var(--rl-gold); line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* CTA button state */
+    .bundle-cta {
+      opacity: 0.38;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      justify-content: center;
+      width: 100%;
+    }
+    .bundle-cta.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 1060px) {
+      .bundle-layout { grid-template-columns: 1fr 330px; }
+    }
+    @media (max-width: 860px) {
+      .bundle-layout { grid-template-columns: 1fr; }
+      .bundle-summary-panel { position: static; }
+      .bundle-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .bundle-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ============================================
+       ANIMATED PRODUCT FILTER
+    ============================================ */
+    #shopGrid [data-category] {
+      transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.16,1,0.3,1);
+    }
+    #shopGrid [data-category].filter-hiding {
+      opacity: 0;
+      transform: scale(0.9) translateY(10px);
+      pointer-events: none;
+    }
+    #shopGrid [data-category].filter-hidden {
+      display: none;
+    }
+
+    /* ============================================
+       FLOATING BUNDLE FAB
+    ============================================ */
+    .bundle-fab {
+      position: fixed;
+      bottom: 32px; right: 28px;
+      z-index: 1050;
+      display: flex; align-items: center; gap: 10px;
+      padding: 13px 20px;
+      background: linear-gradient(135deg, var(--rl-gold), #f5d48a);
+      color: #211400; border: none;
+      border-radius: 999px;
+      font-size: 14px; font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(226,179,84,0.4), 0 2px 8px rgba(0,0,0,0.18);
+      transform: translateY(90px) scale(0.85);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease, box-shadow 0.25s ease;
+      pointer-events: none;
+    }
+    .bundle-fab.visible {
+      transform: translateY(0) scale(1);
+      opacity: 1; pointer-events: auto;
+    }
+    .bundle-fab:hover {
+      box-shadow: 0 14px 44px rgba(226,179,84,0.55);
+      transform: translateY(-3px) scale(1.03);
+    }
+    .bundle-fab-badge {
+      background: #211400; color: var(--rl-gold);
+      border-radius: 999px; font-size: 11px; font-weight: 900;
+      padding: 2px 9px; min-width: 22px;
+      text-align: center; display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .bundle-fab-badge.pop { transform: scale(1.55); }
+
+    /* ============================================
+       3D FLIP CARE CARDS
+    ============================================ */
+    .shop-care-flip {
+      height: 210px;
+      perspective: 900px;
+      cursor: pointer;
+    }
+    .shop-care-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.62s cubic-bezier(0.4,0,0.2,1);
+    }
+    .shop-care-flip:hover .shop-care-inner,
+    .shop-care-flip.flipped .shop-care-inner {
+      transform: rotateY(180deg);
+    }
+    .shop-care-front,
+    .shop-care-back {
+      position: absolute; inset: 0;
+      border-radius: var(--rl-radius);
+      padding: 28px 22px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .shop-care-front {
+      background: var(--rl-soft);
+      border: 1px solid var(--rl-border);
+      transition: border-color 0.3s ease;
+    }
+    .shop-care-flip:hover .shop-care-front { border-color: var(--rl-gold); }
+    .shop-care-front .bi {
+      font-size: 32px; color: var(--rl-gold);
+      display: block; margin-bottom: 12px;
+    }
+    .shop-care-front h4 { font-size: 16px; margin-bottom: 6px; }
+    .shop-care-hint {
+      font-size: 10.5px; color: var(--rl-muted);
+      margin: 4px 0 0; text-transform: uppercase;
+      letter-spacing: 0.8px; font-weight: 700; opacity: 0.65;
+    }
+    .shop-care-back {
+      background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(226,179,84,0.06));
+      border: 1.5px solid var(--rl-cyan);
+      box-shadow: inset 0 0 24px rgba(0,229,255,0.06);
+      transform: rotateY(180deg);
+    }
+    .shop-care-back-icon {
+      font-size: 22px; color: var(--rl-cyan);
+      display: block; margin-bottom: 10px;
+    }
+    .shop-care-back p {
+      color: var(--rl-text); font-size: 13.5px;
+      line-height: 1.75; margin: 0;
+    }
+
+    /* ============================================
+       REVIEW HUB - ANIMATED TRANSITIONS
+    ============================================ */
+    #rl-review-content {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    #rl-review-content.fade-out {
+      opacity: 0; transform: translateX(-16px);
+    }
+    #rl-review-content.fade-in {
+      animation: revSlideIn 0.35s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    #rl-review-image {
+      width: 150px !important;
+      height: 150px !important;
+      border-radius: 18px !important;
+      object-fit: cover;
+      object-position: center top;
+      border: 2px solid var(--rl-cyan) !important;
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.24), 0 0 18px rgba(0,229,255,0.18);
+      transition: opacity 0.2s ease, transform 0.25s ease;
+    }
+    #rl-review-content.fade-in #rl-review-image {
+      transform: scale(1.01);
+    }
+    @media (max-width: 576px) {
+      #rl-review-image {
+        width: 118px !important;
+        height: 118px !important;
+        border-radius: 16px !important;
+      }
+    }
+    @keyframes revSlideIn {
+      from { opacity: 0; transform: translateX(16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    #rl-review-stars span {
+      display: inline-block;
+      transition: color 0.15s ease;
+    }
+    #rl-review-stars span.star-pop {
+      animation: starPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes starPop {
+      from { transform: scale(0.3) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ============================================
+       SUCCESS TOAST
+    ============================================ */
+    .rl-toast {
+      position: fixed;
+      bottom: 32px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      z-index: 2000;
+      background: linear-gradient(135deg, #1a2e1a, #0d230d);
+      border: 1.5px solid #4caf50;
+      color: #c8e6c9;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 14px; font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+      pointer-events: none;
+      box-shadow: 0 8px 32px rgba(76,175,80,0.2);
+      white-space: nowrap;
+    }
+    .rl-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .rl-toast .bi { font-size: 16px; color: #4caf50; }
+
+    /* ============================================
+       SCROLL REVEAL
+    ============================================ */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       HERO BADGE BOUNCE-IN
+    ============================================ */
+    .rl-hero-badges span {
+      opacity: 0;
+      animation: badgeBounceIn 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .rl-hero-badges span:nth-child(1) { animation-delay: 0.55s; }
+    .rl-hero-badges span:nth-child(2) { animation-delay: 0.72s; }
+    .rl-hero-badges span:nth-child(3) { animation-delay: 0.90s; }
+    @keyframes badgeBounceIn {
+      from { opacity: 0; transform: scale(0.55) translateY(14px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Clear-all button in bundle panel */
+    .bundle-clear-btn {
+      background: none; border: none;
+      color: var(--rl-muted); font-size: 11px;
+      font-weight: 700; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 0; transition: color 0.2s ease;
+      display: none;
+    }
+    .bundle-clear-btn:hover { color: #ef5350; }
+    .bundle-clear-btn.visible { display: inline; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="rl-navbar navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand rl-brand" href="index.html">
+      <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux logo" width="310" height="90">
+    </a>
+    <button class="navbar-toggler rl-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#rlNav" aria-controls="rlNav" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list" style="color:var(--rl-text);font-size:22px;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="rlNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown"><a class="nav-link rl-nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Home</a><ul class="dropdown-menu rl-dropdown-menu"><li><a class="dropdown-item rl-dropdown-item" href="index.html">Home 1</a></li><li><a class="dropdown-item rl-dropdown-item" href="home-2.html">Home 2</a></li></ul></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="custom-orders.html">Custom Orders</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link active" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="pricing.html">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="rl-nav-actions">
+        <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">&#9728;</button>
+        <a href="login.html" class="rl-login-btn"><i class="bi bi-person-circle me-1"></i> Login</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="rl-hero" style="background-image: url('assets/images/shop-hero.jpg');">
+  <div class="rl-hero-overlay"></div>
+  <div class="container rl-hero-inner text-center">
+    <span class="rl-eyebrow">ResinLux Shop</span>
+    <h1 class="rl-h1">Premium Resin Art,<br>Ready to Ship</h1>
+    <p class="rl-hero-sub">Handcrafted coasters, trays, pendants and gift sets - curated from our most popular designs and ready for immediate dispatch.</p>
+    <div class="rl-hero-badges mb-4">
+      <span><i class="bi bi-truck me-1"></i> Ships Across India</span>
+      <span><i class="bi bi-box-seam me-1"></i> White-Glove Packaging</span>
+      <span><i class="bi bi-arrow-return-left me-1"></i> 7-Day Returns</span>
+    </div>
+    <div class="rl-hero-actions">
+      <a href="#products" class="rl-btn rl-btn-primary"><i class="bi bi-arrow-down"></i> Browse Products</a>
+      <a href="custom-orders.html" class="rl-btn rl-btn-ghost"><i class="bi bi-pencil-square"></i> Commission Custom</a>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY FILTER + PRODUCTS -->
+<section class="rl-section" id="products">
+  <div class="container">
+    <div class="rl-section-title" data-reveal>
+      <span class="rl-eyebrow">Product Catalog</span>
+      <h2>Shop by Category</h2>
+    </div>
+    <div class="rl-filter-tabs" id="shopFilters">
+      <button class="rl-filter-btn active" data-filter="all">All Products</button>
+      <button class="rl-filter-btn" data-filter="coaster">Coasters</button>
+      <button class="rl-filter-btn" data-filter="tray">Trays</button>
+      <button class="rl-filter-btn" data-filter="jewelry">Jewelry</button>
+      <button class="rl-filter-btn" data-filter="gift">Gift Sets</button>
+    </div>
+
+    <div class="row g-4" id="shopGrid">
+
+      <div class="col-12 col-md-6 col-lg-3" data-category="coaster" data-reveal style="transition-delay:0s">
+        <div class="shop-product-card">
+          <div class="shop-badge-new">New</div>
+          <div class="shop-product-img">
+            <img src="assets/images/shop-coaster.jpg" alt="Ocean swirl coasters" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>UV-stabilized clear epoxy</li>
+                <li>Ocean swirl pigment blend</li>
+                <li>Food-safe surface coat</li>
+                <li>Set of 4 - 10cm diameter</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Ocean Swirl Coasters</h3>
+            <p>Set of 4 - teal and white marble effect with a high-gloss finish.</p>
+            <span class="shop-product-price">₹1,499</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-category="tray" data-reveal style="transition-delay:0.1s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop-tray.jpg" alt="Serving tray" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Hard maple handles</li>
+                <li>Gold mica and pearl swirl</li>
+                <li>Hardwax oil food-safe coat</li>
+                <li>38 x 24cm oval tray</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Gold &amp; Pearl Serving Tray</h3>
+            <p>Oval serving tray - gold and pearl swirl with natural wood handle insets.</p>
+            <span class="shop-product-price">₹3,299</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-category="jewelry" data-reveal style="transition-delay:0.2s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop-pendant.jpg" alt="Resin pendant" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>UV crystal resin</li>
+                <li>Dried florals embedded</li>
+                <li>18k gold-plated bail</li>
+                <li>Comes with 45cm chain</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Botanical Floral Pendant</h3>
+            <p>Dried florals embedded in crystal-clear resin - oval teardrop form on gold chain.</p>
+            <span class="shop-product-price">₹899</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-category="gift" data-reveal style="transition-delay:0.3s">
+        <div class="shop-product-card">
+          <div class="shop-badge-sale">Bundle</div>
+          <div class="shop-product-img">
+            <img src="assets/images/shop-gift-box.jpg" alt="Gift box" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>4 coasters + 1 tray</li>
+                <li>Matching colour palette</li>
+                <li>Premium gift box included</li>
+                <li>Ribbon &amp; greeting card</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Housewarming Gift Set</h3>
+            <p>4 matching coasters + 1 serving tray in coordinating resin palette. Boxed for gifting.</p>
+            <span class="shop-product-price">₹4,299</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-category="coaster" data-reveal style="transition-delay:0s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_coaster.jpg" alt="Geode coasters" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Geode crystal effect</li>
+                <li>Rose quartz pigment</li>
+                <li>Set of 6 - 10cm round</li>
+                <li>Velvet backing included</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Geode Rose Quartz Coasters</h3>
+            <p>Set of 6 - geode agate pattern in rose quartz pigment. Velvet-backed.</p>
+            <span class="shop-product-price">₹2,499</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3" data-category="jewelry" data-reveal style="transition-delay:0.1s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_resin_jewell.jpg" alt="Earring set" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>UV stable crystal resin</li>
+                <li>24k gold foil flakes</li>
+                <li>Stainless steel posts</li>
+                <li>Teardrop form - 3cm</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Gold Foil Drop Earrings</h3>
+            <p>Teardrop earrings with suspended 24k gold foil in crystal clear resin.</p>
+            <span class="shop-product-price">₹699</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Ocean Wave Cheeseboard -->
+      <div class="col-12 col-md-6 col-lg-3" data-category="tray" data-reveal style="transition-delay:0.2s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/coffee-ocean.jpg" alt="Ocean Wave Cheeseboard" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Live-edge acacia wood</li>
+                <li>Multi-layered resin waves</li>
+                <li>Food-safe oil finish</li>
+                <li>40x15cm dimensions</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Ocean Wave Cheeseboard</h3>
+            <p>Ocean waves on a live-edge acacia wood serving board. Perfect for displays.</p>
+            <span class="shop-product-price">₹2,199</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Pressed Flower Ring Holder -->
+      <div class="col-12 col-md-6 col-lg-3" data-category="jewelry" data-reveal style="transition-delay:0.3s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/home-2-category-jewelry.jpg" alt="Pressed Flower Ring Holder" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Clear UV art epoxy</li>
+                <li>Real pressed hydrangeas</li>
+                <li>Hexagonal geometric form</li>
+                <li>Solid gold-flake accents</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Pressed Flower Ring Holder</h3>
+            <p>Geometric resin ring cone embedded with real pressed hydrangeas and gold flakes.</p>
+            <span class="shop-product-price">₹799</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ART SUPPLIES & RAW MATERIALS -->
+<section class="rl-section rl-section-alt" id="art-materials">
+  <div class="container">
+    <div class="rl-section-title" data-reveal>
+      <span class="rl-eyebrow">DIY &amp; Craft Supplies</span>
+      <h2>Art Materials &amp; Raw Bases</h2>
+      <p style="color:var(--rl-muted);font-size:15px;margin-top:8px;">Premium raw ingredients, professional tools, and bases used by our own studio artisans to create your masterpieces.</p>
+    </div>
+
+    <div class="row g-4 rl-center-odd" id="materialsGrid">
+
+      <!-- 1. Resin Pigments -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_pigments.png" alt="Resin Pigments" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>52+ shades available</li>
+                <li>High-concentration mica</li>
+                <li>UV resistant &amp; non-toxic</li>
+                <li>25g jars - hand mixed</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Resin Pigments</h3>
+            <p>Vibrant mica powder and liquid colorants for deep color depth and metallic swirl effects.</p>
+            <span class="shop-product-price">₹499</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Concrete Art Material -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0.1s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_concrete.png" alt="Concrete Art Material" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Ultra-fine craft cement</li>
+                <li>Rapid curing formulation</li>
+                <li>Grey/White base colors</li>
+                <li>1kg moisture-proof pack</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Concrete Art Material</h3>
+            <p>Specially formulated ultra-fine cement for creating combined resin-concrete coasters and trays.</p>
+            <span class="shop-product-price">₹349</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. MDF ART BASE -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0.2s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_mdf_base.png" alt="MDF ART BASE" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>FSC-certified hardwood</li>
+                <li>Pre-sanded smooth surface</li>
+                <li>8mm thickness - warp proof</li>
+                <li>Round &amp; Geode shapes</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>MDF ART BASE</h3>
+            <p>Sturdy, warp-resistant MDF bases pre-cut into circles, rectangles, and custom geode slabs.</p>
+            <span class="shop-product-price">₹299</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Resin Stone -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_stones.png" alt="Resin Stone" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Natural quartz crystals</li>
+                <li>Gold-foil glass chunks</li>
+                <li>Multi-colored pebbles</li>
+                <li>150g sorted organizer jars</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Resin Stone</h3>
+            <p>Hand-sorted glass stones, gold quartz flakes, and natural crystals to add 3D textures to geode art.</p>
+            <span class="shop-product-price">₹399</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Stands and Handles -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0.1s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_stands_handles.png" alt="Stands and Handles" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Solid brass &amp; aluminum</li>
+                <li>Gold/Black premium finish</li>
+                <li>Mounting screws included</li>
+                <li>10cm - 15cm lengths</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Stands and Handles</h3>
+            <p>Premium metallic handles and easel stands to complete your custom serving trays and clocks.</p>
+            <span class="shop-product-price">₹599</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Clock -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0.2s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_clock_parts.png" alt="Clock" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>High-torque silent sweep</li>
+                <li>Gold-plated metal hands</li>
+                <li>Roman &amp; Arabic numerals</li>
+                <li>Fits 20cm to 40cm dials</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Clock</h3>
+            <p>Silent clock mechanisms, sleek metal hands, and luxury numeral sets for DIY timepieces.</p>
+            <span class="shop-product-price">₹699</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Resin Tools -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_resin_tools.png" alt="Resin Tools" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>Dual-temp heat gun (300W)</li>
+                <li>Reusable silicone stirrers</li>
+                <li>Leveling bubble tool</li>
+                <li>Nitrile gloves &amp; cups set</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Resin Tools</h3>
+            <p>A complete toolset including heat guns, silicone mixers, bubble levelers, and safety gear.</p>
+            <span class="shop-product-price">₹1,299</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Silicone Mould -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0.1s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_silicone_mould.jpg" alt="Silicone Mould" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>High-tear food-grade silicon</li>
+                <li>Smooth high-gloss interior</li>
+                <li>Multiple shapes (Hex, Round)</li>
+                <li>Reusable up to 50 pours</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Silicone Mould</h3>
+            <p>Tear-resistant, flexible silicone moulds for casting flawless coasters, jewelry dish trays, and pyramids.</p>
+            <span class="shop-product-price">₹449</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Resin -->
+      <div class="col-12 col-md-6 col-lg-4" data-reveal style="transition-delay:0.2s">
+        <div class="shop-product-card">
+          <div class="shop-product-img">
+            <img src="assets/images/shop_raw_resin.jpg" alt="Resin" loading="lazy">
+            <div class="shop-spec-overlay">
+              <ul class="shop-spec-list">
+                <li>3:1 mixing weight ratio</li>
+                <li>Crystal-clear UV stable</li>
+                <li>Food-safe &amp; Low-VOC</li>
+                <li>1.3kg kit (Part A + Part B)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="shop-product-body">
+            <h3>Resin</h3>
+            <p>Professional grade, non-yellowing casting epoxy with self-leveling and bubble-release chemistry.</p>
+            <span class="shop-product-price">₹1,899</span>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ----------------------------------------------
+     INTERACTIVE BUNDLE BUILDER
+---------------------------------------------- -->
+<section class="rl-section bundle-section" id="bundle-builder">
+  <div class="container">
+    <div class="rl-section-title" data-reveal>
+      <span class="rl-eyebrow">Design Your Set</span>
+      <h2>Build Your Perfect Bundle</h2>
+      <p style="color:var(--rl-muted);font-size:15px;margin-top:8px;">Pick any pieces you love - mix categories, earn instant discounts, and request your curated set in one go.</p>
+    </div>
+
+    <div class="bundle-layout">
+
+      <!-- LEFT: Product Picker -->
+      <div>
+        <div class="bundle-grid" id="bundleGrid"></div>
+      </div>
+
+      <!-- RIGHT: Live Summary Panel -->
+      <div class="bundle-summary-panel" id="bundleSummaryPanel">
+
+        <div class="bundle-panel-header">
+          <h4><i class="bi bi-box-seam me-1"></i>Your Bundle</h4>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button class="bundle-clear-btn" id="bundleClearBtn" type="button">Clear all</button>
+            <span class="bundle-count-pill" id="bundleCountPill">0 items</span>
+          </div>
+        </div>
+
+        <div class="bundle-items-scroll" id="bundleItemsScroll">
+          <div class="bundle-empty" id="bundleEmptyState">
+            <i class="bi bi-cursor-fill"></i>
+            <p>Click any product tile<br>to start building your set</p>
+          </div>
+        </div>
+
+        <!-- Discount progress -->
+        <div class="bundle-disc-track">
+          <div class="bundle-disc-fill" id="bundleDiscFill"></div>
+        </div>
+        <p class="bundle-disc-label" id="bundleDiscLabel">Add 3+ items for 10% off</p>
+
+        <!-- Total row -->
+        <div class="bundle-total-row">
+          <div class="bundle-total-left">
+            <span class="bundle-total-lbl">Bundle Total</span>
+            <span class="bundle-savings-txt" id="bundleSavingsTxt"></span>
+          </div>
+          <span class="bundle-grand-total" id="bundleGrandTotal">₹0</span>
+        </div>
+
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary bundle-cta" id="bundleCTA">
+          <i class="bi bi-bag-heart"></i> Request This Bundle
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BESPOKE GIFTING HIGHLIGHT -->
+<section class="rl-section rl-section-bg-process" style="background-image: url('assets/images/home-river-table.jpg');">
+  <div class="container">
+    <div class="shop-gift-split" data-reveal>
+      <div class="shop-gift-img">
+        <img src="assets/images/shop-gift-box1.jpg" alt="Bespoke gifting" loading="lazy">
+      </div>
+      <div class="shop-gift-text">
+        <span class="rl-eyebrow">Bespoke Gifting</span>
+        <h2>The Gift That Can't Be Replicated</h2>
+        <p>Corporate welcome kits, wedding favours, retirement gifts - our bespoke gifting service creates matching resin sets that carry a name, date or custom pigment with meaning.</p>
+        <ul style="list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:8px;">
+          <li style="color:var(--rl-muted);font-size:14px;display:flex;align-items:center;gap:8px;"><i class="bi bi-check-circle-fill" style="color:var(--rl-cyan);"></i> Minimum 5-piece custom orders</li>
+          <li style="color:var(--rl-muted);font-size:14px;display:flex;align-items:center;gap:8px;"><i class="bi bi-check-circle-fill" style="color:var(--rl-cyan);"></i> Custom colour matching from brand palette</li>
+          <li style="color:var(--rl-muted);font-size:14px;display:flex;align-items:center;gap:8px;"><i class="bi bi-check-circle-fill" style="color:var(--rl-cyan);"></i> Branded gift boxes &amp; custom ribbon</li>
+          <li style="color:var(--rl-muted);font-size:14px;display:flex;align-items:center;gap:8px;"><i class="bi bi-check-circle-fill" style="color:var(--rl-cyan);"></i> Bulk pricing available</li>
+        </ul>
+        <a href="contact.html" class="rl-btn rl-btn-primary"><i class="bi bi-chat-dots"></i> Enquire About Gifting</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARE CARDS -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-section-title" data-reveal>
+      <span class="rl-eyebrow">Care &amp; Maintenance</span>
+      <h2>How to Care for Your Piece</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-12 col-md-4" data-reveal style="transition-delay:0s">
+        <div class="shop-care-flip" title="Hover to flip">
+          <div class="shop-care-inner">
+            <div class="shop-care-front">
+              <i class="bi bi-droplet-half"></i>
+              <h4>Cleaning</h4>
+              <p class="shop-care-hint">Hover to learn more ?</p>
+            </div>
+            <div class="shop-care-back">
+              <i class="bi bi-droplet-half shop-care-back-icon"></i>
+              <p>Wipe with a soft, damp cloth. Avoid abrasive scrubbers and harsh chemical cleaners that can dull the high-gloss surface.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4" data-reveal style="transition-delay:0.12s">
+        <div class="shop-care-flip" title="Hover to flip">
+          <div class="shop-care-inner">
+            <div class="shop-care-front">
+              <i class="bi bi-sun"></i>
+              <h4>UV Exposure</h4>
+              <p class="shop-care-hint">Hover to learn more ?</p>
+            </div>
+            <div class="shop-care-back">
+              <i class="bi bi-sun shop-care-back-icon"></i>
+              <p>Our UV-stabilized epoxy resists yellowing for 5+ years in indirect light. Avoid prolonged direct outdoor UV exposure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4" data-reveal style="transition-delay:0.24s">
+        <div class="shop-care-flip" title="Hover to flip">
+          <div class="shop-care-inner">
+            <div class="shop-care-front">
+              <i class="bi bi-thermometer-half"></i>
+              <h4>Heat &amp; Moisture</h4>
+              <p class="shop-care-hint">Hover to learn more ?</p>
+            </div>
+            <div class="shop-care-back">
+              <i class="bi bi-thermometer-half shop-care-back-icon"></i>
+              <p>Use coasters under hot cups - epoxy is heat-resistant to 60&deg;C. Do not place hot pots directly on resin surfaces.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE REVIEW HUB -->
+<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/home-coasters.jpg');">
+  <div class="container">
+    <div class="rl-section-title" data-reveal>
+      <span class="rl-eyebrow">Client Reviews</span>
+      <h2>What Clients Are Saying</h2>
+    </div>
+    
+    <!-- Centered Stepper Tabs -->
+    <div class="d-flex justify-content-center" style="margin-bottom: 32px;" data-reveal>
+      <div id="rl-review-tabs" class="rl-review-tabs" style="margin-bottom: 0;">
+        <button class="rl-review-tab-btn active" data-index="0">River Tables</button>
+        <button class="rl-review-tab-btn" data-index="1">Coasters &amp; Trays</button>
+        <button class="rl-review-tab-btn" data-index="2">Jewelry</button>
+      </div>
+    </div>
+
+    <div class="rl-review-portal" data-reveal>
+
+      <!-- Left: Review Display -->
+      <div class="rl-form-card">
+        <div id="rl-review-content">
+          <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+            <img id="rl-review-image" src="assets/images/male1.jpg" alt="Review" style="width:120px;height:100px;border-radius:var(--rl-radius-sm);flex-shrink:0;object-fit:cover;" loading="lazy">
+            <div style="flex:1;min-width:180px;">
+              <span class="rl-review-stars" id="rl-review-stars"><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span></span>
+              <h4 id="rl-review-title" style="font-size:18px;margin:6px 0;">"The center of conversations"</h4>
+              <p id="rl-review-quote" style="color:var(--rl-muted);font-size:14px;line-height:1.7;margin:0;">Our bespoke walnut coffee table completely changed the mood of our studio flat. The deep ocean river shines under natural noon sunlight.</p>
+              <p id="rl-review-author" style="color:var(--rl-cyan);font-weight:700;font-size:13px;margin-top:10px;margin-bottom:0;">&mdash; Rajesh K., Bangalore</p>
+            </div>
+          </div>
+          <div class="rl-telemetry-grid">
+            <div class="rl-telemetry-item"><label>Product Category</label><span id="rl-review-cat">Living Room Rivers</span></div>
+            <div class="rl-telemetry-item"><label>Timber Type</label><span id="rl-tel-timber">Select Walnut</span></div>
+            <div class="rl-telemetry-item"><label>Pour Spec</label><span id="rl-tel-pour">Walnut Slab / 750ml Teal Flow</span></div>
+            <div class="rl-telemetry-item"><label>Polish Type</label><span id="rl-tel-polish">10,000-grit wet diamond polish</span></div>
+            <div class="rl-telemetry-item"><label>Status</label><span id="rl-tel-cure">100% Cured &amp; Certified</span></div>
+            <div class="rl-telemetry-item"><label>Lead Artisan</label><span id="rl-tel-artisan">R. K. Sharma (Lead Caster)</span></div>
+          </div>
+          
+          <!-- Premium Craftsmanship Milestones to fill the empty space beautifully -->
+          <div class="rl-review-milestones" style="margin-top: 18px; padding: 18px; background: rgba(255,255,255,0.02); border: 1px dashed var(--rl-border); border-radius: var(--rl-radius-sm); box-shadow: inset 0 0 12px rgba(226,179,84,0.05);">
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--rl-gold); font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <i class="bi bi-patch-check-fill" style="color: var(--rl-gold); font-size: 14px;"></i> Craftsmanship &amp; Quality Checklist
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12.5px; color: var(--rl-muted);">
+              <div><i class="bi bi-check2-circle" style="color: var(--rl-cyan); margin-right: 4px;"></i> Premium Timber Sourced</div>
+              <div><i class="bi bi-check2-circle" style="color: var(--rl-cyan); margin-right: 4px;"></i> Custom Pigment Blending</div>
+              <div><i class="bi bi-check2-circle" style="color: var(--rl-cyan); margin-right: 4px;"></i> UV-Resistant Deep Pour</div>
+              <div><i class="bi bi-check2-circle" style="color: var(--rl-cyan); margin-right: 4px;"></i> Precision Slab Leveling</div>
+              <div><i class="bi bi-check2-circle" style="color: var(--rl-cyan); margin-right: 4px;"></i> Multi-grit Diamond Polish</div>
+              <div><i class="bi bi-check2-circle" style="color: var(--rl-cyan); margin-right: 4px;"></i> 100% Cured &amp; Certified</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;border-top:1px solid var(--rl-border);padding-top:12px;">
+            <span style="font-size:11px;color:var(--rl-muted);">Commission Code:</span>
+            <code id="rl-tel-code" style="font-size:12px;color:var(--rl-cyan);">RLX-WN-9804</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Submit Review Form -->
+      <div class="rl-form-card">
+        <h4 style="font-size:18px;margin-bottom:16px;background:linear-gradient(135deg,var(--rl-gold),var(--rl-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Share Your Experience</h4>
+        <form id="rl-review-form">
+          <label for="rl-form-name">Your Name</label>
+          <input class="rl-input" type="text" id="rl-form-name" placeholder="Full name" required>
+          <label for="rl-form-city">City</label>
+          <input class="rl-input" type="text" id="rl-form-city" placeholder="City, State" required>
+          <label for="rl-form-product">Product / Commission</label>
+          <select class="rl-input" id="rl-form-product">
+            <option>Ocean Swirl Coasters</option>
+            <option>River Dining Table</option>
+            <option>Botanical Pendant</option>
+            <option>Serving Tray</option>
+            <option>Gift Box Set</option>
+            <option>Custom Commission</option>
+          </select>
+          <label>Your Rating</label>
+          <div class="rl-star-selector" id="rl-form-stars">
+            <span data-value="1" class="active">&#9733;</span>
+            <span data-value="2" class="active">&#9733;</span>
+            <span data-value="3" class="active">&#9733;</span>
+            <span data-value="4" class="active">&#9733;</span>
+            <span data-value="5" class="active">&#9733;</span>
+          </div>
+          <label for="rl-form-text">Your Review</label>
+          <textarea class="rl-input" id="rl-form-text" placeholder="Tell us about your piece and experience" required></textarea>
+          <button type="submit" class="rl-btn rl-btn-primary w-100">
+            <i class="bi bi-send"></i> Submit Review
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-cta-panel">
+      <span class="rl-eyebrow">Can't Find It?</span>
+      <h2>Commission a Custom Piece</h2>
+      <p>If our ready-made catalog doesn't have exactly what you envision, commission a bespoke piece - designed entirely around your specifications.</p>
+      <div class="rl-hero-actions">
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Start Commission</a>
+        <a href="gallery.html" class="rl-btn rl-btn-ghost"><i class="bi bi-images"></i> Gallery</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rl-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-lg-4">
+        <div class="rl-footer-brand"><img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90"></div>
+        <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. River tables, jewelry, coasters and more.</p>
+        <div class="rl-social mt-3"><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a></div>
+      </div>
+      <div class="col-6 col-lg-2"><h5>Studio</h5><a href="about.html">About Us</a><a href="services.html">Services</a><a href="gallery.html">Gallery</a><a href="process.html">Our Process</a></div>
+      <div class="col-6 col-lg-2"><h5>Shop</h5><a href="shop.html">All Products</a><a href="custom-orders.html">Custom Orders</a><a href="pricing.html">Pricing</a><a href="pigment-studio.html">Pigment Studio</a></div>
+      <div class="col-6 col-lg-2"><h5>Account</h5><a href="dashboard.html">Dashboard</a><a href="login.html">Login</a><a href="signup.html">Sign Up</a><a href="contact.html">Contact</a></div>
+      <div class="col-6 col-lg-2">
+        <h5>Studio Hours</h5>
+        <p style="font-size:13px;line-height:2.0;margin:0;">
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-clock text-gold me-2"></i>Mon-Sat: 10am-7pm</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-calendar3 text-gold me-2"></i>Sunday: Appointment</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-box-seam text-gold me-2"></i>Pickup: 24h notice</span>
+          <span class="d-flex align-items-center"><i class="bi bi-chat-dots text-gold me-2"></i>Consultations</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+</footer>
+
+<!-- FLOATING BUNDLE FAB -->
+<button class="bundle-fab" id="bundleFab" aria-label="View your bundle" onclick="document.getElementById('bundle-builder').scrollIntoView({behavior:'smooth'})">
+  <i class="bi bi-bag-heart-fill"></i>
+  <span id="bundleFabLabel">View bundle</span>
+  <span class="bundle-fab-badge" id="bundleFabBadge">0</span>
+</button>
+
+<!-- REVIEW SUCCESS TOAST -->
+<div class="rl-toast" id="reviewToast" role="status" aria-live="polite">
+  <i class="bi bi-check-circle-fill"></i>
+  <span>Review submitted - thank you! &#9733;</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // -------------------------------------------------------
+  // ANIMATED PRODUCT FILTER
+  // -------------------------------------------------------
+  document.querySelectorAll('#shopFilters .rl-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#shopFilters .rl-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.filter;
+      const items = document.querySelectorAll('#shopGrid [data-category]');
+
+      // Phase 1: fade-out items that should hide
+      const toHide = [], toShow = [];
+      items.forEach(item => {
+        if (cat === 'all' || item.dataset.category === cat) toShow.push(item);
+        else toHide.push(item);
+      });
+
+      toHide.forEach(item => {
+        item.classList.remove('filter-hidden');
+        item.classList.add('filter-hiding');
+      });
+
+      // Phase 2: after transition, hide completely and show the rest
+      setTimeout(() => {
+        toHide.forEach(item => {
+          item.classList.add('filter-hidden');
+          item.classList.remove('filter-hiding');
+        });
+        toShow.forEach(item => {
+          item.classList.remove('filter-hidden', 'filter-hiding');
+        });
+      }, 330);
+    });
+  });
+
+  // -------------------------------------------------------
+  // INTERACTIVE BUNDLE BUILDER
+  // -------------------------------------------------------
+  const BUNDLE_PRODUCTS = [
+    { id: 'p1', name: 'Ocean Swirl Coasters',        price:  1499, img: 'assets/images/bundle_product1.jpg' },
+    { id: 'p2', name: 'Gold & Pearl Serving Tray',   price:  3299, img: 'assets/images/bundle_product2.jpg' },
+    { id: 'p3', name: 'Botanical Floral Pendant',    price:   899, img: 'assets/images/bundle_product3.jpg' },
+    { id: 'p4', name: 'Geode Rose Quartz Coasters',  price:  2499, img: 'assets/images/bundle_product4.jpg' },
+    { id: 'p5', name: 'Gold Foil Drop Earrings',     price:   699, img: 'assets/images/bundle_product5.jpg' },
+    { id: 'p6', name: 'River Table Centrepiece',     price: 24999, img: 'assets/images/bundle_product6.jpg' },
+  ];
+
+  const bundleGrid         = document.getElementById('bundleGrid');
+  const bundleSummaryPanel = document.getElementById('bundleSummaryPanel');
+  const bundleItemsScroll  = document.getElementById('bundleItemsScroll');
+  const bundleEmptyState   = document.getElementById('bundleEmptyState');
+  const bundleCountPill    = document.getElementById('bundleCountPill');
+  const bundleDiscFill     = document.getElementById('bundleDiscFill');
+  const bundleDiscLabel    = document.getElementById('bundleDiscLabel');
+  const bundleSavingsTxt   = document.getElementById('bundleSavingsTxt');
+  const bundleGrandTotal   = document.getElementById('bundleGrandTotal');
+  const bundleCTA          = document.getElementById('bundleCTA');
+  const bundleClearBtn     = document.getElementById('bundleClearBtn');
+  const bundleFab          = document.getElementById('bundleFab');
+  const bundleFabBadge     = document.getElementById('bundleFabBadge');
+  const bundleFabLabel     = document.getElementById('bundleFabLabel');
+
+  let selectedIds = new Set();
+  let animatedTotal = 0, rafId = null;
+
+  // --- Render product tiles ---
+  if (bundleGrid) {
+    BUNDLE_PRODUCTS.forEach(p => {
+      const tile = document.createElement('div');
+      tile.className = 'bundle-tile';
+      tile.dataset.pid = p.id;
+      tile.setAttribute('role', 'button');
+      tile.setAttribute('aria-pressed', 'false');
+      tile.innerHTML = `
+        <div class="bundle-tile-img">
+          <img src="${p.img}" alt="${p.name}" loading="lazy">
+          <div class="bundle-tile-check"><div class="bundle-check-circle">&#10003;</div></div>
+        </div>
+        <div class="bundle-tile-body">
+          <p class="bundle-tile-name">${p.name}</p>
+          <span class="bundle-tile-price">₹${p.price.toLocaleString('en-IN')}</span>
+        </div>`;
+      tile.addEventListener('click', () => toggleBundle(p, tile));
+      bundleGrid.appendChild(tile);
+    });
+  }
+
+  // --- Clear all ---
+  if (bundleClearBtn) {
+    bundleClearBtn.addEventListener('click', () => {
+      selectedIds.forEach(id => {
+        const tile = bundleGrid && bundleGrid.querySelector(`[data-pid="${id}"]`);
+        if (tile) { tile.classList.remove('selected'); tile.setAttribute('aria-pressed','false'); }
+      });
+      selectedIds.clear();
+      if (bundleItemsScroll) {
+        bundleItemsScroll.querySelectorAll('.bundle-line').forEach(l => l.remove());
+      }
+      refreshBundleSummary();
+    });
+  }
+
+  function toggleBundle(product, tile) {
+    if (selectedIds.has(product.id)) {
+      selectedIds.delete(product.id);
+      tile.classList.remove('selected');
+      tile.setAttribute('aria-pressed', 'false');
+      const line = bundleItemsScroll && bundleItemsScroll.querySelector(`[data-line-id="${product.id}"]`);
+      if (line) { line.style.animation = 'lineOut 0.22s ease forwards'; setTimeout(() => line.remove(), 220); }
+    } else {
+      selectedIds.add(product.id);
+      tile.classList.add('selected');
+      tile.setAttribute('aria-pressed', 'true');
+      spawnBundleLine(product);
+    }
+    refreshBundleSummary();
+  }
+
+  function spawnBundleLine(product) {
+    const line = document.createElement('div');
+    line.className = 'bundle-line';
+    line.dataset.lineId = product.id;
+    line.innerHTML = `
+      <span class="bundle-line-dot"></span>
+      <span class="bundle-line-name">${product.name}</span>
+      <span class="bundle-line-price">₹${product.price.toLocaleString('en-IN')}</span>
+      <button class="bundle-line-del" aria-label="Remove"><i class="bi bi-x"></i></button>`;
+    line.querySelector('.bundle-line-del').addEventListener('click', e => {
+      e.stopPropagation();
+      selectedIds.delete(product.id);
+      const tile = bundleGrid && bundleGrid.querySelector(`[data-pid="${product.id}"]`);
+      if (tile) { tile.classList.remove('selected'); tile.setAttribute('aria-pressed','false'); }
+      line.style.animation = 'lineOut 0.22s ease forwards';
+      setTimeout(() => line.remove(), 220);
+      refreshBundleSummary();
+    });
+    if (bundleItemsScroll) bundleItemsScroll.appendChild(line);
+  }
+
+  function refreshBundleSummary() {
+    const count = selectedIds.size;
+    if (bundleEmptyState) bundleEmptyState.style.display = count === 0 ? 'flex' : 'none';
+    if (bundleClearBtn)  bundleClearBtn.classList.toggle('visible', count > 0);
+
+    if (bundleCountPill) {
+      bundleCountPill.textContent = count + (count === 1 ? ' item' : ' items');
+      bundleCountPill.classList.add('bump');
+      setTimeout(() => bundleCountPill.classList.remove('bump'), 360);
+    }
+
+    let subtotal = 0;
+    selectedIds.forEach(id => { const p = BUNDLE_PRODUCTS.find(x => x.id===id); if(p) subtotal+=p.price; });
+
+    let pct=0, barW=0, labelTxt='', labelEarned=false;
+    if (count===0)      { barW=0;  labelTxt='Add 3+ items for 10% off'; }
+    else if (count===1) { barW=33; labelTxt='Add 2 more for a 5% discount'; }
+    else if (count===2) { pct=5;  barW=66; labelTxt='5% off - add 1 more for 10%!'; labelEarned=true; }
+    else                { pct=10; barW=100;labelTxt='10% bundle discount applied!';  labelEarned=true; }
+
+    if (bundleDiscFill)  bundleDiscFill.style.width = barW+'%';
+    if (bundleDiscLabel) { bundleDiscLabel.textContent=labelTxt; bundleDiscLabel.classList.toggle('earned',labelEarned); }
+
+    const discount = Math.round(subtotal*pct/100);
+    const total    = subtotal - discount;
+    animateGrandTotal(total);
+
+    if (bundleSavingsTxt) {
+      bundleSavingsTxt.textContent = discount>0 ? `You save \u20B9${discount.toLocaleString('en-IN')} (${pct}% off)` : '';
+      bundleSavingsTxt.classList.toggle('visible', discount>0);
+    }
+    if (bundleSummaryPanel) bundleSummaryPanel.classList.toggle('has-items', count>0);
+    if (bundleCTA)          bundleCTA.classList.toggle('active', count>0);
+
+    // --- FAB ---
+    if (bundleFab) {
+      bundleFab.classList.toggle('visible', count>0);
+      if (bundleFabBadge) {
+        bundleFabBadge.textContent = count;
+        bundleFabBadge.classList.add('pop');
+        setTimeout(() => bundleFabBadge.classList.remove('pop'), 360);
+      }
+      if (bundleFabLabel) bundleFabLabel.textContent = count===1?'1 in bundle':`${count} in bundle`;
+    }
+  }
+
+  function animateGrandTotal(target) {
+    if (rafId) cancelAnimationFrame(rafId);
+    const from=animatedTotal, t0=performance.now(), dur=420;
+    function step(now) {
+      const p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3);
+      animatedTotal=Math.round(from+(target-from)*e);
+      if(bundleGrandTotal) bundleGrandTotal.textContent='\u20B9'+animatedTotal.toLocaleString('en-IN');
+      if(p<1) rafId=requestAnimationFrame(step); else animatedTotal=target;
+    }
+    requestAnimationFrame(step);
+  }
+  refreshBundleSummary();
+
+  // -------------------------------------------------------
+  // ANIMATED REVIEW TABS
+  // -------------------------------------------------------
+  const reviewsData = [
+    { title:'"The center of conversations"', quote:'Our bespoke walnut coffee table completely changed the mood of our studio flat. The deep ocean river shines under natural noon sunlight.', author:'— Rajesh K., Bangalore', stars:5, cat:'Living Room Rivers', image:'assets/images/male1.jpg', pour:'Walnut Slab / 750ml Teal Flow', polish:'10,000-grit wet diamond polish', cure:'100% Cured & Certified', code:'RLX-WN-9804', timber:'Select Walnut', artisan:'R. K. Sharma (Lead Caster)' },
+    { title:'"Almost too beautiful to use"', quote:'The turquoise serving trays and ocean wave coaster set were the perfect housewarming gifts. The high-gloss finish feels exceptionally premium.', author:'— Priya M., Chennai', stars:5, cat:'Glossy Tray Sets', image:'assets/images/female1.jpg', pour:'Hard Maple / 350ml Swirl Pour', polish:'Hardwax oil food-safe coating', cure:'Certified & Lab Sealed', code:'RLX-MP-5120', timber:'Hard Maple', artisan:'A. K. Bose (Wood Artisan)' },
+    { title:'"A wearable work of art"', quote:'I ordered three matching gold-flake pendants for my bridesmaids. They are lightweight, completely custom, and catch the light perfectly.', author:'— Sarah T., Mumbai', stars:5, cat:'Bespoke Pendants', image:'assets/images/female2.jpg', pour:'UV-Stabilized Crystalline Pour', polish:'24k gold leaf shimmer flakes', cure:'Cured & Certified Authentic', code:'RLX-PD-7089', timber:'None (Jewelry Grade)', artisan:'V. Mehta (Fine Caster)' }
+  ];
+
+  const reviewContent = document.getElementById('rl-review-content');
+  const reviewTabs    = document.getElementById('rl-review-tabs');
+  const reviewImageCache = {};
+
+  reviewsData.forEach(review => {
+    if (!review.image || reviewImageCache[review.image]) return;
+    const img = new Image();
+    img.src = review.image;
+    reviewImageCache[review.image] = img;
+  });
+
+  function setReviewImage(img, src) {
+    if (!img || !src || img.dataset.currentSrc === src) return;
+    img.style.opacity = '0';
+
+    const applyImage = () => {
+      img.src = src;
+      img.dataset.currentSrc = src;
+      img.onload = () => {
+        img.style.opacity = '1';
+      };
+      if (img.complete) img.style.opacity = '1';
+    };
+
+    const cached = reviewImageCache[src];
+    if (cached?.complete) {
+      applyImage();
+      return;
+    }
+
+    const loader = cached || new Image();
+    reviewImageCache[src] = loader;
+    loader.onload = applyImage;
+    loader.src = src;
+  }
+
+  function animateStars(count) {
+    const starsEl = document.getElementById('rl-review-stars');
+    if (!starsEl) return;
+    starsEl.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const s = document.createElement('span');
+      s.textContent = i < count ? '\u2605' : '\u2606';
+      s.style.animationDelay = (i * 0.07) + 's';
+      s.classList.add('star-pop');
+      starsEl.appendChild(s);
+    }
+  }
+
+  function renderReview(idx) {
+    const d = reviewsData[idx]; if (!d || !reviewContent) return;
+    reviewContent.classList.add('fade-out');
+    setTimeout(() => {
+      const img = document.getElementById('rl-review-image');
+      const title = document.getElementById('rl-review-title');
+      const quote = document.getElementById('rl-review-quote');
+      const author = document.getElementById('rl-review-author');
+      const cat   = document.getElementById('rl-review-cat');
+      const pour  = document.getElementById('rl-tel-pour');
+      const pol   = document.getElementById('rl-tel-polish');
+      const cure  = document.getElementById('rl-tel-cure');
+      const code  = document.getElementById('rl-tel-code');
+      const timber = document.getElementById('rl-tel-timber');
+      const artisan = document.getElementById('rl-tel-artisan');
+      setReviewImage(img, d.image);
+      if (title)  title.textContent  = d.title;
+      if (quote)  quote.textContent  = d.quote;
+      if (author) author.textContent = d.author;
+      if (cat)    cat.textContent    = d.cat;
+      if (pour)   pour.textContent   = d.pour;
+      if (pol)    pol.textContent    = d.polish;
+      if (cure)   cure.textContent   = d.cure;
+      if (code)   code.textContent   = d.code;
+      if (timber) timber.textContent = d.timber || 'Custom Timber';
+      if (artisan) artisan.textContent = d.artisan || 'Studio Artisan';
+      animateStars(d.stars);
+      reviewContent.classList.remove('fade-out', 'fade-in');
+      void reviewContent.offsetWidth; // reflow
+      reviewContent.classList.add('fade-in');
+    }, 260);
+  }
+
+  if (reviewTabs) {
+    reviewTabs.addEventListener('click', e => {
+      const btn = e.target.closest('.rl-review-tab-btn');
+      if (!btn) return;
+      document.querySelectorAll('.rl-review-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderReview(parseInt(btn.dataset.index, 10));
+    });
+  }
+  // Init stars animation
+  animateStars(5);
+
+  // --- Star selector on review form ---
+  const formStarsEl = document.getElementById('rl-form-stars');
+  let selectedRating = 5;
+  if (formStarsEl) {
+    formStarsEl.addEventListener('click', e => {
+      const star = e.target.closest('span');
+      if (!star) return;
+      selectedRating = parseInt(star.dataset.value, 10);
+      document.querySelectorAll('#rl-form-stars span').forEach((s,i) => s.classList.toggle('active', i < selectedRating));
+    });
+  }
+
+  // --- Review form submit + toast ---
+  const reviewToast = document.getElementById('reviewToast');
+  function showToast() {
+    if (!reviewToast) return;
+    reviewToast.classList.add('show');
+    setTimeout(() => reviewToast.classList.remove('show'), 3500);
+  }
+
+  const reviewForm = document.getElementById('rl-review-form');
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name    = document.getElementById('rl-form-name').value.trim();
+      const city    = document.getElementById('rl-form-city').value.trim();
+      const product = document.getElementById('rl-form-product').value;
+      const text    = document.getElementById('rl-form-text').value.trim();
+      if (!name || !city || !text) return;
+
+      const starsStr = selectedRating;
+      const newRev = {
+        title:  `"${text.substring(0,32)}${text.length>32?'...':''}"`,
+        quote:  text, author: `— ${name}, ${city}`,
+        stars:  starsStr, cat: product,
+        image:  'assets/images/shop_review.jpg',
+        pour:   'Custom Studio Pour', polish: 'Standard diamond finish',
+        cure:   '100% Cured & Authenticated',
+        code:   `RLX-CST-${Math.floor(1000+Math.random()*9000)}`,
+        timber: 'Premium Select',
+        artisan: 'Studio Team'
+      };
+      reviewsData.push(newRev);
+      const newIdx = reviewsData.length - 1;
+      const newBtn = document.createElement('button');
+      newBtn.className = 'rl-review-tab-btn';
+      newBtn.dataset.index = newIdx;
+      newBtn.textContent = `${name.split(' ')[0]}'s Review`;
+      if (reviewTabs) reviewTabs.appendChild(newBtn);
+      document.querySelectorAll('.rl-review-tab-btn').forEach(b => b.classList.remove('active'));
+      newBtn.classList.add('active');
+      renderReview(newIdx);
+      reviewForm.reset();
+      selectedRating = 5;
+      document.querySelectorAll('#rl-form-stars span').forEach(s => s.classList.add('active'));
+      showToast();
+    });
+  }
+
+  // -------------------------------------------------------
+  // SCROLL REVEAL (IntersectionObserver)
+  // -------------------------------------------------------
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  if (revealEls.length) {
+    const revObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => revObs.observe(el));
+  }
+
+  // -------------------------------------------------------
+  // CARE CARD - tap-to-flip on touch devices
+  // -------------------------------------------------------
+  document.querySelectorAll('.shop-care-flip').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+  });
+</script>
+</body>
+</html>
+
+
+
+

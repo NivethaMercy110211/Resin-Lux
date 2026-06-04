@@ -1,0 +1,992 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | ResinLux Studio — Resin Art Portfolio</title>
+  <meta name="description" content="Browse our curated portfolio of bespoke resin art — river tables, coasters, epoxy jewelry, wall panels and more, all handcrafted at ResinLux Studio.">
+  <link rel="icon" type="image/png" href="assets/images/resin_logo_icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/resin-theme.css">
+  <style>
+    /* ── Technique cards ─────────────────────────────────── */
+    .gal-technique-card {
+      position: relative;
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Overlay for text readability & glassmorphism */
+    .gal-technique-overlay {
+      background: linear-gradient(135deg, rgba(8, 22, 36, 0.94), rgba(4, 15, 26, 0.96));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 32px 28px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .gal-technique-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .gal-technique-card:hover .gal-technique-overlay {
+      background: linear-gradient(135deg, rgba(8, 22, 36, 0.82), rgba(4, 15, 26, 0.86));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* Glowing Icons container */
+    .gal-tech-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      transition: all 0.4s ease;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Theme colors and highlight effects */
+    
+    /* 1. River - Blue */
+    .gal-tech-river {
+      border-color: rgba(0, 229, 255, 0.15);
+    }
+    .gal-tech-river .gal-tech-icon-wrap {
+      color: var(--rl-cyan);
+      background: rgba(0, 229, 255, 0.06);
+      border-color: rgba(0, 229, 255, 0.2);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+    }
+    .gal-tech-river:hover {
+      border-color: var(--rl-cyan);
+      box-shadow: 0 20px 50px rgba(0, 229, 255, 0.15);
+    }
+    .gal-tech-river:hover .gal-tech-icon-wrap {
+      background: var(--rl-cyan);
+      color: #04111d;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.45);
+    }
+    .gal-tech-river h4 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .gal-tech-river:hover h4 {
+      color: var(--rl-cyan);
+    }
+
+    /* 2. Swirl - Purple */
+    .gal-tech-swirl {
+      border-color: rgba(186, 104, 200, 0.15);
+    }
+    .gal-tech-swirl .gal-tech-icon-wrap {
+      color: #ba68c8;
+      background: rgba(186, 104, 200, 0.06);
+      border-color: rgba(186, 104, 200, 0.2);
+      box-shadow: 0 0 15px rgba(186, 104, 200, 0.1);
+    }
+    .gal-tech-swirl:hover {
+      border-color: #ba68c8;
+      box-shadow: 0 20px 50px rgba(186, 104, 200, 0.15);
+    }
+    .gal-tech-swirl:hover .gal-tech-icon-wrap {
+      background: #ba68c8;
+      color: #04111d;
+      box-shadow: 0 0 25px rgba(186, 104, 200, 0.45);
+    }
+    .gal-tech-swirl h4 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .gal-tech-swirl:hover h4 {
+      color: #ba68c8;
+    }
+
+    /* 3. Botanical - Green */
+    .gal-tech-botanical {
+      border-color: rgba(76, 175, 80, 0.15);
+    }
+    .gal-tech-botanical .gal-tech-icon-wrap {
+      color: #4caf50;
+      background: rgba(76, 175, 80, 0.06);
+      border-color: rgba(76, 175, 80, 0.2);
+      box-shadow: 0 0 15px rgba(76, 175, 80, 0.1);
+    }
+    .gal-tech-botanical:hover {
+      border-color: #4caf50;
+      box-shadow: 0 20px 50px rgba(76, 175, 80, 0.15);
+    }
+    .gal-tech-botanical:hover .gal-tech-icon-wrap {
+      background: #4caf50;
+      color: #04111d;
+      box-shadow: 0 0 25px rgba(76, 175, 80, 0.45);
+    }
+    .gal-tech-botanical h4 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .gal-tech-botanical:hover h4 {
+      color: #4caf50;
+    }
+
+    /* 4. Mica - Gold */
+    .gal-tech-mica {
+      border-color: rgba(226, 179, 84, 0.15);
+    }
+    .gal-tech-mica .gal-tech-icon-wrap {
+      color: var(--rl-gold);
+      background: rgba(226, 179, 84, 0.06);
+      border-color: rgba(226, 179, 84, 0.2);
+      box-shadow: 0 0 15px rgba(226, 179, 84, 0.1);
+    }
+    .gal-tech-mica:hover {
+      border-color: var(--rl-gold);
+      box-shadow: 0 20px 50px rgba(226, 179, 84, 0.15);
+    }
+    .gal-tech-mica:hover .gal-tech-icon-wrap {
+      background: var(--rl-gold);
+      color: #211400;
+      box-shadow: 0 0 25px rgba(226, 179, 84, 0.45);
+    }
+    .gal-tech-mica h4 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .gal-tech-mica:hover h4 {
+      color: var(--rl-gold);
+    }
+
+    /* 5. Geode - Rose */
+    .gal-tech-geode {
+      border-color: rgba(244, 143, 177, 0.15);
+    }
+    .gal-tech-geode .gal-tech-icon-wrap {
+      color: #f48fb1;
+      background: rgba(244, 143, 177, 0.06);
+      border-color: rgba(244, 143, 177, 0.2);
+      box-shadow: 0 0 15px rgba(244, 143, 177, 0.1);
+    }
+    .gal-tech-geode:hover {
+      border-color: #f48fb1;
+      box-shadow: 0 20px 50px rgba(244, 143, 177, 0.15);
+    }
+    .gal-tech-geode:hover .gal-tech-icon-wrap {
+      background: #f48fb1;
+      color: #04111d;
+      box-shadow: 0 0 25px rgba(244, 143, 177, 0.45);
+    }
+    .gal-tech-geode h4 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .gal-tech-geode:hover h4 {
+      color: #f48fb1;
+    }
+
+    /* 6. Polish - Silver/White */
+    .gal-tech-polish {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .gal-tech-polish .gal-tech-icon-wrap {
+      color: #e2f1f6;
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    }
+    .gal-tech-polish:hover {
+      border-color: #ffffff;
+      box-shadow: 0 20px 50px rgba(255, 255, 255, 0.15);
+    }
+    .gal-tech-polish:hover .gal-tech-icon-wrap {
+      background: #ffffff;
+      color: #04111d;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.45);
+    }
+    .gal-tech-polish h4 {
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    .gal-tech-polish:hover h4 {
+      color: #ffffff;
+    }
+
+    .gal-technique-overlay h4 {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    
+    .gal-technique-overlay p {
+      color: var(--rl-muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ── Masonry heights ─────────────────────────────────── */
+    #gallery-masonry {
+      columns: initial;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+    #gallery-masonry .rl-masonry-item {
+      margin-bottom: 0;
+    }
+    #gallery-masonry .rl-masonry-item img {
+      width: 100%;
+      height: 310px;
+      object-fit: cover;
+    }
+    @media (min-width: 1025px) {
+      #gallery-masonry .rl-masonry-item.rl-center-last {
+        grid-column: 2;
+        justify-self: stretch;
+        width: 100%;
+      }
+    }
+    @media (min-width: 577px) and (max-width: 1024px) {
+      #gallery-masonry {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      #gallery-masonry .rl-masonry-item.rl-center-last {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc((100% - 16px) / 2);
+      }
+      #gallery-masonry .rl-masonry-item img {
+        height: 280px;
+      }
+    }
+    @media (max-width: 576px) {
+      #gallery-masonry {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      #gallery-masonry .rl-masonry-item.rl-center-last {
+        width: 100%;
+      }
+      #gallery-masonry .rl-masonry-item img {
+        height: 240px !important;
+        max-height: none;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       TRANSFORMATIONS — Interactive Before/After Slider Grid
+       ══════════════════════════════════════════════════════ */
+
+    /* 2-col grid — collapses to 1-col on mobile */
+    .gal-transform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    @media (max-width: 767px) {
+      .gal-transform-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+    @media (max-width: 360px) {
+      .gal-transform-grid { gap: 14px; }
+    }
+
+    /* Card shell */
+    .gal-transform-card {
+      position: relative;
+      background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid var(--rl-border);
+      border-radius: var(--rl-radius);
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.4s ease,
+                  box-shadow 0.4s ease;
+    }
+    .gal-transform-card:hover {
+      border-color: rgba(226,179,84,0.3);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.28);
+      transform: translateY(-4px);
+    }
+    body.light-mode .gal-transform-card {
+      background: #fff;
+      border-color: rgba(0,0,0,0.08);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    /* ── Floating BEFORE / AFTER pill labels ─────────────── */
+    .gal-transform-labels {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .gal-transform-label {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .gal-label-before {
+      background: rgba(0,0,0,0.55);
+      color: #e2f1f6;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .gal-label-after {
+      background: rgba(226,179,84,0.85);
+      color: #211400;
+      border: 1px solid rgba(226,179,84,0.4);
+    }
+
+    /* ── Slider wrap — fixed 16:9 aspect, images absolute fill ── */
+    .gal-slider-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      cursor: col-resize;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    @media (max-width: 480px) {
+      .gal-slider-wrap { aspect-ratio: 4/3; }
+    }
+
+    /* Both images fill the wrap completely */
+    .gal-slider-wrap .gal-img-before,
+    .gal-slider-wrap .gal-img-after {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      border: none;
+      display: block;
+      margin: 0;
+      max-height: none !important;
+    }
+
+    /* After image: clip-path reveals from left */
+    .gal-img-after {
+      clip-path: inset(0 50% 0 0);
+      z-index: 2;
+    }
+
+    /* ── Divider line ────────────────────────────────────── */
+    .gal-divider {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: #fff;
+      z-index: 5;
+      transform: translateX(-50%);
+      pointer-events: none;
+      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    }
+
+    /* ── Drag handle circle ──────────────────────────────── */
+    .gal-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: col-resize;
+      transition: box-shadow 0.2s ease;
+    }
+    .gal-handle::before,
+    .gal-handle::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+    .gal-handle::before {
+      border-width: 6px 8px 6px 0;
+      border-color: transparent var(--rl-gold) transparent transparent;
+      margin-right: 6px;
+    }
+    .gal-handle::after {
+      border-width: 6px 0 6px 8px;
+      border-color: transparent transparent transparent var(--rl-gold);
+      margin-left: 6px;
+    }
+    .gal-transform-card:hover .gal-handle {
+      box-shadow: 0 6px 28px rgba(226,179,84,0.5);
+    }
+    @media (max-width: 480px) {
+      .gal-handle { width: 38px; height: 38px; }
+    }
+
+    /* ── Drag hint pill ──────────────────────────────────── */
+    .gal-touch-hint {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 8;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.8px;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .gal-touch-hint.hidden { opacity: 0; }
+
+    /* ── Card body ───────────────────────────────────────── */
+    .gal-transform-body {
+      padding: 18px 20px 20px;
+      border-top: 1px solid var(--rl-border);
+    }
+    .gal-transform-eyebrow {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--rl-gold);
+      display: block;
+      margin-bottom: 5px;
+    }
+    .gal-transform-body h4 {
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0 0 10px;
+      color: var(--rl-text);
+      line-height: 1.3;
+    }
+    body.light-mode .gal-transform-body h4 { color: var(--rl-text); }
+    .gal-transform-spec {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .gal-transform-spec-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      background: rgba(0,229,255,0.06);
+      border: 1px solid rgba(0,229,255,0.14);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--rl-cyan);
+    }
+    @media (max-width: 480px) {
+      .gal-transform-body { padding: 14px 16px 16px; }
+      .gal-transform-body h4 { font-size: 14px; }
+    }
+    @media (max-width: 360px) {
+      .gal-transform-body { padding: 12px 14px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="rl-navbar navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand rl-brand" href="index.html">
+      <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux logo" width="310" height="90">
+    </a>
+    <button class="navbar-toggler rl-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#rlNav" aria-controls="rlNav" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list" style="color:var(--rl-text);font-size:22px;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="rlNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown"><a class="nav-link rl-nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Home</a><ul class="dropdown-menu rl-dropdown-menu"><li><a class="dropdown-item rl-dropdown-item" href="index.html">Home 1</a></li><li><a class="dropdown-item rl-dropdown-item" href="home-2.html">Home 2</a></li></ul></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link active" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="custom-orders.html">Custom Orders</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="pricing.html">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="rl-nav-actions">
+        <button class="rl-icon-btn" id="themeToggle" type="button">☀️</button>
+        <a href="login.html" class="rl-login-btn"><i class="bi bi-person-circle me-1"></i> Login</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="rl-hero" style="background-image: url('assets/images/gallery-hero.jpg');">
+  <div class="rl-hero-overlay"></div>
+  <div class="container rl-hero-inner text-center">
+    <span class="rl-eyebrow">Project Gallery</span>
+    <h1 class="rl-h1">A Visual Collection<br>of Resin Masterpieces</h1>
+    <p class="rl-hero-sub">Every piece in this gallery was crafted in our studio for a real client. Browse by category to find your inspiration.</p>
+    <div class="rl-hero-badges mb-4">
+      <span><i class="bi bi-table me-1"></i> River Tables</span>
+      <span><i class="bi bi-circle me-1"></i> Coasters</span>
+      <span><i class="bi bi-gem me-1"></i> Jewelry</span>
+      <span><i class="bi bi-image me-1"></i> Wall Art</span>
+    </div>
+    <div class="rl-hero-actions">
+      <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Commission Yours</a>
+      <a href="shop.html" class="rl-btn rl-btn-ghost"><i class="bi bi-bag"></i> Ready-Made Shop</a>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER TABS -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-filter-tabs mb-4">
+      <button class="rl-filter-btn active" data-filter="all">All Works</button>
+      <button class="rl-filter-btn" data-filter="table">River Tables</button>
+      <button class="rl-filter-btn" data-filter="coaster">Coasters</button>
+      <button class="rl-filter-btn" data-filter="jewelry">Jewelry</button>
+      <button class="rl-filter-btn" data-filter="wall">Wall Art</button>
+    </div>
+
+    <!-- Masonry Grid -->
+    <div class="rl-masonry" id="gallery-masonry">
+
+      <div class="rl-masonry-item" data-category="table">
+        <img src="assets/images/gallery-ocean.jpg" alt="Ocean river table" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-table me-1"></i> Ocean River Table — Walnut &amp; Teal</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="coaster">
+        <img src="assets/images/gallery-marble.jpg" alt="Marble coasters" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-circle me-1"></i> Marble Swirl Coasters — Set of 6</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="jewelry">
+        <img src="assets/images/gallery-galaxy.jpg" alt="Galaxy jewelry" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-gem me-1"></i> Galaxy Pendant — UV Crystal</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="table">
+        <img src="assets/images/gallery-wide-01.jpg" alt="Wide river dining table" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-table me-1"></i> River Dining Table — Oak &amp; Emerald</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="wall">
+        <img src="assets/images/gallery-large-01.jpg" alt="Wall art panel" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-image me-1"></i> Abstract Triptych — 120×60cm</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="coaster">
+        <img src="assets/images/gallery-small-01.jpg" alt="Geode coasters" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-circle me-1"></i> Geode Agate Coasters — Rose Quartz</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="jewelry">
+        <img src="assets/images/gallery-small-02.jpg" alt="Floral earrings" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-gem me-1"></i> Floral Drop Earrings — Dried Botanicals</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="wall">
+        <img src="assets/images/gallery-ocean1.jpg" alt="Ocean abstract panel" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-image me-1"></i> Ocean Abstract Panel — 90×60cm</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="table">
+        <img src="assets/images/gallery-marble1.jpg" alt="Coffee table" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-table me-1"></i> Coffee Table — Ash &amp; Liquid Gold</span>
+        </div>
+      </div>
+
+      <div class="rl-masonry-item" data-category="wall">
+        <img src="assets/images/gallery-ocean2.jpg" alt="Blue resin wall art" loading="lazy">
+        <div class="rl-masonry-overlay">
+          <span><i class="bi bi-image me-1"></i> Blue Flow Wall Art - Ocean Resin Panel</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECHNIQUE DEEP-DIVE -->
+<section class="rl-section rl-section-bg-process" style="background-image: url('assets/images/gallery_river_table_bg.jpg');">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">The Craft</span>
+      <h2>Techniques Behind Every Piece</h2>
+      <p>Each creation method is chosen carefully to serve the final aesthetic and function.</p>
+    </div>
+    <div class="row g-4">
+      <!-- 1. River Casting -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="gal-technique-card gal-tech-river" style="background-image: url('assets/images/home-river-table.jpg');">
+          <div class="gal-technique-overlay">
+            <span class="gal-tech-icon-wrap"><i class="bi bi-water"></i></span>
+            <h4>River Casting</h4>
+            <p>Slow-pour layers of pigmented resin flow between two wood slabs, forming the characteristic river channel — each one unrepeatable.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Swirl & Marble -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="gal-technique-card gal-tech-swirl" style="background-image: url('assets/images/gallery-marble.jpg');">
+          <div class="gal-technique-overlay">
+            <span class="gal-tech-icon-wrap"><i class="bi bi-tornado"></i></span>
+            <h4>Swirl &amp; Marble</h4>
+            <p>Multiple pigment shades are poured simultaneously and manipulated with tools to create organic, flowing marble patterns in coasters and trays.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Botanical Embedding -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="gal-technique-card gal-tech-botanical" style="background-image: url('assets/images/gallery-small-02.jpg');">
+          <div class="gal-technique-overlay">
+            <span class="gal-tech-icon-wrap"><i class="bi bi-flower1"></i></span>
+            <h4>Botanical Embedding</h4>
+            <p>Dried flowers, leaves and gold foil are suspended mid-pour in UV-stable crystal resin, preserving their colour and form permanently.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Metallic Mica Pigments -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="gal-technique-card gal-tech-mica" style="background-image: url('assets/images/home-2-category-tray.jpg');">
+          <div class="gal-technique-overlay">
+            <span class="gal-tech-icon-wrap"><i class="bi bi-palette"></i></span>
+            <h4>Metallic Mica Pigments</h4>
+            <p>Artist-grade mica powders create dimensional shimmer that shifts in quality depending on light source — from sunlight to candlelight.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Geode Artistry -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="gal-technique-card gal-tech-geode" style="background-image: url('assets/images/gallery-small-01.jpg');">
+          <div class="gal-technique-overlay">
+            <span class="gal-tech-icon-wrap"><i class="bi bi-gem"></i></span>
+            <h4>Geode Artistry</h4>
+            <p>Crushed crystal, mica and pigment form natural geode veins on flat surfaces — a signature style that mimics cross-sectioned gemstones.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Mirror Polish -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="gal-technique-card gal-tech-polish" style="background-image: url('assets/images/about-workbench.jpg');">
+          <div class="gal-technique-overlay">
+            <span class="gal-tech-icon-wrap"><i class="bi bi-stars"></i></span>
+            <h4>Mirror Polish</h4>
+            <p>Wet-sanding from 320→10,000 grit followed by polishing compounds creates a mirror surface that rivals flat glass.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMATIONS — Interactive Before/After Slider Grid -->
+<section class="rl-section">
+  <div class="container">
+    <div class="rl-section-title">
+      <span class="rl-eyebrow">Transformations</span>
+      <h2>Before &amp; After</h2>
+      <p>Drag the divider left or right to reveal the transformation — from raw material to finished masterpiece.</p>
+    </div>
+
+    <div class="gal-transform-grid">
+
+      <!-- Card 1: River Table -->
+      <div class="gal-transform-card">
+        <div class="gal-transform-labels">
+          <span class="gal-transform-label gal-label-before">Before</span>
+          <span class="gal-transform-label gal-label-after">After</span>
+        </div>
+        <div class="gal-slider-wrap" id="gal-slider-1">
+          <img class="gal-img-before" src="assets/images/gallery_river_table1.jpg" alt="Raw walnut slab" draggable="false">
+          <img class="gal-img-after"  src="assets/images/gallery_river_table.jpg"    alt="Finished river table" draggable="false">
+          <div class="gal-divider" id="gal-div-1"></div>
+          <div class="gal-handle"  id="gal-hnd-1"></div>
+          <span class="gal-touch-hint" id="gal-hint-1">⟵ Drag to Compare ⟶</span>
+        </div>
+        <div class="gal-transform-body">
+          <span class="gal-transform-eyebrow">Before / After</span>
+          <h4>River Dining Table — Walnut &amp; Ocean Teal</h4>
+          <div class="gal-transform-spec">
+            <span class="gal-transform-spec-tag"><i class="bi bi-rulers me-1"></i>200×90cm</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-clock me-1"></i>7-Day Cure</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-gem me-1"></i>10K Polish</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Coasters -->
+      <div class="gal-transform-card">
+        <div class="gal-transform-labels">
+          <span class="gal-transform-label gal-label-before">Before</span>
+          <span class="gal-transform-label gal-label-after">After</span>
+        </div>
+        <div class="gal-slider-wrap" id="gal-slider-2">
+          <img class="gal-img-before" src="assets/images/gallery_marble_swiri2.jpg"  alt="Unmixed pigment" draggable="false">
+          <img class="gal-img-after"  src="assets/images/gallery_marble_swiri1.jpg" alt="Marble coasters finished" draggable="false">
+          <div class="gal-divider" id="gal-div-2"></div>
+          <div class="gal-handle"  id="gal-hnd-2"></div>
+          <span class="gal-touch-hint" id="gal-hint-2">⟵ Drag to Compare ⟶</span>
+        </div>
+        <div class="gal-transform-body">
+          <span class="gal-transform-eyebrow">Before / After</span>
+          <h4>Marble Swirl Coasters — Rose Quartz Set of 6</h4>
+          <div class="gal-transform-spec">
+            <span class="gal-transform-spec-tag"><i class="bi bi-circle me-1"></i>10cm Round</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-palette me-1"></i>3-Pigment Swirl</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-shield-check me-1"></i>Food-Safe</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Jewelry -->
+      <div class="gal-transform-card">
+        <div class="gal-transform-labels">
+          <span class="gal-transform-label gal-label-before">Before</span>
+          <span class="gal-transform-label gal-label-after">After</span>
+        </div>
+        <div class="gal-slider-wrap" id="gal-slider-3">
+          <img class="gal-img-before" src="assets/images/gallery_pendent1.jpg"   alt="Resin blanks" draggable="false">
+          <img class="gal-img-after"  src="assets/images/gallery_pendent2.jpg" alt="Galaxy pendant" draggable="false">
+          <div class="gal-divider" id="gal-div-3"></div>
+          <div class="gal-handle"  id="gal-hnd-3"></div>
+          <span class="gal-touch-hint" id="gal-hint-3">⟵ Drag to Compare ⟶</span>
+        </div>
+        <div class="gal-transform-body">
+          <span class="gal-transform-eyebrow">Before / After</span>
+          <h4>Galaxy Pendant — UV Crystal Finish</h4>
+          <div class="gal-transform-spec">
+            <span class="gal-transform-spec-tag"><i class="bi bi-gem me-1"></i>UV Resin</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-stars me-1"></i>Gold Flake Inlay</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-award me-1"></i>Artisan Certified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Wall Art -->
+      <div class="gal-transform-card">
+        <div class="gal-transform-labels">
+          <span class="gal-transform-label gal-label-before">Before</span>
+          <span class="gal-transform-label gal-label-after">After</span>
+        </div>
+        <div class="gal-slider-wrap" id="gal-slider-4">
+          <img class="gal-img-before" src="assets/images/cobalt_blue.jpg"  alt="Wall panel blank" draggable="false">
+          <img class="gal-img-after"  src="assets/images/cobalt_blue1.jpg" alt="Finished wall panel" draggable="false">
+          <div class="gal-divider" id="gal-div-4"></div>
+          <div class="gal-handle"  id="gal-hnd-4"></div>
+          <span class="gal-touch-hint" id="gal-hint-4">⟵ Drag to Compare ⟶</span>
+        </div>
+        <div class="gal-transform-body">
+          <span class="gal-transform-eyebrow">Before / After</span>
+          <h4>Abstract Wall Panel — Cobalt Blue Triptych</h4>
+          <div class="gal-transform-spec">
+            <span class="gal-transform-spec-tag"><i class="bi bi-image me-1"></i>120×60cm</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-palette me-1"></i>Cobalt &amp; Silver</span>
+            <span class="gal-transform-spec-tag"><i class="bi bi-house me-1"></i>Wall-Ready Frame</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /gal-transform-grid -->
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/gallery_bg.jpg');">
+  <div class="container">
+    <div class="rl-cta-panel">
+      <span class="rl-eyebrow">Inspired?</span>
+      <h2>Commission Your Own Piece</h2>
+      <p>Share your vision — dimensions, colour palette, timber — and we'll send you a design mockup within 48 hours.</p>
+      <div class="rl-hero-actions">
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary"><i class="bi bi-pencil-square"></i> Commission Now</a>
+        <a href="pricing.html" class="rl-btn rl-btn-ghost"><i class="bi bi-tag"></i> See Pricing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rl-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-lg-4">
+        <div class="rl-footer-brand"><img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90"></div>
+        <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. River tables, jewelry, coasters and more.</p>
+        <div class="rl-social mt-3">
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5>Studio</h5>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="process.html">Our Process</a>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5>Shop</h5>
+        <a href="shop.html">All Products</a>
+        <a href="custom-orders.html">Custom Orders</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="pigment-studio.html">Pigment Studio</a>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5>Account</h5>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5>Studio Hours</h5>
+        <p style="font-size:13px;line-height:2.0;margin:0;">
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-clock text-gold me-2"></i>Mon–Sat: 10am–7pm</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-calendar3 text-gold me-2"></i>Sunday: Appointment</span>
+          <span class="d-flex align-items-center mb-1"><i class="bi bi-box-seam text-gold me-2"></i>Pickup: 24h notice</span>
+          <span class="d-flex align-items-center"><i class="bi bi-chat-dots text-gold me-2"></i>Consultations</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+<!-- Before/After Slider Logic -->
+<script>
+(function() {
+  // Initialise each slider card
+  document.querySelectorAll('.gal-slider-wrap').forEach(function(wrap) {
+    var afterImg  = wrap.querySelector('.gal-img-after');
+    var divider   = wrap.querySelector('.gal-divider');
+    var handle    = wrap.querySelector('.gal-handle');
+    var hint      = wrap.querySelector('.gal-touch-hint');
+    var dragging  = false;
+    var hintHidden = false;
+
+    function setPosition(pct) {
+      // Clamp between 2% and 98%
+      pct = Math.max(2, Math.min(98, pct));
+      afterImg.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      divider.style.left      = pct + '%';
+      handle.style.left       = pct + '%';
+      handle.style.transform  = 'translate(-50%, -50%)';
+      // Hide drag hint on first move
+      if (!hintHidden && hint) {
+        hint.classList.add('hidden');
+        hintHidden = true;
+      }
+    }
+
+    function getPct(clientX) {
+      var rect = wrap.getBoundingClientRect();
+      return ((clientX - rect.left) / rect.width) * 100;
+    }
+
+    // Mouse events
+    wrap.addEventListener('mousedown', function(e) {
+      dragging = true;
+      setPosition(getPct(e.clientX));
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      setPosition(getPct(e.clientX));
+    });
+
+    document.addEventListener('mouseup', function() { dragging = false; });
+
+    // Touch events
+    wrap.addEventListener('touchstart', function(e) {
+      dragging = true;
+      setPosition(getPct(e.touches[0].clientX));
+    }, { passive: true });
+
+    wrap.addEventListener('touchmove', function(e) {
+      if (!dragging) return;
+      setPosition(getPct(e.touches[0].clientX));
+    }, { passive: true });
+
+    wrap.addEventListener('touchend', function() { dragging = false; });
+
+    // Set initial position to 50%
+    setPosition(50);
+  });
+})();
+</script>
+</body>
+</html>
+
+
+
+
