@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -9,9 +9,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="assets/css/resin-theme.css">
+  <script src="assets/js/direction-toggle.js"></script>
   <style>
     /* Dashboard page — no site navbar, full portal layout */
-    body { background: var(--rl-bg); overflow-x: hidden; }
+    body { background: var(--rl-bg); overflow-x: hidden; padding-top: 0; }
 
     /* Welcome strip */
     .dash-welcome {
@@ -227,11 +228,184 @@
       .dash-pigment-grid { grid-template-columns: repeat(2,1fr); }
       .dash-delivered-grid { grid-template-columns: repeat(2,1fr); }
     }
+
+    /* Mobile header bar hidden by default on desktop */
+    .rl-dash-mobile-header {
+      display: none;
+    }
+
+    /* Mobile / Tablet Drawer Sidebar Layout (max-width: 991px) */
+    @media (max-width: 991px) {
+      /* Mobile header bar at top */
+      .rl-dash-mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        background: var(--rl-panel);
+        border-bottom: 1px solid var(--rl-border);
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        height: 64px;
+      }
+      .rl-dash-mobile-logo img {
+        height: 36px;
+        width: auto;
+        object-fit: contain;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+      }
+      .rl-dash-mobile-toggler {
+        background: transparent;
+        border: 1px solid var(--rl-border);
+        border-radius: 8px;
+        color: var(--rl-text);
+        font-size: 22px;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .rl-dash-mobile-toggler:hover {
+        border-color: var(--rl-gold);
+        color: var(--rl-gold);
+      }
+
+      /* Backdrop Overlay for the drawer */
+      .rl-dash-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 17, 29, 0.7);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 1035;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .rl-dash-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Force sidebar into a vertical off-canvas drawer */
+      .rl-sidebar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        z-index: 1040;
+        transform: translateX(-100%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        gap: 0 !important;
+        background: var(--rl-panel) !important;
+        padding: 24px 20px !important;
+        box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        border-right: 1px solid var(--rl-border);
+        border-bottom: none !important;
+        align-items: stretch !important;
+      }
+      .rl-sidebar.active {
+        transform: translateX(0);
+      }
+
+      /* Reset mobile header overrides for the sidebar elements inside drawer */
+      .rl-sidebar-brand {
+        display: flex !important;
+        margin-bottom: 24px !important;
+        padding-bottom: 20px !important;
+        border-bottom: 1px solid var(--rl-border) !important;
+        width: 100%;
+      }
+      .rl-sidebar-brand img {
+        width: auto;
+        height: 44px;
+        border-radius: 0;
+        border: 0;
+        background: transparent;
+        object-fit: contain;
+      }
+      .rl-profile-card {
+        margin-bottom: 20px !important;
+        width: 100%;
+      }
+      .rl-sidebar-nav {
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+        gap: 4px !important;
+      }
+      .rl-sidebar-link {
+        width: 100% !important;
+        padding: 11px 14px !important;
+      }
+    }
+
+    /* Desktop logo alignment & size fix */
+    .rl-sidebar-brand img {
+      width: auto !important;
+      height: 52px !important;
+      max-width: 100% !important;
+      object-fit: contain !important;
+      border-radius: 0 !important;
+    }
+
+    /* RTL Layout Direction Overrides */
+    [dir="rtl"] .rl-sidebar {
+      border-right: none !important;
+      border-left: 1px solid var(--rl-border) !important;
+    }
+    [dir="rtl"] .rl-sidebar-link.active {
+      border-left: none !important;
+      border-right: 3px solid var(--rl-gold) !important;
+    }
+    [dir="rtl"] .dash-section-title::after {
+      background: linear-gradient(270deg, var(--rl-border), transparent) !important;
+    }
+    [dir="rtl"] .bi-arrow-left-circle::before {
+      transform: scaleX(-1);
+      display: inline-block;
+    }
+
+    /* RTL Mobile/Tablet Off-canvas Drawer overrides */
+    @media (max-width: 991px) {
+      [dir="rtl"] .rl-sidebar {
+        left: auto !important;
+        right: 0 !important;
+        transform: translateX(100%) !important;
+        border-right: none !important;
+        border-left: 1px solid var(--rl-border) !important;
+      }
+      [dir="rtl"] .rl-sidebar.active {
+        transform: translateX(0) !important;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="rl-portal">
+
+  <!-- Mobile Header (hidden on desktop) -->
+  <header class="rl-dash-mobile-header">
+    <div class="rl-dash-mobile-logo">
+      <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux">
+    </div>
+    <button class="rl-dash-mobile-toggler" aria-label="Toggle Menu">
+      <i class="bi bi-list"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Backdrop Overlay -->
+  <div class="rl-dash-overlay"></div>
 
   <!-- ========== SIDEBAR ========== -->
   <aside class="rl-sidebar">
@@ -274,6 +448,9 @@
       </a>
       <button id="themeToggle" class="rl-sidebar-link" style="margin-top:4px;">
         <i class="bi bi-moon-stars"></i> Toggle Theme
+      </button>
+      <button id="dirToggle" class="rl-sidebar-link" style="margin-top:4px;">
+        <i class="bi bi-translate"></i> RTL
       </button>
     </div>
   </aside>
@@ -649,8 +826,31 @@
   document.querySelectorAll('.rl-dash-panel').forEach((p, i) => {
     p.style.display = i === 0 ? 'block' : 'none';
   });
+
+  // Mobile Dashboard Sidebar Toggle
+  const mobileToggler = document.querySelector('.rl-dash-mobile-toggler');
+  const sidebar = document.querySelector('.rl-sidebar');
+  const overlay = document.querySelector('.rl-dash-overlay');
+
+  if (mobileToggler && sidebar && overlay) {
+    const toggleMenu = () => {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    };
+
+    const closeMenu = () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    };
+
+    mobileToggler.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // Close sidebar on link clicks (mobile drawer behavior)
+    sidebar.querySelectorAll('.rl-sidebar-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
 </script>
 </body>
 </html>
-
-
