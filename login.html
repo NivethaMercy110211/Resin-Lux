@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -13,13 +13,10 @@
 </head>
 <body class="rl-auth-body">
 
-  <!-- Floating RTL Layout Toggle -->
-  <button class="rl-icon-btn" id="dirToggle" type="button" aria-label="Toggle layout direction" style="position: fixed; top: 20px; inset-inline-end: 20px; z-index: 1050; background: var(--rl-panel); border: 1px solid var(--rl-border); box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">RTL</button>
-
 <div class="rl-auth-page">
 
   <!-- Visual Panel (left) -->
-  <div class="rl-auth-visual" style="background-image: url('assets/images/login-panel.jpg');">
+  <div class="rl-auth-visual" style="background-image: url('assets/images/login-panel.png');">
     <div class="rl-auth-visual-overlay"></div>
     <div class="rl-auth-visual-content">
       <a href="index.html" style="display:flex;align-items:center;gap:10px;margin-bottom:32px;text-decoration:none;">
@@ -27,7 +24,7 @@
       </a>
       <h2>Your Commissions. Live.</h2>
       <p>Track curing progress, approve mockups, select pigments and schedule pickup — all in your personal client dashboard.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;">
+      <div class="rl-auth-visual-details" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;">
         <span style="padding:7px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.8);">✦ 48h Mockup</span>
         <span style="padding:7px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.8);">✦ Live Tracking</span>
         <span style="padding:7px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.8);">✦ Studio Pickup</span>
@@ -56,7 +53,14 @@
           </button>
         </div>
 
-        <div style="display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:18px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:-8px;margin-bottom:18px;">
+          <label class="rl-checkbox-container" style="display:flex;align-items:center;gap:8px;color:var(--rl-muted);font-size:13.5px;cursor:pointer;user-select:none;">
+            <input type="checkbox" id="rememberMe" style="display:none;">
+            <span class="rl-checkbox-box" style="width:18px;height:18px;border:1px solid var(--rl-border);border-radius:4px;background:var(--rl-soft);display:inline-grid;place-items:center;transition:all 0.2s ease;">
+              <i class="bi bi-check" style="color:var(--rl-gold);font-size:14px;font-weight:900;opacity:0;transition:opacity 0.2s ease;"></i>
+            </span>
+            Remember me
+          </label>
           <a href="forgot-password.html" style="color:var(--rl-gold);font-size:13px;font-weight:600;">Forgot password?</a>
         </div>
 
@@ -69,11 +73,14 @@
           <span style="position:relative;background:var(--rl-bg);padding:0 14px;font-size:12px;color:var(--rl-muted);">or continue with</span>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <button type="button" class="rl-btn rl-btn-ghost" style="justify-content:center;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <button type="button" class="rl-btn rl-btn-ghost" style="justify-content:center;padding:12px 6px;font-size:13px;">
+            <i class="bi bi-apple"></i> Apple
+          </button>
+          <button type="button" class="rl-btn rl-btn-ghost" style="justify-content:center;padding:12px 6px;font-size:13px;">
             <i class="bi bi-google" style="color:#ea4335;"></i> Google
           </button>
-          <button type="button" class="rl-btn rl-btn-ghost" style="justify-content:center;">
+          <button type="button" class="rl-btn rl-btn-ghost" style="justify-content:center;padding:12px 6px;font-size:13px;">
             <i class="bi bi-facebook" style="color:#1877f2;"></i> Facebook
           </button>
         </div>

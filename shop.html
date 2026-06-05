@@ -54,6 +54,44 @@
     .shop-product-body h3 { font-size: 17px; margin-bottom: 4px; color: var(--rl-text); }
     .shop-product-body p  { color: var(--rl-muted); font-size: 13px; margin-bottom: 10px; }
     .shop-product-price { font-size: 24px; font-weight: 900; color: var(--rl-gold); display: block; margin-bottom: 12px; }
+    #materialsGrid > [class*="col-"] {
+      display: flex;
+    }
+    #materialsGrid .shop-product-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    #materialsGrid .shop-product-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #materialsGrid .shop-product-body h3 {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.25;
+      text-align: center;
+      text-wrap: balance;
+    }
+    #materialsGrid .shop-product-body p {
+      height: 84px;
+      line-height: 1.6;
+      text-align: center;
+      text-wrap: balance;
+      overflow: hidden;
+    }
+    #materialsGrid .shop-product-price {
+      margin-top: auto;
+    }
+    #materialsGrid .shop-product-body .rl-btn {
+      min-height: 42px;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+    }
     .shop-badge-new {
       position: absolute; top: 12px; left: 12px;
       background: var(--rl-gold); color: #211400;
@@ -76,8 +114,53 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
-    .shop-gift-img { height: 380px; }
-    .shop-gift-img img { width: 100%; height: 100%; border-radius: 0; border: 0; }
+    .shop-gift-img {
+      position: relative;
+      min-height: 430px;
+      padding: 22px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(226,179,84,0.16), rgba(0,229,255,0.08)),
+        radial-gradient(circle at 50% 44%, rgba(226,179,84,0.24), transparent 36%),
+        radial-gradient(circle at 18% 18%, rgba(0,229,255,0.16), transparent 28%),
+        rgba(4,17,29,0.58);
+      isolation: isolate;
+    }
+    .shop-gift-img::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(226,179,84,0.22);
+      border-radius: var(--rl-radius-sm);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.75;
+      z-index: -1;
+    }
+    .shop-gift-img::after {
+      content: '';
+      position: absolute;
+      width: min(260px, 62%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(226,179,84,0.16);
+      filter: blur(34px);
+      z-index: -1;
+    }
+    .shop-gift-img img {
+      width: 100%;
+      height: 100%;
+      max-height: 386px;
+      object-fit: contain;
+      object-position: center;
+      border-radius: var(--rl-radius-sm);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.36), 0 0 0 1px rgba(226,179,84,0.16);
+    }
     .shop-gift-text {
       padding: 48px 44px;
       display: flex; flex-direction: column; justify-content: center;
@@ -108,8 +191,50 @@
 
     @media (max-width: 768px) {
       .shop-gift-split { grid-template-columns: 1fr; }
-      .shop-gift-img { height: 260px; }
+      .shop-gift-img {
+        min-height: 340px;
+        padding: 18px;
+      }
+      .shop-gift-img img {
+        max-height: 304px;
+      }
       .shop-gift-text { padding: 28px 24px; }
+      #materialsGrid .shop-product-body h3 {
+        height: 26px;
+      }
+      #materialsGrid .shop-product-body p {
+        height: 84px;
+      }
+    }
+
+    @media (min-width: 992px) and (max-width: 1199.98px) {
+      #materialsGrid .shop-product-body {
+        padding: 20px 18px;
+      }
+      #materialsGrid .shop-product-body h3 {
+        height: 44px;
+      }
+      #materialsGrid .shop-product-body p {
+        font-size: 12.75px;
+        height: 86px;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 991.98px) {
+      #materialsGrid .shop-product-body h3 {
+        height: 30px;
+      }
+      #materialsGrid .shop-product-body p {
+        height: 66px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      #materialsGrid .shop-product-body h3,
+      #materialsGrid .shop-product-body p {
+        height: auto;
+        overflow: visible;
+      }
     }
 
     /* ============================================
@@ -1134,7 +1259,7 @@
           <span class="bundle-grand-total" id="bundleGrandTotal">₹0</span>
         </div>
 
-        <a href="custom-orders.html" class="rl-btn rl-btn-primary bundle-cta" id="bundleCTA">
+        <a href="custom-orders.html" class="rl-btn rl-btn-primary bundle-cta active" id="bundleCTA">
           <i class="bi bi-bag-heart"></i> Request This Bundle
         </a>
 
@@ -1342,7 +1467,11 @@
   <div class="container">
     <div class="row g-4">
       <div class="col-12 col-lg-4">
-        <div class="rl-footer-brand"><img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90"></div>
+        <div class="rl-footer-brand">
+          <a href="index.html">
+            <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90">
+          </a>
+        </div>
         <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. River tables, jewelry, coasters and more.</p>
         <div class="rl-social mt-3"><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a></div>
       </div>
@@ -1360,7 +1489,7 @@
       </div>
     </div>
   </div>
-  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+  <div class="rl-footer-bottom"><p>&copy; 2026 ResinLux Studio. All rights reserved.</p></div>
 </footer>
 
 <!-- FLOATING BUNDLE FAB -->
@@ -1550,7 +1679,7 @@
       bundleSavingsTxt.classList.toggle('visible', discount>0);
     }
     if (bundleSummaryPanel) bundleSummaryPanel.classList.toggle('has-items', count>0);
-    if (bundleCTA)          bundleCTA.classList.toggle('active', count>0);
+    if (bundleCTA)          bundleCTA.classList.add('active');
 
     // --- FAB ---
     if (bundleFab) {

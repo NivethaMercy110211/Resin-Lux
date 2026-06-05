@@ -5,6 +5,31 @@
  */
 
 /* ================================================
+   Common Full-Width Hero Pattern
+   ================================================ */
+.rl-hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.rl-hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ================================================
    Google Fonts
    ================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700;800;900&display=swap');
@@ -190,6 +215,7 @@ body.light-mode .text-muted {
   color: var(--rl-muted) !important;
   padding: 8px 10px !important;
   border-radius: 8px;
+  white-space: nowrap;
   transition: color 0.2s, background 0.2s;
 }
 
@@ -287,6 +313,55 @@ body.light-mode .rl-dropdown-menu {
   transform: translateY(-2px);
   box-shadow: 0 10px 24px var(--rl-gold-glow);
   color: #211400 !important;
+}
+
+/* Tablet landscape: keep the full header aligned without wrapping long nav items. */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .rl-navbar > .container {
+    max-width: 100%;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .rl-brand img {
+    height: 50px;
+    max-height: 50px;
+  }
+
+  .rl-navbar .navbar-collapse {
+    min-width: 0;
+  }
+
+  .rl-navbar .navbar-nav {
+    gap: 0 !important;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .rl-navbar .nav-item {
+    flex-shrink: 1;
+  }
+
+  .rl-nav-link {
+    font-size: 12.5px;
+    padding: 7px 6px !important;
+  }
+
+  .rl-nav-actions {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .rl-icon-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .rl-login-btn {
+    padding: 8px 14px;
+    font-size: 12.5px;
+  }
 }
 
 /* Mobile navbar panel */
@@ -483,7 +558,6 @@ body.light-mode .rl-hero-overlay {
   /* Reduced opacity so the hero background image stays vivid, not misty */
   background: linear-gradient(180deg, rgba(245, 248, 250, 0.28) 0%, rgba(245, 248, 250, 0.12) 50%, rgba(245, 248, 250, 0.42) 100%);
 }
-
 .rl-hero-inner {
   position: relative;
   z-index: 2;
@@ -1016,6 +1090,8 @@ body.light-mode .rl-card:hover {
   padding: 30px 24px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   transition: all 0.35s ease;
 }
 
@@ -1044,6 +1120,8 @@ body.light-mode .rl-card:hover {
 .rl-step p {
   color: var(--rl-muted);
   font-size: 14px;
+  line-height: 1.65;
+  min-height: 70px;
   margin: 0;
 }
 
@@ -1057,6 +1135,10 @@ body.light-mode .rl-card:hover {
   .rl-steps {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .rl-step p {
+    min-height: 0;
   }
 }
 
@@ -2050,7 +2132,9 @@ body.light-mode .rl-price-card.featured:hover {
   background-position: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   padding: 50px;
   min-height: 500px;
 }
@@ -2064,15 +2148,27 @@ body.light-mode .rl-price-card.featured:hover {
 .rl-auth-visual-content {
   position: relative;
   z-index: 1;
+  width: 100%;
+}
+
+.rl-auth-visual-content a {
+  justify-content: center !important;
+}
+
+.rl-auth-visual-details {
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .rl-auth-visual h2 {
   font-size: 36px;
-  color: white;
+  color: var(--rl-gold); /* Fallback color for browsers that don't support text clipping */
   margin-bottom: 12px;
   background: linear-gradient(135deg, var(--rl-gold), var(--rl-cyan));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: block; /* Ensure block layout for clipping */
 }
 
 .rl-auth-visual p {
@@ -2080,6 +2176,28 @@ body.light-mode .rl-price-card.featured:hover {
   -webkit-text-fill-color: rgba(255, 255, 255, 0.7) !important;
   font-size: 15px;
   max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.light-mode .rl-auth-visual-overlay {
+  background:
+    linear-gradient(to top, rgba(8, 22, 36, 0.92) 0%, rgba(8, 22, 36, 0.66) 58%, rgba(8, 22, 36, 0.5) 100%),
+    radial-gradient(circle at 50% 48%, rgba(0, 109, 119, 0.18), transparent 42%);
+}
+
+body.light-mode .rl-auth-visual h2 {
+  background: linear-gradient(135deg, #f5d487 0%, #6ff3ff 55%, #ffffff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: #f5d487;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 12px 34px rgba(0, 0, 0, 0.42);
+}
+
+body.light-mode .rl-auth-visual p {
+  color: rgba(255, 255, 255, 0.86) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.86) !important;
 }
 
 .rl-auth-logo {
@@ -2109,6 +2227,15 @@ body.light-mode .rl-price-card.featured:hover {
   padding-top: 0 !important;
 }
 
+/* Custom Checkbox Styling */
+.rl-checkbox-container input:checked ~ .rl-checkbox-box {
+  border-color: var(--rl-gold) !important;
+  background: rgba(226, 179, 84, 0.1) !important;
+}
+.rl-checkbox-container input:checked ~ .rl-checkbox-box i {
+  opacity: 1 !important;
+}
+
 @media (min-width: 992px) {
   .rl-auth-body {
     height: 100vh !important;
@@ -2116,22 +2243,68 @@ body.light-mode .rl-price-card.featured:hover {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   .rl-auth-page {
     grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
   .rl-auth-visual {
-    display: none;
+    display: flex !important;
+    min-height: 220px;
+    padding: 30px 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .rl-auth-visual-overlay {
+    background: linear-gradient(180deg, rgba(4, 17, 29, 0.6) 0%, rgba(4, 17, 29, 0.85) 100%);
+  }
+
+  .rl-auth-visual-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rl-auth-visual-content a {
+    margin-bottom: 12px !important;
+  }
+
+  .rl-auth-visual h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .rl-auth-visual p {
+    font-size: 13.5px;
+    margin: 0 auto;
+    max-width: 480px;
+  }
+
+  .rl-auth-visual-details {
+    display: none !important;
   }
 
   .rl-auth-form-panel {
-    padding: 40px 24px;
+    padding: 32px 20px;
+    flex: 1;
   }
 
   .rl-auth-logo {
-    height: 58px !important;
-    max-height: 58px;
+    height: 52px !important;
+    max-height: 52px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .rl-auth-visual p {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
 
@@ -2175,6 +2348,13 @@ body.light-mode .rl-footer {
   border: 0;
   background: transparent;
   object-fit: contain;
+}
+
+.rl-footer-brand a,
+.rl-footer-brand a:hover {
+  display: inline-block;
+  padding: 0 !important;
+  transition: none !important;
 }
 
 .rl-footer h5 {
@@ -4262,5 +4442,27 @@ body.light-mode .rl-material-info h4 {
 
   .rl-material-info p {
     font-size: 12px;
+  }
+}
+
+/* Home 1 testimonials: keep quote and author lines aligned across the three cards. */
+.rl-testimonial-card {
+  justify-content: flex-start;
+}
+
+.rl-testimonial-card p:first-of-type {
+  line-height: 1.65;
+  min-height: 70px;
+  margin-bottom: 0;
+}
+
+.rl-testimonial-card p:last-of-type {
+  margin-top: auto !important;
+  padding-top: 12px;
+}
+
+@media (max-width: 767.98px) {
+  .rl-testimonial-card p:first-of-type {
+    min-height: 0;
   }
 }

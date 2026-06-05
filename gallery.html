@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -12,15 +12,32 @@
   <script src="assets/js/direction-toggle.js"></script>
   <style>
     /* ── Technique cards ─────────────────────────────────── */
+    .gal-technique-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      margin: 0;
+    }
+
+    .gal-technique-grid > [class*="col-"] {
+      width: 100%;
+      max-width: none;
+      padding: 0;
+      display: flex;
+    }
+
     .gal-technique-card {
       position: relative;
       border: 1px solid var(--rl-border);
       border-radius: var(--rl-radius);
       overflow: hidden;
-      height: 100%;
+      min-height: 280px;
+      width: 100%;
       background-size: cover;
       background-position: center;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
     }
     
     /* Overlay for text readability & glassmorphism */
@@ -29,7 +46,8 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       padding: 32px 28px;
-      height: 100%;
+      flex-grow: 1;
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -237,6 +255,134 @@
       font-size: 14px;
       line-height: 1.7;
       margin: 0;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    @media (max-width: 1024px) {
+      .gal-technique-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gal-technique-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .gal-technique-card {
+        min-height: 250px;
+      }
+
+      .gal-technique-overlay {
+        padding: 26px 22px;
+      }
+    }
+
+    /* Light Mode Overrides for Technique Section */
+    body.light-mode .gal-technique-card {
+      border-color: var(--rl-border) !important;
+    }
+    
+    body.light-mode .gal-technique-overlay {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.90), rgba(240, 247, 249, 0.92)) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+    }
+    
+    body.light-mode .gal-technique-card:hover .gal-technique-overlay {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.80), rgba(240, 247, 249, 0.85)) !important;
+    }
+
+    body.light-mode .gal-technique-overlay h4 {
+      color: var(--rl-text) !important;
+    }
+
+    body.light-mode .gal-technique-overlay p {
+      color: var(--rl-muted) !important;
+    }
+
+    /* Light Mode hover headings */
+    body.light-mode .gal-tech-river:hover h4 {
+      color: var(--rl-cyan) !important;
+    }
+    body.light-mode .gal-tech-swirl:hover h4 {
+      color: #8e24aa !important;
+    }
+    body.light-mode .gal-tech-botanical:hover h4 {
+      color: #2e7d32 !important;
+    }
+    body.light-mode .gal-tech-mica:hover h4 {
+      color: var(--rl-gold) !important;
+    }
+    body.light-mode .gal-tech-geode:hover h4 {
+      color: #c2185b !important;
+    }
+    body.light-mode .gal-tech-polish:hover h4 {
+      color: var(--rl-cyan) !important;
+    }
+
+    /* Light Mode icons styling */
+    body.light-mode .gal-tech-river .gal-tech-icon-wrap {
+      color: var(--rl-cyan) !important;
+      background: rgba(0, 109, 119, 0.05) !important;
+      border-color: rgba(0, 109, 119, 0.15) !important;
+    }
+    body.light-mode .gal-tech-river:hover .gal-tech-icon-wrap {
+      background: var(--rl-cyan) !important;
+      color: #ffffff !important;
+    }
+
+    body.light-mode .gal-tech-swirl .gal-tech-icon-wrap {
+      color: #8e24aa !important;
+      background: rgba(142, 36, 170, 0.05) !important;
+      border-color: rgba(142, 36, 170, 0.15) !important;
+    }
+    body.light-mode .gal-tech-swirl:hover .gal-tech-icon-wrap {
+      background: #8e24aa !important;
+      color: #ffffff !important;
+    }
+
+    body.light-mode .gal-tech-botanical .gal-tech-icon-wrap {
+      color: #2e7d32 !important;
+      background: rgba(46, 125, 50, 0.05) !important;
+      border-color: rgba(46, 125, 50, 0.15) !important;
+    }
+    body.light-mode .gal-tech-botanical:hover .gal-tech-icon-wrap {
+      background: #2e7d32 !important;
+      color: #ffffff !important;
+    }
+
+    body.light-mode .gal-tech-mica .gal-tech-icon-wrap {
+      color: var(--rl-gold) !important;
+      background: rgba(133, 95, 10, 0.05) !important;
+      border-color: rgba(133, 95, 10, 0.15) !important;
+    }
+    body.light-mode .gal-tech-mica:hover .gal-tech-icon-wrap {
+      background: var(--rl-gold) !important;
+      color: #ffffff !important;
+    }
+
+    body.light-mode .gal-tech-geode .gal-tech-icon-wrap {
+      color: #c2185b !important;
+      background: rgba(194, 24, 91, 0.05) !important;
+      border-color: rgba(194, 24, 91, 0.15) !important;
+    }
+    body.light-mode .gal-tech-geode:hover .gal-tech-icon-wrap {
+      background: #c2185b !important;
+      color: #ffffff !important;
+    }
+
+    body.light-mode .gal-tech-polish .gal-tech-icon-wrap {
+      color: var(--rl-cyan) !important;
+      background: rgba(0, 109, 119, 0.05) !important;
+      border-color: rgba(0, 109, 119, 0.15) !important;
+    }
+    body.light-mode .gal-tech-polish:hover .gal-tech-icon-wrap {
+      background: var(--rl-cyan) !important;
+      color: #ffffff !important;
     }
 
     /* ── Masonry heights ─────────────────────────────────── */
@@ -674,7 +820,7 @@
       <h2>Techniques Behind Every Piece</h2>
       <p>Each creation method is chosen carefully to serve the final aesthetic and function.</p>
     </div>
-    <div class="row g-4">
+    <div class="gal-technique-grid">
       <!-- 1. River Casting -->
       <div class="col-12 col-md-6 col-lg-4">
         <div class="gal-technique-card gal-tech-river" style="background-image: url('assets/images/home-river-table.jpg');">
@@ -876,7 +1022,11 @@
   <div class="container">
     <div class="row g-4">
       <div class="col-12 col-lg-4">
-        <div class="rl-footer-brand"><img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90"></div>
+        <div class="rl-footer-brand">
+          <a href="index.html">
+            <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90">
+          </a>
+        </div>
         <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. River tables, jewelry, coasters and more.</p>
         <div class="rl-social mt-3">
           <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
@@ -917,7 +1067,7 @@
       </div>
     </div>
   </div>
-  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+  <div class="rl-footer-bottom"><p>&copy; 2026 ResinLux Studio. All rights reserved.</p></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

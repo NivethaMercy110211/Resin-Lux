@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -20,6 +20,10 @@
       border-radius: var(--rl-radius);
       padding: 24px;
       text-align: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
     }
     .co-size-card:hover {
@@ -27,8 +31,29 @@
       transform: translateY(-4px);
       box-shadow: 0 18px 45px rgba(0,0,0,0.2);
     }
-    .co-size-icon { font-size: 36px; display: block; margin-bottom: 12px; }
-    .co-size-card h4 { font-size: 17px; margin-bottom: 6px; }
+    .co-size-icon {
+      font-size: 36px;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+    .co-size-card h4 {
+      font-size: 17px;
+      margin-bottom: 6px;
+      min-height: 22px;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.25;
+      text-wrap: balance;
+    }
+    .co-size-title-long {
+      max-width: 150px;
+    }
     .co-size-dims {
       font-size: 22px;
       font-weight: 900;
@@ -37,8 +62,21 @@
       -webkit-text-fill-color: transparent;
       display: block;
       margin: 6px 0;
+      min-height: 32px;
+      white-space: nowrap;
+      line-height: 1.15;
     }
-    .co-size-card p { color: var(--rl-muted); font-size: 13px; margin: 0; }
+    .co-size-card p {
+      color: var(--rl-muted);
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 64px;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .co-size-grid > [class*="col-"] {
+      display: flex;
+    }
 
     /* Pigment swatch matrix */
     .co-pigment-grid {
@@ -227,7 +265,46 @@
     .co-innovation-card h4 {
       font-size: 15.5px;
       margin: 0;
+      min-height: 20px;
+      white-space: nowrap;
       color: var(--rl-text);
+    }
+    .co-innovation-feature-grid > [class*="col-"] {
+      display: flex;
+    }
+    .co-innovation-feature-grid .co-innovation-card {
+      width: 100%;
+    }
+    .co-innovation-feature-grid .co-innovation-card p {
+      min-height: 92px;
+    }
+    @media (min-width: 768px) and (max-width: 1199.98px) {
+      .co-innovation-section .row.align-items-center > [class*="col-lg-"] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+      }
+      .co-innovation-img-wrap img {
+        height: 320px !important;
+      }
+      .co-innovation-feature-grid .co-innovation-card {
+        padding: 24px 22px;
+      }
+      .co-innovation-feature-grid .co-innovation-card p {
+        font-size: 13.25px;
+        line-height: 1.6;
+        min-height: 64px;
+      }
+    }
+    @media (min-width: 768px) and (max-width: 900px) {
+      .co-innovation-feature-grid .co-innovation-card {
+        padding: 22px 18px;
+      }
+      .co-innovation-feature-grid .co-innovation-card p {
+        font-size: 13px;
+        line-height: 1.58;
+        min-height: 82px;
+      }
     }
     body.light-mode .co-innovation-section {
       background:
@@ -375,16 +452,42 @@
     .layout-corporate #co-slab-wood-l { display: block; width: 100% !important; height: 65% !important; border-right: none !important; border-bottom: 2px dashed rgba(226,179,84,0.15); }
     .layout-corporate #co-slab-wood-r { display: none !important; }
     .layout-corporate .co-river-pour { display: block; width: 100% !important; height: 35% !important; }
-    
-    /* Shimmer animation keyframes */
-    @keyframes co-shimmer {
-      0% { transform: skewX(-25deg) translateX(-150%); }
-      50% { transform: skewX(-25deg) translateX(250%); }
-      100% { transform: skewX(-25deg) translateX(250%); }
+    @media (max-width: 1024px) {
+      .co-size-card h4 {
+        min-height: 48px;
+      }
+      .co-size-title-long {
+        max-width: 118px;
+      }
+      .co-size-dims {
+        font-size: 18px;
+        min-height: 26px;
+      }
+      .co-size-card p {
+        font-size: 12.75px;
+        min-height: 88px;
+      }
     }
 
     @media (max-width: 768px) {
       .co-pigment-grid { grid-template-columns: repeat(2,1fr); }
+      .co-size-card {
+        padding: 22px 16px;
+      }
+      .co-size-card h4 {
+        min-height: 48px;
+      }
+      .co-size-title-long {
+        max-width: 118px;
+      }
+      .co-size-dims {
+        font-size: 18px;
+        min-height: 26px;
+      }
+      .co-size-card p {
+        font-size: 12.75px;
+        min-height: 88px;
+      }
       .co-brief-grid > [class*="col-"] {
         display: block;
       }
@@ -394,6 +497,30 @@
     }
     @media (max-width: 576px) {
       .co-pigment-grid { grid-template-columns: repeat(2,1fr); }
+      .co-size-grid {
+        gap: 16px 0;
+      }
+      .co-size-card {
+        padding: 22px 20px;
+      }
+      .co-size-title-long {
+        max-width: none;
+      }
+      .co-size-dims {
+        font-size: 21px;
+      }
+      .co-size-card h4,
+      .co-size-card p {
+        min-height: 0;
+      }
+      .co-size-card p {
+        max-width: 280px;
+      }
+      .co-innovation-card h4,
+      .co-innovation-feature-grid .co-innovation-card p {
+        min-height: 0;
+        white-space: normal;
+      }
     }
   </style>
 </head>
@@ -686,26 +813,26 @@
             <h2>Smarter Custom Orders</h2>
             <p>Every brief is translated into a practical studio plan before production begins, so colour, size and finish decisions are easier to approve.</p>
           </div>
-          <div class="row g-3">
+          <div class="row g-3 co-innovation-feature-grid">
             <div class="col-12 col-md-4">
               <div class="co-innovation-card">
                 <span class="co-innovation-icon"><i class="bi bi-bounding-box-circles"></i></span>
                 <h4>Mockup First</h4>
-                <p>Preview proportions, resin flow and colour direction before the first pour is scheduled.</p>
+                <p>Preview scale, resin flow and colour direction before scheduling the first pour.</p>
               </div>
             </div>
             <div class="col-12 col-md-4">
               <div class="co-innovation-card">
                 <span class="co-innovation-icon"><i class="bi bi-palette2"></i></span>
                 <h4>Formula Memory</h4>
-                <p>Your pigment blend and finish notes are saved for matching future decor.</p>
+                <p>Save pigment blends and finish notes for future decor matching.</p>
               </div>
             </div>
             <div class="col-12 col-md-4">
               <div class="co-innovation-card">
                 <span class="co-innovation-icon"><i class="bi bi-phone-vibrate"></i></span>
                 <h4>Stage Updates</h4>
-                <p>Production checkpoints keep you informed from casting through final polish.</p>
+                <p>Follow casting, curing and polish checkpoints from your dashboard.</p>
               </div>
             </div>
           </div>
@@ -723,7 +850,7 @@
       <h2>What Size Suits Your Space?</h2>
       <p>Use these standard dimensions as your starting reference — all sizes are fully customisable.</p>
     </div>
-    <div class="row g-4">
+    <div class="row g-4 co-size-grid">
       <div class="col-12 col-md-4">
         <div class="co-size-card">
           <span class="co-size-icon">☕</span>
@@ -743,7 +870,7 @@
       <div class="col-12 col-md-4">
         <div class="co-size-card">
           <span class="co-size-icon">🚪</span>
-          <h4>Console / Entryway</h4>
+          <h4 class="co-size-title-long">Console / Entryway</h4>
           <span class="co-size-dims">120×40×80cm</span>
           <p>Statement hallway piece — narrow profile, tall height, great for framed mirrors above.</p>
         </div>
@@ -866,7 +993,11 @@
   <div class="container">
     <div class="row g-4">
       <div class="col-12 col-lg-4">
-        <div class="rl-footer-brand"><img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90"></div>
+        <div class="rl-footer-brand">
+          <a href="index.html">
+            <img src="assets/images/resinlux_logo_lockup.png" alt="ResinLux" width="310" height="90">
+          </a>
+        </div>
         <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. River tables, jewelry, coasters and more.</p>
         <div class="rl-social mt-3"><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a></div>
       </div>
@@ -884,7 +1015,7 @@
       </div>
     </div>
   </div>
-  <div class="rl-footer-bottom"><p>&copy; 2025 ResinLux Studio. All rights reserved.</p></div>
+  <div class="rl-footer-bottom"><p>&copy; 2026 ResinLux Studio. All rights reserved.</p></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
