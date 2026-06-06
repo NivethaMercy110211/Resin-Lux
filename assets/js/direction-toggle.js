@@ -2,7 +2,7 @@
 // ResinLux Studio — Layout Direction Toggler (RTL/LTR)
 // =====================================================
 
-// Run immediately on script load to prevent layout shifts
+// Run immediately on script load to prevent layout shifts and theme flashes
 (function() {
   const savedDir = localStorage.getItem('rl-dir') || 'ltr';
   document.documentElement.setAttribute('dir', savedDir);
@@ -11,6 +11,22 @@
   const bootstrapLink = document.querySelector('link[href*="bootstrap.min.css"], link[href*="bootstrap.rtl.min.css"]');
   if (bootstrapLink && savedDir === 'rtl') {
     bootstrapLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css';
+  }
+
+  // Prevent flash of dark theme if light theme is active
+  const savedTheme = localStorage.getItem('rl-theme') || 'dark';
+  if (savedTheme === 'light') {
+    if (document.body) {
+      document.body.classList.add('light-mode');
+    } else {
+      const observer = new MutationObserver((mutations, obs) => {
+        if (document.body) {
+          document.body.classList.add('light-mode');
+          obs.disconnect();
+        }
+      });
+      observer.observe(document.documentElement, { childList: true });
+    }
   }
 })();
 

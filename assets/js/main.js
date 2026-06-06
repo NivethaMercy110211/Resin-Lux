@@ -91,7 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close on nav link click (mobile)
     navDrawer.querySelectorAll('.rl-nav-link:not(.dropdown-toggle), .rl-dropdown-item, .rl-login-btn').forEach(el => {
       el.addEventListener('click', () => {
-        if (window.innerWidth < 992) closeDrawer();
+        if (window.innerWidth < 992) {
+          const href = el.getAttribute('href');
+          if (href && href !== '#' && !href.startsWith('#')) {
+            // Close the drawer instantly without transitions on page navigation
+            // to avoid rendering animations while the browser is unloading/loading pages
+            navDrawer.style.transition = 'none';
+            navOverlay.style.transition = 'none';
+            closeDrawer();
+            setTimeout(() => {
+              navDrawer.style.transition = '';
+              navOverlay.style.transition = '';
+            }, 50);
+          } else {
+            closeDrawer();
+          }
+        }
       });
     });
 
@@ -125,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ripple.style.left = `${e.pageX}px`;
     ripple.style.top  = `${e.pageY}px`;
     document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 800);
+    setTimeout(() => ripple.remove(), 600);
   });
 
   // --------------------------------------------------
@@ -147,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
     (function trackSpotlight() {
       spotX += (mouseX - spotX) * speed;
       spotY += (mouseY - spotY) * speed;
-      spotlight.style.left = `${spotX}px`;
-      spotlight.style.top  = `${spotY}px`;
+      // Use GPU-accelerated translate3d to avoid layout reflows on mouse move
+      spotlight.style.transform = `translate3d(calc(${spotX}px - 50%), calc(${spotY}px - 50%), 0)`;
       requestAnimationFrame(trackSpotlight);
     })();
   }

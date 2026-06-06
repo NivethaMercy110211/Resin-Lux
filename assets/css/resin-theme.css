@@ -2643,13 +2643,15 @@ body.light-mode .rl-orb {
 /* Cursor spotlight */
 .rl-spotlight {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 440px;
   height: 440px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(0, 229, 255, 0.055) 0%, transparent 70%);
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
   mix-blend-mode: screen;
 }
 
@@ -2661,27 +2663,26 @@ body.light-mode .rl-spotlight {
 /* Click ripple */
 .rl-ripple {
   position: absolute;
+  width: 100px;
+  height: 100px;
   border: 2px solid var(--rl-cyan);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  animation: rl-ripple-out 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  animation: rl-ripple-out 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
   box-shadow: 0 0 14px rgba(0, 229, 255, 0.28);
 }
 
 @keyframes rl-ripple-out {
   0% {
-    width: 0;
-    height: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0);
     opacity: 1;
   }
 
   100% {
-    width: 240px;
-    height: 240px;
+    transform: translate3d(-50%, -50%, 0) scale(2.4);
     opacity: 0;
-    border-width: 0.5px;
   }
 }
 
@@ -3816,18 +3817,15 @@ body.light-mode .rl-navbar-scrolled {
 .rl-nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0);
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
+  background: rgba(0, 0, 0, 0.52);
+  opacity: 0;
   z-index: 1028;
   pointer-events: none;
-  transition: background 0.35s ease, backdrop-filter 0.35s ease;
+  transition: opacity 0.28s ease;
 }
 
 .rl-nav-overlay.rl-overlay-active {
-  background: rgba(0, 0, 0, 0.52);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  opacity: 1;
   pointer-events: all;
 }
 
