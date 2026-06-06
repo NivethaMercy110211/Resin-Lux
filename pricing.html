@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -42,6 +42,18 @@
     .pr-spec-step .bi { font-size: 26px; color: var(--rl-gold); display: block; margin-bottom: 10px; }
     .pr-spec-step h5 { font-size: 14px; margin-bottom: 4px; }
     .pr-spec-step p  { color: var(--rl-muted); font-size: 12px; margin: 0; }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .pr-spec-step h5 {
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pr-spec-step p {
+        min-height: 76px;
+      }
+    }
 
     /* Add-on responsive grid */
     .pr-addon-track {
@@ -109,7 +121,7 @@
     .pr-bundle-badge {
       display: inline-block;
       background: var(--rl-gold);
-      color: #211400;
+      color: #e3dcd1;
       font-size: 10px;
       font-weight: 800;
       padding: 4px 12px;
@@ -299,7 +311,7 @@
 <main>
 
 <!-- HERO -->
-<section class="rl-hero" style="background-image: url('assets/images/shop-orders-hero.jpg');">
+<section class="rl-hero" style="background-image: url('assets/images/shop-orders-hero.png');">
   <div class="rl-hero-overlay"></div>
   <div class="container rl-hero-inner text-center">
     <span class="rl-eyebrow">Pricing</span>
@@ -601,7 +613,7 @@
 </section>
 
 <!-- CTA -->
-<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/home-coasters.jpg');">
+<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/home-hero.png');">
   <div class="container">
     <div class="rl-cta-panel">
       <span class="rl-eyebrow">Ready to Begin?</span>

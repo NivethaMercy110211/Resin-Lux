@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -66,6 +66,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      text-align: center;
     }
     #materialsGrid .shop-product-body h3 {
       height: 42px;
@@ -82,15 +83,70 @@
       text-align: center;
       text-wrap: balance;
       overflow: hidden;
+      margin-bottom: 14px;
     }
     #materialsGrid .shop-product-price {
       margin-top: auto;
+      text-align: center;
+      display: block;
     }
     #materialsGrid .shop-product-body .rl-btn {
-      min-height: 42px;
+      width: 150px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      padding: 0 !important;
       display: inline-flex !important;
       align-items: center;
       justify-content: center;
+      margin: 0 auto;
+      font-size: 13px !important;
+    }
+    #shopGrid > [class*="col-"] {
+      display: flex;
+    }
+    #shopGrid .shop-product-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    #shopGrid .shop-product-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    #shopGrid .shop-product-body h3 {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.25;
+      text-align: center;
+      text-wrap: balance;
+    }
+    #shopGrid .shop-product-body p {
+      height: 66px;
+      line-height: 1.6;
+      text-align: center;
+      text-wrap: balance;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    #shopGrid .shop-product-price {
+      margin-top: auto;
+      text-align: center;
+      display: block;
+    }
+    #shopGrid .shop-product-body .rl-btn {
+      width: 150px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      padding: 0 !important;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      font-size: 13px !important;
     }
     .shop-badge-new {
       position: absolute; top: 12px; left: 12px;
@@ -205,6 +261,12 @@
       #materialsGrid .shop-product-body p {
         height: 84px;
       }
+      #shopGrid .shop-product-body h3 {
+        height: 26px;
+      }
+      #shopGrid .shop-product-body p {
+        height: 84px;
+      }
     }
 
     @media (min-width: 992px) and (max-width: 1199.98px) {
@@ -218,6 +280,13 @@
         font-size: 12.75px;
         height: 86px;
       }
+      #shopGrid .shop-product-body h3 {
+        height: 44px;
+      }
+      #shopGrid .shop-product-body p {
+        font-size: 12.75px;
+        height: 86px;
+      }
     }
 
     @media (min-width: 769px) and (max-width: 991.98px) {
@@ -227,11 +296,19 @@
       #materialsGrid .shop-product-body p {
         height: 66px;
       }
+      #shopGrid .shop-product-body h3 {
+        height: 30px;
+      }
+      #shopGrid .shop-product-body p {
+        height: 66px;
+      }
     }
 
     @media (max-width: 576px) {
       #materialsGrid .shop-product-body h3,
-      #materialsGrid .shop-product-body p {
+      #materialsGrid .shop-product-body p,
+      #shopGrid .shop-product-body h3,
+      #shopGrid .shop-product-body p {
         height: auto;
         overflow: visible;
       }
@@ -767,7 +844,7 @@
 <main>
 
 <!-- HERO -->
-<section class="rl-hero" style="background-image: url('assets/images/shop-hero.jpg');">
+<section class="rl-hero" style="background-image: url('assets/images/shop-hero.png');">
   <div class="rl-hero-overlay"></div>
   <div class="container rl-hero-inner text-center">
     <span class="rl-eyebrow">ResinLux Shop</span>
@@ -820,7 +897,7 @@
             <h3>Ocean Swirl Coasters</h3>
             <p>Set of 4 - teal and white marble effect with a high-gloss finish.</p>
             <span class="shop-product-price">₹1,499</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -842,7 +919,7 @@
             <h3>Gold &amp; Pearl Serving Tray</h3>
             <p>Oval serving tray - gold and pearl swirl with natural wood handle insets.</p>
             <span class="shop-product-price">₹3,299</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -864,7 +941,7 @@
             <h3>Botanical Floral Pendant</h3>
             <p>Dried florals embedded in crystal-clear resin - oval teardrop form on gold chain.</p>
             <span class="shop-product-price">₹899</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -887,7 +964,7 @@
             <h3>Housewarming Gift Set</h3>
             <p>4 matching coasters + 1 serving tray in coordinating resin palette. Boxed for gifting.</p>
             <span class="shop-product-price">₹4,299</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -909,7 +986,7 @@
             <h3>Geode Rose Quartz Coasters</h3>
             <p>Set of 6 - geode agate pattern in rose quartz pigment. Velvet-backed.</p>
             <span class="shop-product-price">₹2,499</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -931,7 +1008,7 @@
             <h3>Gold Foil Drop Earrings</h3>
             <p>Teardrop earrings with suspended 24k gold foil in crystal clear resin.</p>
             <span class="shop-product-price">₹699</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -954,7 +1031,7 @@
             <h3>Ocean Wave Cheeseboard</h3>
             <p>Ocean waves on a live-edge acacia wood serving board. Perfect for displays.</p>
             <span class="shop-product-price">₹2,199</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -977,7 +1054,7 @@
             <h3>Pressed Flower Ring Holder</h3>
             <p>Geometric resin ring cone embedded with real pressed hydrangeas and gold flakes.</p>
             <span class="shop-product-price">₹799</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1015,7 +1092,7 @@
             <h3>Resin Pigments</h3>
             <p>Vibrant mica powder and liquid colorants for deep color depth and metallic swirl effects.</p>
             <span class="shop-product-price">₹499</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1038,7 +1115,7 @@
             <h3>Concrete Art Material</h3>
             <p>Specially formulated ultra-fine cement for creating combined resin-concrete coasters and trays.</p>
             <span class="shop-product-price">₹349</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1061,7 +1138,7 @@
             <h3>MDF ART BASE</h3>
             <p>Sturdy, warp-resistant MDF bases pre-cut into circles, rectangles, and custom geode slabs.</p>
             <span class="shop-product-price">₹299</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1084,7 +1161,7 @@
             <h3>Resin Stone</h3>
             <p>Hand-sorted glass stones, gold quartz flakes, and natural crystals to add 3D textures to geode art.</p>
             <span class="shop-product-price">₹399</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1107,7 +1184,7 @@
             <h3>Stands and Handles</h3>
             <p>Premium metallic handles and easel stands to complete your custom serving trays and clocks.</p>
             <span class="shop-product-price">₹599</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1130,7 +1207,7 @@
             <h3>Clock</h3>
             <p>Silent clock mechanisms, sleek metal hands, and luxury numeral sets for DIY timepieces.</p>
             <span class="shop-product-price">₹699</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1153,7 +1230,7 @@
             <h3>Resin Tools</h3>
             <p>A complete toolset including heat guns, silicone mixers, bubble levelers, and safety gear.</p>
             <span class="shop-product-price">₹1,299</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1176,7 +1253,7 @@
             <h3>Silicone Mould</h3>
             <p>Tear-resistant, flexible silicone moulds for casting flawless coasters, jewelry dish trays, and pyramids.</p>
             <span class="shop-product-price">₹449</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1199,7 +1276,7 @@
             <h3>Resin</h3>
             <p>Professional grade, non-yellowing casting epoxy with self-leveling and bubble-release chemistry.</p>
             <span class="shop-product-price">₹1,899</span>
-            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm w-100"><i class="bi bi-bag-plus"></i> Add to Cart</a>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm"><i class="bi bi-bag-plus"></i> Add to Cart</a>
           </div>
         </div>
       </div>
@@ -1269,7 +1346,7 @@
 </section>
 
 <!-- BESPOKE GIFTING HIGHLIGHT -->
-<section class="rl-section rl-section-bg-process" style="background-image: url('assets/images/home-river-table.jpg');">
+<section class="rl-section rl-section-bg-process" style="background-image: url('assets/images/shop-hero.png');">
   <div class="container">
     <div class="shop-gift-split" data-reveal>
       <div class="shop-gift-img">
@@ -1349,7 +1426,7 @@
 </section>
 
 <!-- INTERACTIVE REVIEW HUB -->
-<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/home-coasters.jpg');">
+<section class="rl-section rl-section-bg-testimonials" style="background-image: url('assets/images/pricing-hero.png');">
   <div class="container">
     <div class="rl-section-title" data-reveal>
       <span class="rl-eyebrow">Client Reviews</span>

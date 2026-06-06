@@ -1017,6 +1017,7 @@ body.light-mode .rl-card:hover {
   background: linear-gradient(135deg, var(--rl-gold), var(--rl-cyan));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }
 
 .rl-stat-label {
@@ -1031,13 +1032,24 @@ body.light-mode .rl-card:hover {
   .rl-stats-strip {
     gap: 16px;
   }
+  .rl-stat-number {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .rl-stat-label {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 768px) {
   .rl-stats-strip {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .rl-stat-number {
     font-size: 38px;
   }
@@ -1349,6 +1361,22 @@ body.light-mode .rl-card:hover {
 
   .rl-split p {
     font-size: 13.5px;
+  }
+}
+
+/* ================================================
+   Pigment Swatch Circles (Home 2)
+   ================================================ */
+.rl-pigment-circles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 24px;
+}
+
+@media (max-width: 991px) {
+  .rl-pigment-circles {
+    justify-content: center;
   }
 }
 
@@ -3831,6 +3859,11 @@ body.light-mode .rl-navbar-scrolled {
 
 /* ── Custom Mobile Drawer (replaces Bootstrap collapse) ── */
 @media (max-width: 991.98px) {
+  .rl-toggler {
+    position: relative;
+    z-index: 1035 !important;
+  }
+
   #rlNav {
     /* Override Bootstrap collapse */
     display: flex !important;
