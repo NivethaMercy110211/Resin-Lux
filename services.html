@@ -153,11 +153,22 @@
       font-size:13px;
       line-height: 1.6;
       min-height: 84px;
-      margin: 0;
+      margin: 0 0 24px;
       text-wrap: balance;
+      text-align: center;
     }
     .srv-hint-card .rl-btn {
       margin-top: auto !important;
+    }
+
+    @media (max-width: 1024px) {
+      .srv-hint-range {
+        font-size: 22px !important;
+        letter-spacing: -0.5px;
+      }
+      .srv-hint-card {
+        padding: 24px 14px !important;
+      }
     }
 
     @media (max-width: 992px) {
@@ -178,19 +189,23 @@
         line-height: 1.55;
       }
       .srv-hint-card {
-        padding: 28px 22px 30px;
+        padding: 20px 10px 22px !important;
+      }
+      .srv-hint-range {
+        font-size: 19px !important;
       }
       .srv-hint-card p {
-        font-size: 12.5px;
-        line-height: 1.55;
-        min-height: 82px;
+        font-size: 12px;
+        line-height: 1.5;
+        min-height: auto !important;
       }
       .srv-hint-card .rl-btn {
         margin-top: auto !important;
-        min-height: 44px;
+        min-height: 38px;
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
+        font-size: 12px;
       }
       .srv-guarantee { grid-template-columns: repeat(2, 1fr); }
       .srv-guarantee-item:nth-child(2) { border-right: none; }
@@ -234,7 +249,7 @@
         <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
       </ul>
       <div class="rl-nav-actions">
-        <button class="rl-icon-btn" id="themeToggle" type="button">☀️</button>
+        <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode"><i class="bi bi-sun"></i></button>
         <button class="rl-icon-btn" id="dirToggle" type="button" aria-label="Toggle layout direction">RTL</button>
         <a href="login.html" class="rl-login-btn"><i class="bi bi-person-circle me-1"></i> Login</a>
       </div>
@@ -245,7 +260,7 @@
 <main>
 
 <!-- HERO -->
-<section class="rl-hero" style="background-image: url('assets/images/service_hero_bg.png');">
+<section class="rl-hero" style="background-image: url('assets/images/services-hero-wood-resin.png');">
   <div class="rl-hero-overlay"></div>
   <div class="container rl-hero-inner text-center">
     <span class="rl-eyebrow">Our Services</span>
@@ -505,28 +520,28 @@
       <h2>Transparent from the Start</h2>
       <p>All commissions are scoped individually — these ranges give you a clear starting estimate.</p>
     </div>
-    <div class="row g-4">
-      <div class="col-12 col-md-4">
-        <div class="srv-hint-card">
+    <div class="row g-3 g-lg-4">
+      <div class="col-12 col-md-4 d-flex">
+        <div class="srv-hint-card w-100">
           <div class="srv-hint-tier">Starter</div>
           <div class="srv-hint-range">₹499–₹4,999</div>
-          <p>Coasters, jewelry, keychains and tray sets with a 3-day turnaround.</p>
-          <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3 d-block"><i class="bi bi-bag"></i> Shop Ready-Made</a>
+          <p>Custom coaster sets, serving trays, and epoxy jewelry pieces.</p>
+          <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3 d-block"><i class="bi bi-bag"></i> Shop Products</a>
         </div>
       </div>
-      <div class="col-12 col-md-4">
-        <div class="srv-hint-card" style="border-color:rgba(226,179,84,0.3);background:linear-gradient(180deg,rgba(226,179,84,0.07),rgba(255,255,255,0.02));">
+      <div class="col-12 col-md-4 d-flex">
+        <div class="srv-hint-card w-100" style="border-color:rgba(226,179,84,0.3);background:linear-gradient(180deg,rgba(226,179,84,0.07),rgba(255,255,255,0.02));">
           <div class="srv-hint-tier">Standard</div>
           <div class="srv-hint-range">₹4,999–₹24,999</div>
-          <p>Coffee tables, large wall panels, serving tray sets, corporate gift packages.</p>
-          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm mt-3 d-block"><i class="bi bi-pencil-square"></i> Commission</a>
+          <p>Custom coffee tables, wall panels, and premium gifting packages.</p>
+          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm mt-3 d-block"><i class="bi bi-pencil-square"></i> Commission Now</a>
         </div>
       </div>
-      <div class="col-12 col-md-4">
-        <div class="srv-hint-card">
+      <div class="col-12 col-md-4 d-flex">
+        <div class="srv-hint-card w-100">
           <div class="srv-hint-tier">Premium</div>
           <div class="srv-hint-range">₹24,999+</div>
-          <p>Dining river tables, triptych wall panels, interior design installations. Full white-glove service.</p>
+          <p>Custom dining tables, wall panels, and home art installations.</p>
           <a href="contact.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3 d-block"><i class="bi bi-chat-dots"></i> Get a Quote</a>
         </div>
       </div>

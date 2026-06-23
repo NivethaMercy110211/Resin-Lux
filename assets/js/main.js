@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyTheme(theme) {
     document.body.classList.toggle('light-mode', theme === 'light');
     if (themeToggle) {
-      themeToggle.textContent   = theme === 'light' ? '🌙' : '☀️';
+      themeToggle.innerHTML   = theme === 'light' ? '<i class="bi bi-moon-stars"></i>' : '<i class="bi bi-sun"></i>';
       themeToggle.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
     }
   }

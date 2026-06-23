@@ -81,6 +81,7 @@
       transform: translateY(-3px);
     }
     .pr-addon-icon { font-size: 28px; display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 10px; }
+    .pr-addon-icon i { color: var(--rl-gold); }
     .pr-addon-card h5 {
       font-size: 14px;
       line-height: 1.25;
@@ -174,6 +175,7 @@
       display: inline-flex !important;
       align-items: center;
       justify-content: center;
+      margin-top: 24px;
     }
     .pr-tier-row {
       align-items: stretch;
@@ -198,11 +200,12 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
+      text-align: center;
     }
     .pr-tier-row .rl-price-card ul {
       flex: 1;
       margin-bottom: 0;
-      width: fit-content;
+      width: 280px;
       max-width: 100%;
       margin-left: auto;
       margin-right: auto;
@@ -300,7 +303,7 @@
         <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
       </ul>
       <div class="rl-nav-actions">
-        <button class="rl-icon-btn" id="themeToggle" type="button">☀️</button>
+        <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode"><i class="bi bi-sun"></i></button>
         <button class="rl-icon-btn" id="dirToggle" type="button" aria-label="Toggle layout direction">RTL</button>
         <a href="login.html" class="rl-login-btn"><i class="bi bi-person-circle me-1"></i> Login</a>
       </div>
@@ -311,7 +314,7 @@
 <main>
 
 <!-- HERO -->
-<section class="rl-hero" style="background-image: url('assets/images/shop-orders-hero.png');">
+<section class="rl-hero" style="background-image: url('assets/images/srv-workshops.png');">
   <div class="rl-hero-overlay"></div>
   <div class="container rl-hero-inner text-center">
     <span class="rl-eyebrow">Pricing</span>
@@ -494,37 +497,37 @@
     </div>
     <div class="pr-addon-track">
       <div class="pr-addon-card">
-        <span class="pr-addon-icon">✨</span>
+        <span class="pr-addon-icon"><i class="bi bi-stars"></i></span>
         <h5>Crystal Shimmer</h5>
         <p>Mica shimmer suspended in resin layer for holographic depth effect.</p>
         <span class="pr-addon-price">+₹800</span>
       </div>
       <div class="pr-addon-card">
-        <span class="pr-addon-icon">🥇</span>
+        <span class="pr-addon-icon"><i class="bi bi-award"></i></span>
         <h5>Gold Leaf Accent</h5>
         <p>Real 24k gold leaf flakes embedded in the river channel.</p>
         <span class="pr-addon-price">+₹1,200</span>
       </div>
       <div class="pr-addon-card">
-        <span class="pr-addon-icon">🌙</span>
+        <span class="pr-addon-icon"><i class="bi bi-moon-stars"></i></span>
         <h5>Glow in the Dark</h5>
         <p>Strontium aluminate glow pigment — glows for 8+ hours after light exposure.</p>
         <span class="pr-addon-price">+₹1,800</span>
       </div>
       <div class="pr-addon-card">
-        <span class="pr-addon-icon">💐</span>
+        <span class="pr-addon-icon"><i class="bi bi-flower1"></i></span>
         <h5>Floral Embedding</h5>
         <p>Preserved dried flowers, leaves or botanicals set in the resin layer.</p>
         <span class="pr-addon-price">+₹600</span>
       </div>
       <div class="pr-addon-card">
-        <span class="pr-addon-icon">🔠</span>
+        <span class="pr-addon-icon"><i class="bi bi-type"></i></span>
         <h5>Name / Date Inlay</h5>
         <p>Custom text or date engraved or inlaid into the resin surface.</p>
         <span class="pr-addon-price">+₹500</span>
       </div>
       <div class="pr-addon-card">
-        <span class="pr-addon-icon">🎁</span>
+        <span class="pr-addon-icon"><i class="bi bi-gift"></i></span>
         <h5>Gift Box Upgrade</h5>
         <p>Premium rigid gift box with foam inlay, ribbon and greeting card.</p>
         <span class="pr-addon-price">+₹350</span>

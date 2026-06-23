@@ -12,19 +12,42 @@
   <script src="assets/js/direction-toggle.js"></script>
   <style>
     /* Dashboard page — no site navbar, full portal layout */
-    body { background: var(--rl-bg); overflow-x: hidden; padding-top: 0; }
+    html,
+    body {
+      height: 100%;
+    }
+    body {
+      background: var(--rl-bg);
+      overflow: hidden;
+      padding-top: 0;
+    }
+
+    .rl-portal {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .rl-portal-main {
+      height: 100vh;
+      padding: 0 32px 32px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-padding-top: 96px;
+    }
 
     /* Welcome strip */
     .dash-welcome {
       background: linear-gradient(135deg, rgba(226,179,84,0.08), rgba(0,229,255,0.04));
       border: 1px solid var(--rl-border);
       border-radius: var(--rl-radius);
-      padding: 24px 28px;
+      padding: 28px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 14px;
+      margin-top: 16px;
       margin-bottom: 28px;
     }
     .dash-welcome h2 {
@@ -309,6 +332,19 @@
 
     /* Mobile / Tablet Drawer Sidebar Layout (max-width: 991px) */
     @media (max-width: 991px) {
+      .rl-portal {
+        height: 100vh;
+        padding-top: 56px;
+        box-sizing: border-box;
+      }
+
+      .rl-portal-main {
+        height: calc(100vh - 56px);
+        overflow-y: auto;
+        padding-top: 24px !important;
+        scroll-padding-top: 24px;
+      }
+
       /* Mobile header bar at top */
       .rl-dash-mobile-header {
         display: flex;
@@ -317,8 +353,11 @@
         padding: 10px 16px;
         background: var(--rl-panel);
         border-bottom: 1px solid var(--rl-border);
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
         z-index: 1030;
         height: 56px;
       }
@@ -476,19 +515,32 @@
       position: relative;
     }
     .rl-dash-top-actions {
-      position: absolute;
-      top: 32px;
-      right: 32px;
+      position: sticky;
+      top: 0;
       display: flex;
-      gap: 10px;
-      z-index: 100;
+      gap: 0;
+      z-index: 1050;
+      background: var(--rl-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      min-height: 72px;
+      margin: 0 -32px 32px;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--rl-border);
+      box-shadow: 0 12px 28px rgba(4, 17, 29, 0.28);
+      justify-content: flex-end;
     }
-    [dir="rtl"] .rl-dash-top-actions {
-      right: auto !important;
-      left: 32px !important;
+    body.light-mode .rl-dash-top-actions {
+      background: var(--rl-bg) !important;
+      box-shadow: 0 12px 28px rgba(8, 33, 45, 0.12);
+    }
+    .rl-dash-panel,
+    .dash-welcome {
+      position: relative;
+      z-index: 1;
     }
     .dash-welcome {
-      margin-top: 56px;
+      margin-top: 0;
     }
 
     /* Keep toggler buttons circular on all viewports */
@@ -505,6 +557,80 @@
     /* Force Profile Card to always layout Left-to-Right */
     .rl-profile-card {
       direction: ltr !important;
+    }
+
+    /* Top Bar Profile Styling */
+    .rl-dash-top-actions {
+      align-items: center;
+    }
+    .rl-dash-top-actions > * + * {
+      margin-left: 10px;
+    }
+    [dir="rtl"] .rl-dash-top-actions > * + * {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+    .rl-top-profile {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border: 1px solid var(--rl-border) !important;
+      border-radius: 999px !important;
+      padding: 4px 16px 4px 4px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      height: 40px !important;
+      margin-bottom: 0 !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .rl-top-profile:hover {
+      border-color: var(--rl-gold) !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+    [dir="rtl"] .rl-top-profile {
+      padding: 4px 4px 4px 16px !important;
+    }
+    .rl-top-profile .rl-avatar {
+      width: 32px !important;
+      height: 32px !important;
+      font-size: 13px !important;
+      font-weight: 800 !important;
+      margin: 0 !important;
+    }
+    .rl-top-profile .rl-profile-info {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      text-align: left !important;
+    }
+    [dir="rtl"] .rl-top-profile .rl-profile-info {
+      text-align: right !important;
+    }
+    .rl-top-profile .rl-profile-info h5 {
+      font-size: 13px !important;
+      margin: 0 !important;
+      line-height: 1.2 !important;
+      color: var(--rl-text) !important;
+      font-weight: 700 !important;
+    }
+    .rl-top-profile .rl-profile-info span {
+      font-size: 9px !important;
+      color: var(--rl-muted) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      line-height: 1.1 !important;
+      display: block !important;
+    }
+    @media (max-width: 576px) {
+      .rl-top-profile .rl-profile-info {
+        display: none !important;
+      }
+      .rl-top-profile {
+        padding: 4px !important;
+        width: 40px !important;
+        justify-content: center !important;
+      }
     }
 
     /* Red highlight for Logout button */
@@ -686,16 +812,19 @@
     @media (max-width: 991px) {
       .rl-dash-top-actions {
         position: static !important;
-        margin-left: auto !important;
-        margin-right: 10px !important;
+        margin: 0 10px 0 auto !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         z-index: 1032;
         display: flex !important;
         gap: 8px !important;
         flex-shrink: 0 !important;
       }
       [dir="rtl"] .rl-dash-top-actions {
-        margin-left: 10px !important;
-        margin-right: auto !important;
+        margin: 0 auto 0 10px !important;
       }
       .rl-dash-top-actions .rl-icon-btn {
         width: 36px !important;
@@ -735,13 +864,6 @@
       </a>
     </div>
 
-    <div class="rl-profile-card">
-      <div class="rl-avatar">NR</div>
-      <div class="rl-profile-info">
-        <h5>Nivetha R.</h5>
-        <span>Commission Client</span>
-      </div>
-    </div>
 
     <nav class="rl-sidebar-nav">
       <button class="rl-sidebar-link active" data-tab="dash-commissions">
@@ -799,7 +921,14 @@
 
     <!-- Dash Top Actions -->
     <div class="rl-dash-top-actions">
-      <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">☀️</button>
+      <div class="rl-profile-card rl-top-profile">
+        <div class="rl-avatar">NR</div>
+        <div class="rl-profile-info">
+          <h5>Nivetha R.</h5>
+          <span>Commission Client</span>
+        </div>
+      </div>
+      <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode"><i class="bi bi-sun"></i></button>
       <button class="rl-icon-btn" id="dirToggle" type="button" aria-label="Toggle layout direction">RTL</button>
     </div>
 
