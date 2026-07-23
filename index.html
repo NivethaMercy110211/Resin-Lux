@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ResinLux Studio — Premium Resin Casting & Epoxy Art</title>
-  <meta name="description" content="Commission bespoke river tables, coasters, jewelry and epoxy art from ResinLux Studio. Track your curing progress, approve design mockups, and schedule pickup from your client dashboard.">
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783514/resin_logo_icon_mgzdjj.png">
+  <meta name="description"
+    content="Commission bespoke river tables, coasters, jewelry and epoxy art from ResinLux Studio. Track your curing progress, approve design mockups, and schedule pickup from your client dashboard.">
+  <link rel="icon" type="image/png"
+    href="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783514/resin_logo_icon_mgzdjj.png">
   <!-- Bootstrap 5 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <!-- Bootstrap Icons -->
@@ -14,433 +17,488 @@
   <link rel="stylesheet" href="assets/css/resin-theme.css">
   <script src="assets/js/direction-toggle.js"></script>
 </head>
+
 <body>
 
-<!-- ===================== NAVBAR ===================== -->
-<nav class="rl-navbar navbar navbar-expand-lg">
-  <div class="container">
-    <a class="navbar-brand rl-brand" href="index.html">
-      <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783504/resinlux_logo_lockup_lxjr6v.png" alt="ResinLux logo" width="310" height="90">
-    </a>
-
-    <button class="navbar-toggler rl-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#rlNav" aria-controls="rlNav" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="bi bi-list" style="color:var(--rl-text);font-size:22px;"></i>
-    </button>
-
-    <div class="collapse navbar-collapse" id="rlNav">
-      <ul class="navbar-nav mx-auto gap-1">
-        <li class="nav-item dropdown">
-          <a class="nav-link rl-nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Home</a>
-          <ul class="dropdown-menu rl-dropdown-menu">
-            <li><a class="dropdown-item rl-dropdown-item" href="index.html">Home 1</a></li>
-            <li><a class="dropdown-item rl-dropdown-item" href="home-2.html">Home 2</a></li>
-          </ul>
-        </li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="services.html">Services</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="gallery.html">Gallery</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="custom-orders.html">Custom Orders</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="shop.html">Shop</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="pricing.html">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
-      </ul>
-      <div class="rl-nav-actions">
-        <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode"><i class="bi bi-sun"></i></button>
-        <button class="rl-icon-btn" id="dirToggle" type="button" aria-label="Toggle layout direction">RTL</button>
-        <a href="login.html" class="rl-login-btn">
-          <i class="bi bi-person-circle me-1"></i> Login
-        </a>
-      </div>
-    </div>
-  </div>
-</nav>
-<!-- ===================================================== -->
-
-<main>
-
-<!-- ===================== HERO ===================== -->
-<section class="rl-hero" style="background-image: url('https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783527/home-hero-wood-resin_q7mo3p.jpg'); min-height: 88vh;">
-  <div class="rl-hero-overlay"></div>
-  <div class="container rl-hero-inner text-center">
-    <span class="rl-eyebrow">Resin Casting &amp; Epoxy Art Studio</span>
-    <h1 class="rl-h1">Luxury Resin Art,<br>Crafted for You</h1>
-    <p class="rl-hero-sub">Commission bespoke river tables, coasters and jewelry. Approve mockups, track curing, and schedule pickup — all from your personal dashboard.</p>
-    <div class="rl-hero-badges mb-4">
-      <span><i class="bi bi-gem me-1"></i> Premium Finish</span>
-      <span><i class="bi bi-palette me-1"></i> Custom Mockups</span>
-      <span><i class="bi bi-speedometer2 me-1"></i> Live Curing Tracker</span>
-      <span><i class="bi bi-award me-1"></i> Artisan Certified</span>
-    </div>
-    <div class="rl-hero-actions">
-      <a href="custom-orders.html" class="rl-btn rl-btn-primary">
-        <i class="bi bi-pencil-square"></i> Commission Now
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="rl-navbar navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand rl-brand" href="index.html">
+        <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783504/resinlux_logo_lockup_lxjr6v.png"
+          alt="ResinLux logo" width="310" height="90">
       </a>
-      <a href="gallery.html" class="rl-btn rl-btn-ghost">
-        <i class="bi bi-images"></i> View Gallery
-      </a>
-    </div>
-  </div>
-</section>
 
-<!-- ===================== STATS STRIP ===================== -->
-<section class="rl-section rl-section-dark">
-  <div class="container">
-    <div class="rl-stats-strip">
-      <div class="rl-stat">
-        <span class="rl-stat-number" data-count="240" data-suffix="+">240+</span>
-        <span class="rl-stat-label">Commissions Delivered</span>
-      </div>
-      <div class="rl-stat">
-        <span class="rl-stat-number" data-count="98" data-suffix="%">98%</span>
-        <span class="rl-stat-label">Client Satisfaction</span>
-      </div>
-      <div class="rl-stat">
-        <span class="rl-stat-number" data-count="52" data-suffix="+">52+</span>
-        <span class="rl-stat-label">Pigment Colours</span>
-      </div>
-      <div class="rl-stat">
-        <span class="rl-stat-number" data-count="7" data-suffix="-Day">7-Day</span>
-        <span class="rl-stat-label">Cure Cycle</span>
-      </div>
-    </div>
-  </div>
-</section>
+      <button class="navbar-toggler rl-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#rlNav"
+        aria-controls="rlNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list" style="color:var(--rl-text);font-size:22px;"></i>
+      </button>
 
-<!-- ===================== PRODUCT SHOWCASE ===================== -->
-<section class="rl-section">
-  <div class="container">
-    <div class="rl-section-title">
-      <span class="rl-eyebrow">Signature Products</span>
-      <h2>Crafted with Passion &amp; Precision</h2>
-      <p>Each piece is a collaboration — guided by your specifications, executed with artisan precision.</p>
-    </div>
-
-    <div class="row g-4 rl-center-odd">
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="rl-card">
-          <div class="rl-card-img">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783504/home1-coasters_fqvjl7.jpg" alt="Resin Coasters" loading="lazy">
-          </div>
-          <h3>Coasters &amp; Trays</h3>
-          <p>Ocean-swirl and marbled coaster sets. Mix-and-match patterns, custom sizes and UV-protected finishes.</p>
-          <span class="rl-price-badge">From ₹999</span>
-          <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3">
-            <i class="bi bi-bag"></i> Shop Now
+      <div class="collapse navbar-collapse" id="rlNav">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item dropdown">
+            <a class="nav-link rl-nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Home</a>
+            <ul class="dropdown-menu rl-dropdown-menu">
+              <li><a class="dropdown-item rl-dropdown-item" href="index.html">Home 1</a></li>
+              <li><a class="dropdown-item rl-dropdown-item" href="home-2.html">Home 2</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="custom-orders.html">Custom Orders</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link rl-nav-link" href="dashboard.html">Dashboard</a></li>
+        </ul>
+        <div class="rl-nav-actions">
+          <button class="rl-icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode"><i
+              class="bi bi-sun"></i></button>
+          <button class="rl-icon-btn" id="dirToggle" type="button" aria-label="Toggle layout direction">RTL</button>
+          <a href="login.html" class="rl-login-btn">
+            <i class="bi bi-person-circle me-1"></i> Login
           </a>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="rl-card">
-          <div class="rl-card-img">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783513/home1-river-table_jrqrtq.jpg" alt="Custom River Table" loading="lazy">
-            <div class="rl-card-badge">
-              <span class="rl-pulse-dot"></span> Bestseller
+    </div>
+  </nav>
+  <!-- ===================================================== -->
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="rl-hero"
+      style="background-image: url('https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783527/home-hero-wood-resin_q7mo3p.jpg'); min-height: 88vh;">
+      <div class="rl-hero-overlay"></div>
+      <div class="container rl-hero-inner text-center">
+        <span class="rl-eyebrow">Resin Casting &amp; Epoxy Art Studio</span>
+        <h1 class="rl-h1">Luxury Resin Art,<br>Crafted for You</h1>
+        <p class="rl-hero-sub">Commission bespoke river tables, coasters and jewelry. Approve mockups, track curing, and
+          schedule pickup — all from your personal dashboard.</p>
+        <div class="rl-hero-badges mb-4">
+          <span><i class="bi bi-gem me-1"></i> Premium Finish</span>
+          <span><i class="bi bi-palette me-1"></i> Custom Mockups</span>
+          <span><i class="bi bi-speedometer2 me-1"></i> Live Curing Tracker</span>
+          <span><i class="bi bi-award me-1"></i> Artisan Certified</span>
+        </div>
+        <div class="rl-hero-actions">
+          <a href="custom-orders.html" class="rl-btn rl-btn-primary">
+            <i class="bi bi-pencil-square"></i> Commission Now
+          </a>
+          <a href="gallery.html" class="rl-btn rl-btn-ghost">
+            <i class="bi bi-images"></i> View Gallery
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STATS STRIP ===================== -->
+    <section class="rl-section rl-section-dark">
+      <div class="container">
+        <div class="rl-stats-strip">
+          <div class="rl-stat">
+            <span class="rl-stat-number" data-count="240" data-suffix="+">240+</span>
+            <span class="rl-stat-label">Commissions Delivered</span>
+          </div>
+          <div class="rl-stat">
+            <span class="rl-stat-number" data-count="98" data-suffix="%">98%</span>
+            <span class="rl-stat-label">Client Satisfaction</span>
+          </div>
+          <div class="rl-stat">
+            <span class="rl-stat-number" data-count="52" data-suffix="+">52+</span>
+            <span class="rl-stat-label">Pigment Colours</span>
+          </div>
+          <div class="rl-stat">
+            <span class="rl-stat-number" data-count="7" data-suffix="-Day">7-Day</span>
+            <span class="rl-stat-label">Cure Cycle</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PRODUCT SHOWCASE ===================== -->
+    <section class="rl-section">
+      <div class="container">
+        <div class="rl-section-title">
+          <span class="rl-eyebrow">Signature Products</span>
+          <h2>Crafted with Passion &amp; Precision</h2>
+          <p>Each piece is a collaboration — guided by your specifications, executed with artisan precision.</p>
+        </div>
+
+        <div class="row g-4 rl-center-odd">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="rl-card">
+              <div class="rl-card-img">
+                <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783504/home1-coasters_fqvjl7.jpg"
+                  alt="Resin Coasters" loading="lazy">
+              </div>
+              <h3>Coasters &amp; Trays</h3>
+              <p>Ocean-swirl and marbled coaster sets. Mix-and-match patterns, custom sizes and UV-protected finishes.
+              </p>
+              <span class="rl-price-badge">From ₹999</span>
+              <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3">
+                <i class="bi bi-bag"></i> Shop Now
+              </a>
             </div>
           </div>
-          <h3>River Tables</h3>
-          <p>Live-edge wood slabs cradling a shimmering resin river. Available in teal, gold, emerald, and pearl finishes.</p>
-          <span class="rl-price-badge">From ₹24,999</span>
-          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm mt-3">
-            <i class="bi bi-arrow-right"></i> Commission
-          </a>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="rl-card">
-          <div class="rl-card-img">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783548/home-jewelry_qdmmko.jpg" alt="Epoxy Jewelry" loading="lazy">
-          </div>
-          <h3>Epoxy Jewelry</h3>
-          <p>Wearable art — pendants, earrings and bangles handcrafted with gold flakes, dried flowers, and UV resin.</p>
-          <span class="rl-price-badge">From ₹499</span>
-          <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3">
-            <i class="bi bi-bag"></i> Shop Now
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== COMMISSION CAPSULE ===================== -->
-<section class="rl-section rl-section-alt">
-  <div class="container">
-    <div class="rl-section-title">
-      <span class="rl-eyebrow">Interactive Visualizer</span>
-      <h2>Build Your Commission Capsule</h2>
-      <p>Choose a product, palette and finish to create a quick visual brief before sending a custom order.</p>
-    </div>
-
-    <div class="rl-flow-lab rl-capsule-lab" aria-label="Custom commission capsule builder">
-      <div class="rl-capsule-preview" id="rl-capsule-preview" data-product="table" data-palette="ocean" data-finish="gloss">
-        <div class="rl-capsule-stage">
-          <div class="rl-capsule-orbit"></div>
-          <div class="rl-capsule-object" id="rl-capsule-object">
-            <div class="rl-capsule-table">
-              <span class="rl-capsule-wood left"></span>
-              <span class="rl-capsule-resin"></span>
-              <span class="rl-capsule-wood right"></span>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="rl-card">
+              <div class="rl-card-img">
+                <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783513/home1-river-table_jrqrtq.jpg"
+                  alt="Custom River Table" loading="lazy">
+                <div class="rl-card-badge">
+                  <span class="rl-pulse-dot"></span> Bestseller
+                </div>
+              </div>
+              <h3>River Tables</h3>
+              <p>Live-edge wood slabs cradling a shimmering resin river. Available in teal, gold, emerald, and pearl
+                finishes.</p>
+              <span class="rl-price-badge">From ₹24,999</span>
+              <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm mt-3">
+                <i class="bi bi-arrow-right"></i> Commission
+              </a>
             </div>
-            <div class="rl-capsule-coasters"><span></span><span></span><span></span></div>
-            <div class="rl-capsule-jewelry"><span></span><span></span><span></span></div>
-            <div class="rl-capsule-wall"><span></span></div>
           </div>
-          <div class="rl-capsule-flakes"></div>
-        </div>
-
-        <div class="rl-capsule-brief">
-          <div>
-            <span>Capsule Brief</span>
-            <strong id="rl-capsule-title">River Table / Ocean Luxe / Gloss Depth</strong>
-          </div>
-          <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm">
-            <i class="bi bi-send"></i> Send Brief
-          </a>
-        </div>
-
-        <div class="rl-preview-specs">
-          <span id="rl-capsule-product"><i class="bi bi-grid-3x3-gap"></i> River Table</span>
-          <span id="rl-capsule-palette"><i class="bi bi-palette"></i> Ocean Luxe</span>
-          <span id="rl-capsule-finish"><i class="bi bi-stars"></i> Gloss Depth</span>
-        </div>
-      </div>
-
-      <div class="rl-lab-controls">
-        <div class="rl-lab-heading">
-          <span class="rl-lab-kicker">Capsule Studio</span>
-          <h3>Create a quick visual brief</h3>
-          <p>Switch the product form, colour mood and finishing style to generate a starting direction for your commission.</p>
-        </div>
-
-        <div class="rl-control-group">
-          <h4>Product Type</h4>
-          <div class="rl-select-group">
-            <button class="rl-select-btn active" type="button" data-capsule-product="table" data-label="River Table" aria-pressed="true"><span class="rl-option-icon"><i class="bi bi-table"></i></span>River Table</button>
-            <button class="rl-select-btn" type="button" data-capsule-product="coasters" data-label="Coaster Set" aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-circle"></i></span>Coaster Set</button>
-            <button class="rl-select-btn" type="button" data-capsule-product="jewelry" data-label="Jewelry Set" aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-gem"></i></span>Jewelry Set</button>
-            <button class="rl-select-btn" type="button" data-capsule-product="wall" data-label="Wall Panel" aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-image"></i></span>Wall Panel</button>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="rl-card">
+              <div class="rl-card-img">
+                <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783548/home-jewelry_qdmmko.jpg"
+                  alt="Epoxy Jewelry" loading="lazy">
+              </div>
+              <h3>Epoxy Jewelry</h3>
+              <p>Wearable art — pendants, earrings and bangles handcrafted with gold flakes, dried flowers, and UV
+                resin.</p>
+              <span class="rl-price-badge">From ₹499</span>
+              <a href="shop.html" class="rl-btn rl-btn-ghost rl-btn-sm mt-3">
+                <i class="bi bi-bag"></i> Shop Now
+              </a>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="rl-control-group">
-          <h4>Colour Mood</h4>
-          <div class="rl-select-group">
-            <button class="rl-select-btn active" type="button" data-capsule-palette="ocean" data-label="Ocean Luxe" aria-pressed="true"><span class="rl-option-dot resin-dot-teal"></span>Ocean Luxe</button>
-            <button class="rl-select-btn" type="button" data-capsule-palette="emerald" data-label="Emerald Gold" aria-pressed="false"><span class="rl-option-dot resin-dot-emerald"></span>Emerald Gold</button>
-            <button class="rl-select-btn" type="button" data-capsule-palette="rose" data-label="Rose Quartz" aria-pressed="false"><span class="rl-option-dot" style="background:linear-gradient(135deg,#f8b7cc,#fff1f6,#e2b354);"></span>Rose Quartz</button>
-            <button class="rl-select-btn" type="button" data-capsule-palette="galaxy" data-label="Galaxy Black" aria-pressed="false"><span class="rl-option-dot" style="background:linear-gradient(135deg,#080b16,#4051b5,#00e5ff);"></span>Galaxy Black</button>
+    <!-- ===================== COMMISSION CAPSULE ===================== -->
+    <section class="rl-section rl-section-alt">
+      <div class="container">
+        <div class="rl-section-title">
+          <span class="rl-eyebrow">Interactive Visualizer</span>
+          <h2>Build Your Commission Capsule</h2>
+          <p>Choose a product, palette and finish to create a quick visual brief before sending a custom order.</p>
+        </div>
+
+        <div class="rl-flow-lab rl-capsule-lab" aria-label="Custom commission capsule builder">
+          <div class="rl-capsule-preview" id="rl-capsule-preview" data-product="table" data-palette="ocean"
+            data-finish="gloss">
+            <div class="rl-capsule-stage">
+              <div class="rl-capsule-orbit"></div>
+              <div class="rl-capsule-object" id="rl-capsule-object">
+                <div class="rl-capsule-table">
+                  <span class="rl-capsule-wood left"></span>
+                  <span class="rl-capsule-resin"></span>
+                  <span class="rl-capsule-wood right"></span>
+                </div>
+                <div class="rl-capsule-coasters"><span></span><span></span><span></span></div>
+                <div class="rl-capsule-jewelry"><span></span><span></span><span></span></div>
+                <div class="rl-capsule-wall"><span></span></div>
+              </div>
+              <div class="rl-capsule-flakes"></div>
+            </div>
+
+            <div class="rl-capsule-brief">
+              <div>
+                <span>Capsule Brief</span>
+                <strong id="rl-capsule-title">River Table / Ocean Luxe / Gloss Depth</strong>
+              </div>
+              <a href="custom-orders.html" class="rl-btn rl-btn-primary rl-btn-sm">
+                <i class="bi bi-send"></i> Send Brief
+              </a>
+            </div>
+
+            <div class="rl-preview-specs">
+              <span id="rl-capsule-product"><i class="bi bi-grid-3x3-gap"></i> River Table</span>
+              <span id="rl-capsule-palette"><i class="bi bi-palette"></i> Ocean Luxe</span>
+              <span id="rl-capsule-finish"><i class="bi bi-stars"></i> Gloss Depth</span>
+            </div>
+          </div>
+
+          <div class="rl-lab-controls">
+            <div class="rl-lab-heading">
+              <span class="rl-lab-kicker">Capsule Studio</span>
+              <h3>Create a quick visual brief</h3>
+              <p>Switch the product form, colour mood and finishing style to generate a starting direction for your
+                commission.</p>
+            </div>
+
+            <div class="rl-control-group">
+              <h4>Product Type</h4>
+              <div class="rl-select-group">
+                <button class="rl-select-btn active" type="button" data-capsule-product="table" data-label="River Table"
+                  aria-pressed="true"><span class="rl-option-icon"><i class="bi bi-table"></i></span>River
+                  Table</button>
+                <button class="rl-select-btn" type="button" data-capsule-product="coasters" data-label="Coaster Set"
+                  aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-circle"></i></span>Coaster
+                  Set</button>
+                <button class="rl-select-btn" type="button" data-capsule-product="jewelry" data-label="Jewelry Set"
+                  aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-gem"></i></span>Jewelry Set</button>
+                <button class="rl-select-btn" type="button" data-capsule-product="wall" data-label="Wall Panel"
+                  aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-image"></i></span>Wall
+                  Panel</button>
+              </div>
+            </div>
+
+            <div class="rl-control-group">
+              <h4>Colour Mood</h4>
+              <div class="rl-select-group">
+                <button class="rl-select-btn active" type="button" data-capsule-palette="ocean" data-label="Ocean Luxe"
+                  aria-pressed="true"><span class="rl-option-dot resin-dot-teal"></span>Ocean Luxe</button>
+                <button class="rl-select-btn" type="button" data-capsule-palette="emerald" data-label="Emerald Gold"
+                  aria-pressed="false"><span class="rl-option-dot resin-dot-emerald"></span>Emerald Gold</button>
+                <button class="rl-select-btn" type="button" data-capsule-palette="rose" data-label="Rose Quartz"
+                  aria-pressed="false"><span class="rl-option-dot"
+                    style="background:linear-gradient(135deg,#f8b7cc,#fff1f6,#e2b354);"></span>Rose Quartz</button>
+                <button class="rl-select-btn" type="button" data-capsule-palette="galaxy" data-label="Galaxy Black"
+                  aria-pressed="false"><span class="rl-option-dot"
+                    style="background:linear-gradient(135deg,#080b16,#4051b5,#00e5ff);"></span>Galaxy Black</button>
+              </div>
+            </div>
+
+            <div class="rl-control-group">
+              <h4>Finish Style</h4>
+              <div class="rl-select-group">
+                <button class="rl-select-btn active" type="button" data-capsule-finish="gloss" data-label="Gloss Depth"
+                  aria-pressed="true"><span class="rl-option-icon"><i class="bi bi-brightness-high"></i></span>Gloss
+                  Depth</button>
+                <button class="rl-select-btn" type="button" data-capsule-finish="metallic" data-label="Metallic Vein"
+                  aria-pressed="false"><span class="rl-option-icon"><i
+                      class="bi bi-lightning-charge"></i></span>Metallic Vein</button>
+                <button class="rl-select-btn" type="button" data-capsule-finish="botanical" data-label="Botanical Inlay"
+                  aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-flower1"></i></span>Botanical
+                  Inlay</button>
+              </div>
+            </div>
+
+            <div class="rl-lab-summary">
+              <span>Your capsule</span>
+              <strong id="rl-capsule-readout">River Table + Ocean Luxe + Gloss Depth</strong>
+            </div>
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary mt-3 w-100">
+              <i class="bi bi-check-circle"></i> Start With This Capsule
+            </a>
           </div>
         </div>
+      </div>
+    </section>
+    <!-- ===================== PROCESS TIMELINE ===================== -->
+    <section class="rl-section rl-section-dark">
+      <div class="container">
+        <div class="rl-section-title">
+          <span class="rl-eyebrow">How It Works</span>
+          <h2>From Concept to Cured Masterpiece</h2>
+          <p>A transparent, three-step artisan process guided by you at every stage.</p>
+        </div>
 
-        <div class="rl-control-group">
-          <h4>Finish Style</h4>
-          <div class="rl-select-group">
-            <button class="rl-select-btn active" type="button" data-capsule-finish="gloss" data-label="Gloss Depth" aria-pressed="true"><span class="rl-option-icon"><i class="bi bi-brightness-high"></i></span>Gloss Depth</button>
-            <button class="rl-select-btn" type="button" data-capsule-finish="metallic" data-label="Metallic Vein" aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-lightning-charge"></i></span>Metallic Vein</button>
-            <button class="rl-select-btn" type="button" data-capsule-finish="botanical" data-label="Botanical Inlay" aria-pressed="false"><span class="rl-option-icon"><i class="bi bi-flower1"></i></span>Botanical Inlay</button>
+        <div class="rl-steps">
+          <div class="rl-step">
+            <span class="rl-step-num">01</span>
+            <h4><i class="bi bi-pencil-fill text-gold me-2"></i>Commission</h4>
+            <p>Fill out the custom order form with your dimensions, timber preference, resin colour, and budget range.
+              We'll send a design mockup within 48 hours.</p>
+          </div>
+          <div class="rl-step">
+            <span class="rl-step-num">02</span>
+            <h4><i class="bi bi-brush-fill text-gold me-2"></i>Craft &amp; Cure</h4>
+            <p>Our artisans mix, pour and polish your piece over a 7-day curing cycle. Track every stage live from your
+              personal dashboard.</p>
+          </div>
+          <div class="rl-step">
+            <span class="rl-step-num">03</span>
+            <h4><i class="bi bi-box-seam-fill text-gold me-2"></i>Deliver</h4>
+            <p>White-glove packaging and handoff — or schedule a studio pickup at a time that suits you, right from your
+              dashboard calendar.</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="rl-lab-summary">
-          <span>Your capsule</span>
-          <strong id="rl-capsule-readout">River Table + Ocean Luxe + Gloss Depth</strong>
+    <!-- ===================== PIGMENT STRIP ===================== -->
+    <section class="rl-section">
+      <div class="container">
+        <div class="rl-section-title">
+          <span class="rl-eyebrow">Available Finishes</span>
+          <h2>52+ Pigment &amp; Polish Options</h2>
+          <p>Every finish is UV-stabilized and food-grade where applicable.</p>
         </div>
-        <a href="custom-orders.html" class="rl-btn rl-btn-primary mt-3 w-100">
-          <i class="bi bi-check-circle"></i> Start With This Capsule
-        </a>
+        <div class="rl-badge-strip">
+          <span class="rl-finish-badge">Oceanic Teal</span>
+          <span class="rl-finish-badge">Deep Emerald</span>
+          <span class="rl-finish-badge">Liquid Gold</span>
+          <span class="rl-finish-badge">Arctic Pearl</span>
+          <span class="rl-finish-badge">Midnight Galaxy</span>
+          <span class="rl-finish-badge">Rose Quartz</span>
+          <span class="rl-finish-badge">Smoke Glass</span>
+          <span class="rl-finish-badge">Cobalt Blue</span>
+          <span class="rl-finish-badge">Sakura Pink</span>
+          <span class="rl-finish-badge">Obsidian Black</span>
+          <span class="rl-finish-badge">Lapis Lazuli</span>
+          <span class="rl-finish-badge">Burnt Sienna</span>
+          <span class="rl-finish-badge">Crystal Clear</span>
+          <span class="rl-finish-badge">Jade Green</span>
+          <span class="rl-finish-badge">Royal Amethyst</span>
+          <span class="rl-finish-badge">Snow Marble</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
-<!-- ===================== PROCESS TIMELINE ===================== -->
-<section class="rl-section rl-section-bg-process" style="background-image: url('https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783539/about_page_bg_uj23ne.png');">
-  <div class="container">
-    <div class="rl-section-title">
-      <span class="rl-eyebrow">How It Works</span>
-      <h2>From Concept to Cured Masterpiece</h2>
-      <p>A transparent, three-step artisan process guided by you at every stage.</p>
-    </div>
+    </section>
 
-    <div class="rl-steps">
-      <div class="rl-step">
-        <span class="rl-step-num">01</span>
-        <h4><i class="bi bi-pencil-fill text-gold me-2"></i>Commission</h4>
-        <p>Fill out the custom order form with your dimensions, timber preference, resin colour, and budget range. We'll send a design mockup within 48 hours.</p>
-      </div>
-      <div class="rl-step">
-        <span class="rl-step-num">02</span>
-        <h4><i class="bi bi-brush-fill text-gold me-2"></i>Craft &amp; Cure</h4>
-        <p>Our artisans mix, pour and polish your piece over a 7-day curing cycle. Track every stage live from your personal dashboard.</p>
-      </div>
-      <div class="rl-step">
-        <span class="rl-step-num">03</span>
-        <h4><i class="bi bi-box-seam-fill text-gold me-2"></i>Deliver</h4>
-        <p>White-glove packaging and handoff — or schedule a studio pickup at a time that suits you, right from your dashboard calendar.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== PIGMENT STRIP ===================== -->
-<section class="rl-section">
-  <div class="container">
-    <div class="rl-section-title">
-      <span class="rl-eyebrow">Available Finishes</span>
-      <h2>52+ Pigment &amp; Polish Options</h2>
-      <p>Every finish is UV-stabilized and food-grade where applicable.</p>
-    </div>
-    <div class="rl-badge-strip">
-      <span class="rl-finish-badge">Oceanic Teal</span>
-      <span class="rl-finish-badge">Deep Emerald</span>
-      <span class="rl-finish-badge">Liquid Gold</span>
-      <span class="rl-finish-badge">Arctic Pearl</span>
-      <span class="rl-finish-badge">Midnight Galaxy</span>
-      <span class="rl-finish-badge">Rose Quartz</span>
-      <span class="rl-finish-badge">Smoke Glass</span>
-      <span class="rl-finish-badge">Cobalt Blue</span>
-      <span class="rl-finish-badge">Sakura Pink</span>
-      <span class="rl-finish-badge">Obsidian Black</span>
-      <span class="rl-finish-badge">Lapis Lazuli</span>
-      <span class="rl-finish-badge">Burnt Sienna</span>
-      <span class="rl-finish-badge">Crystal Clear</span>
-      <span class="rl-finish-badge">Jade Green</span>
-      <span class="rl-finish-badge">Royal Amethyst</span>
-      <span class="rl-finish-badge">Snow Marble</span>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== TESTIMONIAL STRIP ===================== -->
-<section class="rl-section rl-section-bg-testimonials" style="background-image: url('https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783541/home-hero_elfbdc.png');">
-  <div class="container">
-    <div class="rl-section-title">
-      <span class="rl-eyebrow">Client Love</span>
-      <h2>What Our Clients Say</h2>
-    </div>
-    <div class="row g-4 rl-center-odd rl-testimonial-grid">
-      <div class="col-12 col-md-4">
-        <div class="rl-card rl-testimonial-card text-center py-4 px-3">
-          <div class="mb-3">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783518/avatar-arjun_h4g53w.jpg" alt="Arjun V." class="rounded-circle mx-auto" style="width: 72px; height: 72px; object-fit: cover; border: 2px solid var(--rl-gold); box-shadow: 0 0 15px var(--rl-gold-glow);">
+    <!-- ===================== TESTIMONIAL STRIP ===================== -->
+    <section class="rl-section">
+      <div class="container">
+        <div class="rl-section-title">
+          <span class="rl-eyebrow">Client Love</span>
+          <h2>What Our Clients Say</h2>
+        </div>
+        <div class="row g-4 rl-center-odd rl-testimonial-grid">
+          <div class="col-12 col-md-4">
+            <div class="rl-card rl-testimonial-card text-center py-4 px-3">
+              <div class="mb-3">
+                <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783518/avatar-arjun_h4g53w.jpg"
+                  alt="Arjun V." class="rounded-circle mx-auto"
+                  style="width: 72px; height: 72px; object-fit: cover; border: 2px solid var(--rl-gold); box-shadow: 0 0 15px var(--rl-gold-glow);">
+              </div>
+              <div style="font-size:20px;color:#ffb300;margin-bottom:12px;">★★★★★</div>
+              <p style="color:var(--rl-muted);font-size:14px;font-style:italic;">"The river table is absolutely
+                stunning. Every guest who visits our home asks about it first thing."</p>
+              <p style="color:var(--rl-cyan);font-weight:700;margin-top:12px;margin-bottom:0;font-size:13px;">— Arjun
+                V., Delhi</p>
+            </div>
           </div>
-          <div style="font-size:20px;color:#ffb300;margin-bottom:12px;">★★★★★</div>
-          <p style="color:var(--rl-muted);font-size:14px;font-style:italic;">"The river table is absolutely stunning. Every guest who visits our home asks about it first thing."</p>
-          <p style="color:var(--rl-cyan);font-weight:700;margin-top:12px;margin-bottom:0;font-size:13px;">— Arjun V., Delhi</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-4">
-        <div class="rl-card rl-testimonial-card text-center py-4 px-3">
-          <div class="mb-3">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783516/avatar-deepa_lvxg3h.jpg" alt="Deepa R." class="rounded-circle mx-auto" style="width: 72px; height: 72px; object-fit: cover; border: 2px solid var(--rl-gold); box-shadow: 0 0 15px var(--rl-gold-glow);">
+          <div class="col-12 col-md-4">
+            <div class="rl-card rl-testimonial-card text-center py-4 px-3">
+              <div class="mb-3">
+                <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783516/avatar-deepa_lvxg3h.jpg"
+                  alt="Deepa R." class="rounded-circle mx-auto"
+                  style="width: 72px; height: 72px; object-fit: cover; border: 2px solid var(--rl-gold); box-shadow: 0 0 15px var(--rl-gold-glow);">
+              </div>
+              <div style="font-size:20px;color:#ffb300;margin-bottom:12px;">★★★★★</div>
+              <p style="color:var(--rl-muted);font-size:14px;font-style:italic;">"I tracked the curing in real-time on
+                the dashboard. So professional and transparent — worth every rupee."</p>
+              <p style="color:var(--rl-cyan);font-weight:700;margin-top:12px;margin-bottom:0;font-size:13px;">— Deepa
+                R., Hyderabad</p>
+            </div>
           </div>
-          <div style="font-size:20px;color:#ffb300;margin-bottom:12px;">★★★★★</div>
-          <p style="color:var(--rl-muted);font-size:14px;font-style:italic;">"I tracked the curing in real-time on the dashboard. So professional and transparent — worth every rupee."</p>
-          <p style="color:var(--rl-cyan);font-weight:700;margin-top:12px;margin-bottom:0;font-size:13px;">— Deepa R., Hyderabad</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-4">
-        <div class="rl-card rl-testimonial-card text-center py-4 px-3">
-          <div class="mb-3">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783517/avatar-sarah_c1ohgw.jpg" alt="Sarah T." class="rounded-circle mx-auto" style="width: 72px; height: 72px; object-fit: cover; border: 2px solid var(--rl-gold); box-shadow: 0 0 15px var(--rl-gold-glow);">
+          <div class="col-12 col-md-4">
+            <div class="rl-card rl-testimonial-card text-center py-4 px-3">
+              <div class="mb-3">
+                <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783517/avatar-sarah_c1ohgw.jpg"
+                  alt="Sarah T." class="rounded-circle mx-auto"
+                  style="width: 72px; height: 72px; object-fit: cover; border: 2px solid var(--rl-gold); box-shadow: 0 0 15px var(--rl-gold-glow);">
+              </div>
+              <div style="font-size:20px;color:#ffb300;margin-bottom:12px;">★★★★★</div>
+              <p style="color:var(--rl-muted);font-size:14px;font-style:italic;">"The jewelry set for my bridesmaids was
+                a dream. Each piece unique, high-gloss finish, and perfectly packaged."</p>
+              <p style="color:var(--rl-cyan);font-weight:700;margin-top:12px;margin-bottom:0;font-size:13px;">— Sarah
+                T., Mumbai</p>
+            </div>
           </div>
-          <div style="font-size:20px;color:#ffb300;margin-bottom:12px;">★★★★★</div>
-          <p style="color:var(--rl-muted);font-size:14px;font-style:italic;">"The jewelry set for my bridesmaids was a dream. Each piece unique, high-gloss finish, and perfectly packaged."</p>
-          <p style="color:var(--rl-cyan);font-weight:700;margin-top:12px;margin-bottom:0;font-size:13px;">— Sarah T., Mumbai</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA PANEL ===================== -->
+    <section class="rl-section rl-section-bg-cta" style="background-image: url('https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783544/about-hero_qh32nx.png');">
+      <div class="container">
+        <div class="rl-cta-panel">
+          <span class="rl-eyebrow">Ready to Begin?</span>
+          <h2>Start Your Commission Today</h2>
+          <p>Fill in a quick brief. Receive a design mockup within 48 hours. Approve and watch your piece come alive.
+          </p>
+          <div class="rl-hero-actions">
+            <a href="custom-orders.html" class="rl-btn rl-btn-primary">
+              <i class="bi bi-pencil-square"></i> Start Custom Order
+            </a>
+            <a href="dashboard.html" class="rl-btn rl-btn-ghost">
+              <i class="bi bi-speedometer2"></i> Track My Order
+            </a>
+          </div>
+          <div class="rl-cta-badges mt-4">
+            <span><i class="bi bi-shield-check me-1"></i> Satisfaction Guaranteed</span>
+            <span><i class="bi bi-clock-history me-1"></i> 48h Mockup Turnaround</span>
+            <span><i class="bi bi-geo-alt me-1"></i> Studio Pickup Available</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="rl-footer">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Brand + Social -->
+        <div class="col-12 col-lg-4">
+          <div class="rl-footer-brand">
+            <a href="index.html">
+              <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783504/resinlux_logo_lockup_lxjr6v.png"
+                alt="ResinLux" width="310" height="90">
+            </a>
+          </div>
+          <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. Each piece is a bespoke
+            collaboration between artisan and client.</p>
+          <div class="rl-social mt-3">
+            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+        <!-- Studio Links -->
+        <div class="col-6 col-md-3 col-lg-2">
+          <h5>Studio</h5>
+          <a href="about.html">About Us</a>
+          <a href="services.html">Services</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="process.html">Our Process</a>
+        </div>
+        <!-- Shop Links -->
+        <div class="col-6 col-md-3 col-lg-2">
+          <h5>Shop</h5>
+          <a href="shop.html">All Products</a>
+          <a href="custom-orders.html">Custom Orders</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="pigment-studio.html">Pigment Studio</a>
+        </div>
+        <!-- Account Links -->
+        <div class="col-6 col-md-3 col-lg-2">
+          <h5>Account</h5>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <!-- Studio Hours -->
+        <div class="col-6 col-md-3 col-lg-2">
+          <h5>Studio Hours</h5>
+          <p style="font-size:13px;line-height:2.0;margin:0;">
+            <span class="d-flex align-items-center mb-1"><i class="bi bi-clock text-gold me-2"></i>Mon–Sat:
+              10am–7pm</span>
+            <span class="d-flex align-items-center mb-1"><i class="bi bi-calendar3 text-gold me-2"></i>Sunday:
+              Appointment</span>
+            <span class="d-flex align-items-center mb-1"><i class="bi bi-box-seam text-gold me-2"></i>Pickup: 24h
+              notice</span>
+            <span class="d-flex align-items-center"><i class="bi bi-chat-dots text-gold me-2"></i>Consultations</span>
+          </p>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ===================== CTA PANEL ===================== -->
-<section class="rl-section rl-section-dark">
-  <div class="container">
-    <div class="rl-cta-panel">
-      <span class="rl-eyebrow">Ready to Begin?</span>
-      <h2>Start Your Commission Today</h2>
-      <p>Fill in a quick brief. Receive a design mockup within 48 hours. Approve and watch your piece come alive.</p>
-      <div class="rl-hero-actions">
-        <a href="custom-orders.html" class="rl-btn rl-btn-primary">
-          <i class="bi bi-pencil-square"></i> Start Custom Order
-        </a>
-        <a href="dashboard.html" class="rl-btn rl-btn-ghost">
-          <i class="bi bi-speedometer2"></i> Track My Order
-        </a>
-      </div>
-      <div class="rl-cta-badges mt-4">
-        <span><i class="bi bi-shield-check me-1"></i> Satisfaction Guaranteed</span>
-        <span><i class="bi bi-clock-history me-1"></i> 48h Mockup Turnaround</span>
-        <span><i class="bi bi-geo-alt me-1"></i> Studio Pickup Available</span>
-      </div>
+    <div class="rl-footer-bottom">
+      <p>&copy; 2026 ResinLux Studio. Crafted with passion. All rights reserved.</p>
     </div>
-  </div>
-</section>
+  </footer>
 
-</main>
-
-<!-- ===================== FOOTER ===================== -->
-<footer class="rl-footer">
-  <div class="container">
-    <div class="row g-4">
-      <!-- Brand + Social -->
-      <div class="col-12 col-lg-4">
-        <div class="rl-footer-brand">
-          <a href="index.html">
-            <img src="https://res.cloudinary.com/gcjfpuqb/image/upload/v1784783504/resinlux_logo_lockup_lxjr6v.png" alt="ResinLux" width="310" height="90">
-          </a>
-        </div>
-        <p style="max-width:300px;">Premium resin casting &amp; epoxy art studio. Each piece is a bespoke collaboration between artisan and client.</p>
-        <div class="rl-social mt-3">
-          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-          <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
-          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-        </div>
-      </div>
-      <!-- Studio Links -->
-      <div class="col-6 col-md-3 col-lg-2">
-        <h5>Studio</h5>
-        <a href="about.html">About Us</a>
-        <a href="services.html">Services</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="process.html">Our Process</a>
-      </div>
-      <!-- Shop Links -->
-      <div class="col-6 col-md-3 col-lg-2">
-        <h5>Shop</h5>
-        <a href="shop.html">All Products</a>
-        <a href="custom-orders.html">Custom Orders</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="pigment-studio.html">Pigment Studio</a>
-      </div>
-      <!-- Account Links -->
-      <div class="col-6 col-md-3 col-lg-2">
-        <h5>Account</h5>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="login.html">Login</a>
-        <a href="signup.html">Sign Up</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <!-- Studio Hours -->
-      <div class="col-6 col-md-3 col-lg-2">
-        <h5>Studio Hours</h5>
-        <p style="font-size:13px;line-height:2.0;margin:0;">
-          <span class="d-flex align-items-center mb-1"><i class="bi bi-clock text-gold me-2"></i>Mon–Sat: 10am–7pm</span>
-          <span class="d-flex align-items-center mb-1"><i class="bi bi-calendar3 text-gold me-2"></i>Sunday: Appointment</span>
-          <span class="d-flex align-items-center mb-1"><i class="bi bi-box-seam text-gold me-2"></i>Pickup: 24h notice</span>
-          <span class="d-flex align-items-center"><i class="bi bi-chat-dots text-gold me-2"></i>Consultations</span>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="rl-footer-bottom">
-    <p>&copy; 2026 ResinLux Studio. Crafted with passion. All rights reserved.</p>
-  </div>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
+
 </html>

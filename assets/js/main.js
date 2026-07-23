@@ -169,13 +169,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------
-  // 7. Scroll-Reveal — Professional Entrance Animations
+  // 7. Scroll-Reveal — Comprehensive Entrance Animations
   // --------------------------------------------------
-  const revealEls = document.querySelectorAll(
-    '.rl-card, .rl-stat, .rl-step, .rl-service-item, .rl-price-card, ' +
-    '.rl-section-title, .rl-split > *, .rl-porthole, .rl-finish-badge, ' +
-    '.rl-cta-panel, .rl-footer-brand, .rl-flow-lab'
-  );
+  const revealSelectors = [
+    // General Cards & Tiles
+    '.rl-card', '.rl-stat', '.rl-step', '.rl-service-item', '.rl-price-card',
+    '.rl-section-title', '.rl-split > *', '.rl-porthole', '.rl-finish-badge',
+    '.rl-flow-lab',
+    // Specialty Services & Service Grids
+    '.srv-stagger-item', '.srv-specialty-card', '.srv-hint-card', '.srv-guarantee-item',
+    // About Page Grids & Stats
+    '.about-material-card', '.about-spec-item', '.about-value-card', '.about-quote-banner blockquote',
+    // Shop Page Grids & Care Cards
+    '.shop-product-card', '.shop-gift-split', '.shop-care-flip',
+    // Gallery Page Grids & Transformations
+    '.gal-technique-card', '.gal-transform-card',
+    // Pigment Studio & Custom Order Grids
+    '.swatch-card', '.co-swatch', '.pr-spec-step', '.pr-bundle-card',
+    // Contact & FAQ Items
+    '.contact-hours-table', '.contact-faq-item', '.rl-testimonial-card',
+    // Hero, Sections, CTAs, & Badges
+    '.rl-hero-inner', '.rl-cta-panel', '.rl-cta-badges span',
+    // Footer & Footer Columns
+    '.rl-footer .col-12', '.rl-footer-brand', '.rl-footer-bottom'
+  ].join(', ');
+
+  const revealEls = document.querySelectorAll(revealSelectors);
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -193,16 +212,18 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-  revealEls.forEach((el, i) => {
+  revealEls.forEach((el) => {
     el.classList.add('rl-reveal');
-    // Stagger children in grids
+    // Stagger siblings in grid containers
     const parent = el.parentElement;
     if (parent) {
-      const siblings = [...parent.children].filter(c => c.classList.contains(el.classList[0]));
+      const siblings = [...parent.children];
       const idx = siblings.indexOf(el);
-      if (idx > 0) el.style.transitionDelay = `${idx * 90}ms`;
+      if (idx > 0) {
+        el.style.transitionDelay = `${(idx % 6) * 90}ms`;
+      }
     }
     revealObserver.observe(el);
   });
