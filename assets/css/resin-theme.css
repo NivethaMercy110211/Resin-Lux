@@ -1021,6 +1021,7 @@ body.light-mode .rl-card:hover {
 .rl-card-img img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   border: 0;
 }
@@ -4196,7 +4197,9 @@ body.light-mode .rl-navbar-scrolled {
   flex-direction: column;
 }
 
-.row.g-4>[class*="col-"]>.rl-card p:last-of-type {
+.row.g-4>[class*="col-"]>.rl-card p:last-of-type,
+.row.g-4>[class*="col-"]>.rl-card > .rl-btn,
+.row.g-4>[class*="col-"]>.rl-card > *:last-child {
   margin-top: auto;
 }
 
